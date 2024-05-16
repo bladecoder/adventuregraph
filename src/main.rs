@@ -5,11 +5,7 @@ mod aginput;
 use esp_idf_hal::{
     delay::FreeRtos,
     peripherals::Peripherals,
-    sys::{
-        esp_task_wdt_config_t, esp_task_wdt_deinit, esp_task_wdt_init, heap_caps_get_free_size,
-        CONFIG_ESP_TASK_WDT_TIMEOUT_S, MALLOC_CAP_8BIT,
-    },
-    task::{self},
+    sys::{heap_caps_get_free_size, MALLOC_CAP_8BIT},
 };
 
 use crate::agdisplay::AGDisplay;
@@ -24,7 +20,7 @@ fn main() -> anyhow::Result<()> {
     let peripherals = Peripherals::take()?;
 
     let free_mem = unsafe { heap_caps_get_free_size(MALLOC_CAP_8BIT) };
-    println!("Free memory: {} kb", free_mem / 1024);
+    println!("Free memory at start: {} kb", free_mem / 1024);
 
     println!("setup ink...");
     let mut agink = agink::AGInk::new()?;
@@ -51,19 +47,61 @@ fn main() -> anyhow::Result<()> {
     )?;
 
     let free_mem = unsafe { heap_caps_get_free_size(MALLOC_CAP_8BIT) };
-    println!("Free memory: {} kb", free_mem / 1024);
+    println!(
+        "Free memory after init and load story: {} kb",
+        free_mem / 1024
+    );
+
+    let mut choices_displayed = false;
+    let mut selected_choice: u8 = 0;
+    let mut line_cursor = 0;
 
     loop {
+        if agink.can_continue() {
+            let line = agink.next_line()?;
+            agdisplay.clear();
+            agdisplay.write_str(&line);
+        }
+
+        if agink.has_choices() && !choices_displayed {
+            choices_displayed = true;
+            line_cursor = agdisplay.get_row();
+            let choices = agink.get_choices();
+            for (i, choice) in choices.iter().enumerate() {
+                // Display choices
+                if i == selected_choice as usize {
+                    agdisplay.write_str(&format!(">{}\n", choice));
+                } else {
+                    agdisplay.write_str(&format!(" {}\n", choice));
+                }
+            }
+        }
+
         if input.consume_sw() {
             println!("Button pressed");
+            if choices_displayed {
+                agink.choose(selected_choice as usize)?;
+                choices_displayed = false;
+            }
         }
 
         if input.consume_left() {
             println!("Left");
+            if choices_displayed {
+                agdisplay.set_char_at_posx(line_cursor + selected_choice, ' ');
+                selected_choice = (selected_choice + 1) % agink.get_num_choices() as u8;
+                agdisplay.set_char_at_posx(line_cursor + selected_choice, '>');
+            }
         }
 
         if input.consume_right() {
             println!("Right");
+            if choices_displayed {
+                agdisplay.set_char_at_posx(line_cursor + selected_choice, ' ');
+                selected_choice = (selected_choice + agink.get_num_choices() as u8 - 1)
+                    % agink.get_num_choices() as u8;
+                agdisplay.set_char_at_posx(line_cursor + selected_choice, '>');
+            }
         }
 
         FreeRtos::delay_ms(100u32);

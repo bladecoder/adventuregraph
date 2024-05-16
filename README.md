@@ -60,12 +60,12 @@ Opcional:
 
 ## MILESTONES ##
 
-✔ "Hello world" en Rust por el serial port.
-✔ El ESP32-S2 muestra por el serial una historia Ink de una línea.
-    - Usar el ESP32 básico para empezar.
-✔ El ESP32-S2 muestra por pantalla una historia Ink de una línea.
-- El ESP32-S2 se puede manejar con el codificador.
-    - Historia con choice.
+- [✔] "Hello world" en Rust por el serial port.
+- [✔] El ESP32-S2 muestra por el serial una historia Ink de una línea.
+    - [✔] Usar el ESP32 básico para empezar.
+- [✔] El ESP32-S2 muestra por pantalla una historia Ink de una línea.
+- [✔] El ESP32-S2 se puede manejar con el codificador.
+    - Historia con choice. <- **WIP**
     - https://github.com/nanoframework/nanoframework.IoT.Device/blob/develop/devices/RotaryEncoder.Esp32/README.md
 - Añadir TP4056 y probar con pila.
 - Diseño de carcasa.
