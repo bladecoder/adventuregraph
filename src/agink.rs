@@ -20,4 +20,26 @@ impl AGInk {
 
         Ok(line)
     }
+
+    pub fn choose(&mut self, choice: usize) -> anyhow::Result<()> {
+        self.story.choose_choice_index(choice)?;
+        Ok(())
+    }
+
+    pub fn has_choices(&self) -> bool {
+        !self.story.get_current_choices().is_empty()
+    }
+
+    pub fn get_choices(&self) -> Vec<String> {
+        let choices = self.story.get_current_choices();
+        choices.iter().map(|choice| choice.text.clone()).collect()
+    }
+
+    pub fn get_num_choices(&self) -> usize {
+        self.story.get_current_choices().len()
+    }
+
+    pub fn can_continue(&self) -> bool {
+        self.story.can_continue()
+    }
 }

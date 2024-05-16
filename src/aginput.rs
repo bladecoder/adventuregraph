@@ -5,8 +5,6 @@ use esp_idf_hal::{
 
 use std::sync::atomic::{AtomicBool, Ordering};
 
-use esp_idf_hal::{delay::FreeRtos, peripherals::Peripherals};
-
 static BUTTON_PRESSED: AtomicBool = AtomicBool::new(false);
 static LEFT: AtomicBool = AtomicBool::new(false);
 static RIGHT: AtomicBool = AtomicBool::new(false);
