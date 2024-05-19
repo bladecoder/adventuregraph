@@ -1,0 +1,208 @@
+{
+  "version": 1,
+  "author": "Rafael Garcia",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "board-esp32-s2-devkitm-1",
+      "id": "esp",
+      "top": 46.94,
+      "left": 4.8,
+      "attrs": {
+        "builder": "rust-std-esp",
+        "psramSize": "2"
+      }
+    },
+    {
+      "type": "board-ssd1306",
+      "id": "oled1",
+      "top": 108.74,
+      "left": 173.03,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-ky-040",
+      "id": "encoder1",
+      "top": 126.5,
+      "left": -202.4,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-buzzer",
+      "id": "bz1",
+      "top": -84,
+      "left": 97.8,
+      "attrs": {
+        "volume": "0.1"
+      }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btn1",
+      "top": 44.6,
+      "left": -134.4,
+      "attrs": {
+        "color": "green"
+      }
+    }
+  ],
+  "connections": [
+    [
+      "esp:TX",
+      "$serialMonitor:RX",
+      "",
+      []
+    ],
+    [
+      "esp:RX",
+      "$serialMonitor:TX",
+      "",
+      []
+    ],
+    [
+      "encoder1:CLK",
+      "esp:25",
+      "green",
+      [
+        "h0"
+      ]
+    ],
+    [
+      "encoder1:SW",
+      "esp:27",
+      "green",
+      [
+        "h0"
+      ]
+    ],
+    [
+      "esp:35",
+      "oled1:SCL",
+      "green",
+      [
+        "h66.97",
+        "v-118.45",
+        "h66.9"
+      ]
+    ],
+    [
+      "esp:33",
+      "oled1:SDA",
+      "green",
+      [
+        "h18.97",
+        "v-147.25",
+        "h124.73"
+      ]
+    ],
+    [
+      "bz1:2",
+      "esp:18",
+      "green",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "oled1:VCC",
+      "esp:3V3",
+      "red",
+      [
+        "v-76.8",
+        "h-230.25",
+        "v32.05"
+      ]
+    ],
+    [
+      "oled1:GND",
+      "esp:GND.1",
+      "black",
+      [
+        "v-28.8",
+        "h-67.2",
+        "v201.6",
+        "h-134.17"
+      ]
+    ],
+    [
+      "bz1:1",
+      "esp:GND.1",
+      "black",
+      [
+        "v288",
+        "h-114.97"
+      ]
+    ],
+    [
+      "encoder1:GND",
+      "esp:GND.1",
+      "black",
+      [
+        "v68",
+        "h220.8",
+        "v-86.4"
+      ]
+    ],
+    [
+      "encoder1:VCC",
+      "esp:3V3",
+      "red",
+      [
+        "h76.8",
+        "v-92.35"
+      ]
+    ],
+    [
+      "esp:13",
+      "encoder1:SW",
+      "green",
+      [
+        "v-3.25",
+        "h-86.63",
+        "v-48.1"
+      ]
+    ],
+    [
+      "esp:11",
+      "encoder1:DT",
+      "green",
+      [
+        "h-67.43",
+        "v-41.75"
+      ]
+    ],
+    [
+      "esp:9",
+      "encoder1:CLK",
+      "green",
+      [
+        "h-38.63",
+        "v-32.05"
+      ]
+    ],
+    [
+      "btn1:1.r",
+      "esp:7",
+      "green",
+      [
+        "h48.2",
+        "v48"
+      ]
+    ],
+    [
+      "btn1:2.r",
+      "esp:GND.1",
+      "black",
+      [
+        "h29",
+        "v182.6",
+        "h0",
+        "v3.25"
+      ]
+    ]
+  ],
+  "serialMonitor": {
+    "display": "terminal"
+  },
+  "dependencies": {}
+}

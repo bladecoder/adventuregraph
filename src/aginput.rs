@@ -1,23 +1,25 @@
 use esp_idf_hal::{
-    gpio::{Gpio25, Gpio26, Gpio27, Input, InterruptType, PinDriver, Pull},
+    gpio::{Input, InterruptType, PinDriver, Pull},
     sys::EspError,
 };
 
 use std::sync::atomic::{AtomicBool, Ordering};
+
+use crate::peripherals_cfg::{PinA, PinB, PinSw};
 
 static BUTTON_PRESSED: AtomicBool = AtomicBool::new(false);
 static LEFT: AtomicBool = AtomicBool::new(false);
 static RIGHT: AtomicBool = AtomicBool::new(false);
 static ENC_TMP: AtomicBool = AtomicBool::new(false);
 
-pub struct AGInput<'a> {
-    enc_sw: PinDriver<'a, Gpio25, Input>,
-    enc_a: PinDriver<'a, Gpio26, Input>,
-    enc_b: PinDriver<'a, Gpio27, Input>,
+pub struct AGInput<'d> {
+    enc_sw: PinDriver<'d, PinSw, Input>,
+    enc_a: PinDriver<'d, PinA, Input>,
+    enc_b: PinDriver<'d, PinB, Input>,
 }
 
 impl AGInput<'_> {
-    pub fn new(pin_sw: Gpio25, pin_a: Gpio26, pin_b: Gpio27) -> Result<Self, EspError> {
+    pub fn new(pin_sw: PinSw, pin_a: PinA, pin_b: PinB) -> Result<Self, EspError> {
         let mut enc_sw = PinDriver::input(pin_sw)?;
         enc_sw.set_pull(Pull::Up)?;
 
