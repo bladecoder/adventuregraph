@@ -1,8 +1,9 @@
 use std::fmt::Write;
 
 use esp_idf_hal::delay::{FreeRtos, BLOCK};
-use esp_idf_hal::gpio::{Gpio4, Gpio5};
+use esp_idf_hal::gpio::{Gpio4, Gpio5, InputPin, OutputPin};
 use esp_idf_hal::i2c::*;
+use esp_idf_hal::peripheral::Peripheral;
 use esp_idf_hal::peripherals::Peripherals;
 use esp_idf_hal::prelude::*;
 
@@ -17,12 +18,16 @@ use ssd1306::{prelude::*, I2CDisplayInterface, Ssd1306};
 
 const SSD1306_ADDRESS: u8 = 0x3c;
 
-pub struct AGDisplay<'a> {
-    display: Ssd1306<I2CInterface<I2cDriver<'a>>, DisplaySize128x64, TerminalMode>,
+pub struct AGDisplay<'d> {
+    display: Ssd1306<I2CInterface<I2cDriver<'d>>, DisplaySize128x64, TerminalMode>,
 }
 
-impl AGDisplay<'_> {
-    pub fn new(i2c: I2C0, sda: Gpio5, scl: Gpio4) -> anyhow::Result<Self> {
+impl<'d> AGDisplay<'d> {
+    pub fn new<I2C: I2c>(
+        i2c: impl Peripheral<P = I2C> + 'd,
+        sda: impl Peripheral<P = impl InputPin + OutputPin> + 'd,
+        scl: impl Peripheral<P = impl InputPin + OutputPin> + 'd,
+    ) -> anyhow::Result<Self> {
         let config = I2cConfig::new().baudrate(100.kHz().into());
         let i2c_driver = I2cDriver::new(i2c, sda, scl, &config)?;
 

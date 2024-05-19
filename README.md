@@ -2,7 +2,7 @@
 
 Un device vintage con un juego de texto tipo elige tu propia aventura.
 
-"El Aventurógrafo Éter Quinético sería una herramienta de exploración revolucionaria, mezclando lo antiguo con lo nuevo, y lo físico con lo místico, para abrir puertas a mundos y experiencias que antes solo podían ser imaginados."
+"El Aventurógrafo Éter Cinético sería una herramienta de exploración revolucionaria, mezclando lo antiguo con lo nuevo, y lo físico con lo místico, para abrir puertas a mundos y experiencias que antes solo podían ser imaginados."
 
 Inspirado en: https://hackaday.com/2024/03/15/retro-unit-converter-is-a-neat-little-gadget/
 
@@ -23,7 +23,7 @@ Inspirado en: https://hackaday.com/2024/03/15/retro-unit-converter-is-a-neat-lit
     - Electrofable
     - La máquina fabulosa
     - Narrador Éter-Quinético
-    - Aventurógrafo éter quinético / Ether-Kinetic Adventuregraph
+    - Aventurógrafo éter cinético / Ether-Kinetic Adventuregraph
 
 ## FEATURES ##
 
@@ -57,6 +57,20 @@ Opcional:
 - Circuito de carga y alimentación simultánea
 - Circuito de detección de carga de batería.
 
+## PINES ##
+
+ESP-32:
+- DISPLAY: 5,4
+- ENCODER: 27,26,25
+- BUTTON: 33
+- BUZZER: 16
+
+ESP-32S2:
+- DISPLAY: 33,35
+- ENCODER: 9, 11, 13
+- BUTTON: 7
+- BUZZER: 18
+
 
 ## MILESTONES ##
 
@@ -73,3 +87,14 @@ Opcional:
 - Circuito de corte y carga: https://www.youtube.com/watch?v=37kGva3NW8w
 - Circuito de info de carga de batería.
 - Añadir buzzer.
+
+
+## BUILD AND MONITOR
+
+ESP32S2:
+
+```
+source ../export.sh
+MCU=esp32s2 cargo build --target xtensa-esp32s2-espidf
+web-flash --chip esp32s2 target/xtensa-esp32-espidf/debug/aventuregraph
+```
