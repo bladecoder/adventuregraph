@@ -14,7 +14,12 @@ debug = true    # Symbols are nice and they don't increase the size on Flash
 opt-level = "z"
 
 [features]
-default = ["std", "embassy", "esp-idf-svc/native"]
+default = [
+    "std",
+    "embassy",
+    "esp-idf-svc/native",
+    "bladeink/stream-json-parser",
+]
 
 pio = ["esp-idf-svc/pio"]
 std = ["alloc", "esp-idf-svc/binstart", "esp-idf-svc/std"]
@@ -30,7 +35,8 @@ embassy = [
 [dependencies]
 log = { version = "0.4", default-features = false }
 esp-idf-svc = { version = "0.48", default-features = false }
-bladeink = { version = "1.0.3" }
+#bladeink = { version = "1.0.3" }
+bladeink = { git = "https://github.com/bladecoder/blade-ink-rs.git", branch = "json_read_stream" }
 esp-idf-hal = { version = "0.43.1", default-features = false }
 anyhow = "1"
 ssd1306 = "0.8.4"
