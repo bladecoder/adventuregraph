@@ -16,13 +16,15 @@ use embedded_graphics::{
 use ssd1306::mode::TerminalMode;
 use ssd1306::{prelude::*, I2CDisplayInterface, Ssd1306};
 
+use super::agdisplay::AGDisplay;
+
 const SSD1306_ADDRESS: u8 = 0x3c;
 
-pub struct AGDisplay<'d> {
+pub struct AGDisplaySSD1306<'d> {
     display: Ssd1306<I2CInterface<I2cDriver<'d>>, DisplaySize128x64, TerminalMode>,
 }
 
-impl<'d> AGDisplay<'d> {
+impl<'d> AGDisplaySSD1306<'d> {
     pub fn new<I2C: I2c>(
         i2c: impl Peripheral<P = I2C> + 'd,
         sda: impl Peripheral<P = impl InputPin + OutputPin> + 'd,
@@ -46,20 +48,22 @@ impl<'d> AGDisplay<'d> {
 
         Ok(Self { display })
     }
+}
 
-    pub fn write_str(&mut self, text: &str) {
+impl<'d> AGDisplay for AGDisplaySSD1306<'d> {
+    fn write_str(&mut self, text: &str) {
         self.display.write_str(text).unwrap()
     }
 
-    pub fn clear(&mut self) {
+    fn clear(&mut self) {
         self.display.clear().unwrap()
     }
 
-    pub fn get_row(&self) -> u8 {
+    fn get_row(&self) -> u8 {
         self.display.position().unwrap().1
     }
 
-    pub fn set_char_at_posx(&mut self, row: u8, c: char) {
+    fn set_char_at_posx(&mut self, row: u8, c: char) {
         self.display.set_position(0, row).unwrap();
         self.display.write_char(c).unwrap();
     }
