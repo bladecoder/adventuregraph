@@ -5,7 +5,7 @@ use esp_idf_hal::{
 
 use std::sync::atomic::{AtomicBool, Ordering};
 
-use crate::peripherals_cfg::{PinA, PinB, PinSw};
+use crate::hardware::peripherals_cfg::{PinA, PinB, PinSw};
 
 static BUTTON_PRESSED: AtomicBool = AtomicBool::new(false);
 static LEFT: AtomicBool = AtomicBool::new(false);

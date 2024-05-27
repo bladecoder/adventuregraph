@@ -47,9 +47,16 @@ Inspirado en: https://hackaday.com/2024/03/15/retro-unit-converter-is-a-neat-lit
 - Carga batería: TP4056
 - LDO
 - Batería 18650
-- Pantalla ssd1306
 - Potenciómetro (codificador)
 - Carcasa 3D
+
+PANTALLAS:
+- Pantalla ssd1306
+✓ LCD 1.8" ST7725S: ST7735S 128x160
+✓ LCD 2.8" ST7789V: ST7789V  NO:ILI9341 320x240
+
+- ENABLE DISPLAY DMA:
+    https://github.com/georgik/esp-display-interface-spi-dma/tree/feature/esp-hal-0.17
 
 Opcional:
 - Buzzer
@@ -66,11 +73,17 @@ ESP-32:
 - BUZZER: 16
 
 ESP-32S2:
-- DISPLAY: 33(SDA),35(SCL)
-- ENCODER: 9, 11, 13
-- BUTTON: 7
+- DISPLAY I2C: 33(SDA),35(SCL)
+- DISPLAY SPI: 4(RS/DC/AO), 5(CS), 6(SCK, CLK, SCLK), 7(MISO/SDO/DOUT), 8(RST/RES/REST), 9(BACKLIGHT), 3(MOSI/SDI/DIN/SDA)
+- ENCODER: 10(A), 11(B), 12(SW)
+- BUTTON: 13
 - BUZZER: 18
 
+## SPI
+
+RS/DC/AO: Data/command
+CS: Chip select
+SDA: MOSI
 
 ## MILESTONES ##
 

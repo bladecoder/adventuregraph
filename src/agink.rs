@@ -1,4 +1,5 @@
 use bladeink::story::Story;
+use esp_idf_hal::sys::esp_timer_get_time;
 
 // const JSON_STRING: &str = r##"{"inkVersion":21,"root":[["^Line from Ink.","\n",["done",{"#n":"g-0"}],null],"done",null],"listDefs":{}}"##;
 
@@ -10,7 +11,10 @@ pub struct AGInk {
 
 impl AGInk {
     pub fn new() -> anyhow::Result<Self> {
+        let start = unsafe { esp_timer_get_time() };
         let story = Story::new(JSON_STRING)?;
+        let end = unsafe { esp_timer_get_time() };
+        println!("Story loaded in {} ms", (end - start) / 1000);
         Ok(Self { story })
     }
 

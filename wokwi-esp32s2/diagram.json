@@ -23,8 +23,8 @@
     {
       "type": "wokwi-ky-040",
       "id": "encoder1",
-      "top": 126.5,
-      "left": -202.4,
+      "top": 174.5,
+      "left": -413.6,
       "attrs": {}
     },
     {
@@ -39,11 +39,18 @@
     {
       "type": "wokwi-pushbutton",
       "id": "btn1",
-      "top": 44.6,
-      "left": -134.4,
+      "top": 303.8,
+      "left": -355.2,
       "attrs": {
         "color": "green"
       }
+    },
+    {
+      "type": "wokwi-ili9341",
+      "id": "lcd1",
+      "top": -431.2,
+      "left": -240.3,
+      "attrs": {}
     }
   ],
   "connections": [
@@ -172,32 +179,104 @@
       ]
     ],
     [
-      "esp:9",
-      "encoder1:CLK",
-      "green",
-      [
-        "h-38.63",
-        "v-32.05"
-      ]
-    ],
-    [
-      "btn1:1.r",
-      "esp:7",
-      "green",
-      [
-        "h48.2",
-        "v48"
-      ]
-    ],
-    [
       "btn1:2.r",
       "esp:GND.1",
       "black",
       [
         "h29",
-        "v182.6",
-        "h0",
-        "v3.25"
+        "v0.2",
+        "h269.03"
+      ]
+    ],
+    [
+      "esp:3V3",
+      "lcd1:VCC",
+      "red",
+      [
+        "h-19.43",
+        "v-60.85",
+        "h-38.4"
+      ]
+    ],
+    [
+      "lcd1:GND",
+      "esp:GND.1",
+      "black",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "esp:5",
+      "lcd1:CS",
+      "orange",
+      [
+        "h0"
+      ]
+    ],
+    [
+      "esp:8",
+      "lcd1:RST",
+      "gold",
+      [
+        "h0"
+      ]
+    ],
+    [
+      "esp:4",
+      "lcd1:D/C",
+      "green",
+      [
+        "h0"
+      ]
+    ],
+    [
+      "esp:6",
+      "lcd1:SCK",
+      "violet",
+      [
+        "h0"
+      ]
+    ],
+    [
+      "esp:10",
+      "encoder1:CLK",
+      "green",
+      [
+        "h0"
+      ]
+    ],
+    [
+      "esp:9",
+      "lcd1:LED",
+      "gray",
+      [
+        "h0"
+      ]
+    ],
+    [
+      "esp:7",
+      "lcd1:MOSI",
+      "blue",
+      [
+        "h0"
+      ]
+    ],
+    [
+      "btn1:1.r",
+      "esp:14",
+      "green",
+      [
+        "h269",
+        "v-102.35"
+      ]
+    ],
+    [
+      "esp:3",
+      "lcd1:MISO",
+      "white",
+      [
+        "h0"
       ]
     ]
   ],

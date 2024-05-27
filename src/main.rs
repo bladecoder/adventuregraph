@@ -1,8 +1,6 @@
-mod agaudio;
-mod agdisplay;
 mod agink;
-mod aginput;
-mod peripherals_cfg;
+mod hardware;
+mod ui;
 
 use esp_idf_hal::{
     delay::FreeRtos,
@@ -10,7 +8,7 @@ use esp_idf_hal::{
     sys::{heap_caps_get_free_size, MALLOC_CAP_8BIT},
 };
 
-use crate::peripherals_cfg::init_peripherals;
+use crate::{agink::AGInk, hardware::peripherals_cfg, ui::scrolled_text::ScrolledText};
 
 fn main() -> anyhow::Result<()> {
     // It is necessary to call this function once. Otherwise some patches to the runtime
@@ -26,16 +24,20 @@ fn main() -> anyhow::Result<()> {
     let mut agdisplay;
     let mut aginput;
     let mut agaudio;
-    (agdisplay, aginput, agaudio) = init_peripherals(peripherals);
-    agaudio.play_ok(); // TODO DELETE!
-    agdisplay.clear();
-    agdisplay.write_str("Peripherals initialized\n");
-    agdisplay.write_str(&format!("Free memory: {} kb\n", free_mem / 1024));
+    (agdisplay, aginput, agaudio) = peripherals_cfg::init_peripherals(peripherals);
 
-    FreeRtos::delay_ms(2000);
+    let mut scrolled_text = ScrolledText::new();
+
+    agaudio.play_ok(); // TODO DELETE!
+    scrolled_text.add_text(&mut agdisplay, "Peripherals initialized");
+    println!("Peripherals initialized");
+    scrolled_text.add_text(
+        &mut agdisplay,
+        &format!("Free memory: {} kb\n", free_mem / 1024),
+    );
 
     println!("setup ink...");
-    let mut agink = agink::AGInk::new()?;
+    let mut agink = AGInk::new()?;
     println!("ink file loaded");
 
     let free_mem = unsafe { heap_caps_get_free_size(MALLOC_CAP_8BIT) };
@@ -44,9 +46,10 @@ fn main() -> anyhow::Result<()> {
         free_mem / 1024
     );
 
-    let _line = agink.next_line()?; // TODO DELETE!
-
-    agdisplay.write_str(&format!("Free memory2: {} kb\n", free_mem / 1024));
+    scrolled_text.add_text(
+        &mut agdisplay,
+        &format!("Free memory2: {} kb\n", free_mem / 1024),
+    );
 
     let mut choices_displayed = false;
     let mut selected_choice: u8 = 0;
@@ -55,20 +58,19 @@ fn main() -> anyhow::Result<()> {
     loop {
         if agink.can_continue() {
             let line = agink.next_line()?;
-            agdisplay.clear();
-            agdisplay.write_str(&line);
+            scrolled_text.add_text(&mut agdisplay, &line);
         }
 
         if agink.has_choices() && !choices_displayed {
             choices_displayed = true;
-            line_cursor = agdisplay.get_row();
+            //line_cursor = agdisplay.get_row();
             let choices = agink.get_choices();
             for (i, choice) in choices.iter().enumerate() {
                 // Display choices
                 if i == selected_choice as usize {
-                    agdisplay.write_str(&format!(">{}\n", choice));
+                    scrolled_text.add_text(&mut agdisplay, &format!(">{}\n", choice));
                 } else {
-                    agdisplay.write_str(&format!(" {}\n", choice));
+                    scrolled_text.add_text(&mut agdisplay, &format!(" {}\n", choice));
                 }
             }
         }
@@ -84,19 +86,19 @@ fn main() -> anyhow::Result<()> {
         if aginput.consume_left() {
             println!("Left");
             if choices_displayed {
-                agdisplay.set_char_at_posx(line_cursor + selected_choice, ' ');
+                //agdisplay.set_char_at_posx(line_cursor + selected_choice, ' ');
                 selected_choice = (selected_choice + 1) % agink.get_num_choices() as u8;
-                agdisplay.set_char_at_posx(line_cursor + selected_choice, '>');
+                //agdisplay.set_char_at_posx(line_cursor + selected_choice, '>');
             }
         }
 
         if aginput.consume_right() {
             println!("Right");
             if choices_displayed {
-                agdisplay.set_char_at_posx(line_cursor + selected_choice, ' ');
+                //agdisplay.set_char_at_posx(line_cursor + selected_choice, ' ');
                 selected_choice = (selected_choice + agink.get_num_choices() as u8 - 1)
                     % agink.get_num_choices() as u8;
-                agdisplay.set_char_at_posx(line_cursor + selected_choice, '>');
+                //agdisplay.set_char_at_posx(line_cursor + selected_choice, '>');
             }
         }
 
