@@ -2,6 +2,8 @@ mod agink;
 mod hardware;
 mod ui;
 
+use embedded_graphics::pixelcolor::{Rgb565, RgbColor};
+use embedded_graphics::prelude::*;
 use esp_idf_hal::{
     delay::FreeRtos,
     peripherals::Peripherals,
@@ -28,12 +30,26 @@ fn main() -> anyhow::Result<()> {
 
     let mut scrolled_text = ScrolledText::new();
 
-    agaudio.play_ok(); // TODO DELETE!
+    // Clear the screen
+    agdisplay
+        .get_display()
+        .clear(Rgb565::BLACK)
+        .map_err(|e| anyhow::anyhow!("Clearing screen"))?;
+    agaudio.play_ok();
+
     scrolled_text.add_text(&mut agdisplay, "Peripherals initialized");
     println!("Peripherals initialized");
     scrolled_text.add_text(
         &mut agdisplay,
         &format!("Free memory: {} kb\n", free_mem / 1024),
+    );
+
+    let width = agdisplay.get_display().bounding_box().size.width;
+    let height = agdisplay.get_display().bounding_box().size.height;
+
+    scrolled_text.add_text(
+        &mut agdisplay,
+        &format!("Display dimensions: {}x{}", width, height),
     );
 
     println!("setup ink...");
@@ -53,7 +69,6 @@ fn main() -> anyhow::Result<()> {
 
     let mut choices_displayed = false;
     let mut selected_choice: u8 = 0;
-    let mut line_cursor = 0;
 
     loop {
         if agink.can_continue() {
@@ -63,7 +78,6 @@ fn main() -> anyhow::Result<()> {
 
         if agink.has_choices() && !choices_displayed {
             choices_displayed = true;
-            //line_cursor = agdisplay.get_row();
             let choices = agink.get_choices();
             for (i, choice) in choices.iter().enumerate() {
                 // Display choices
@@ -86,19 +100,15 @@ fn main() -> anyhow::Result<()> {
         if aginput.consume_left() {
             println!("Left");
             if choices_displayed {
-                //agdisplay.set_char_at_posx(line_cursor + selected_choice, ' ');
                 selected_choice = (selected_choice + 1) % agink.get_num_choices() as u8;
-                //agdisplay.set_char_at_posx(line_cursor + selected_choice, '>');
             }
         }
 
         if aginput.consume_right() {
             println!("Right");
             if choices_displayed {
-                //agdisplay.set_char_at_posx(line_cursor + selected_choice, ' ');
                 selected_choice = (selected_choice + agink.get_num_choices() as u8 - 1)
                     % agink.get_num_choices() as u8;
-                //agdisplay.set_char_at_posx(line_cursor + selected_choice, '>');
             }
         }
 
