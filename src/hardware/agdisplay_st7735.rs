@@ -67,7 +67,6 @@ impl<'d> AGDisplay<'d> {
         let display = Builder::new(ST7735s, di)
             .reset_pin(gpio::PinDriver::output(rst)?)
             .display_size(W, H)
-            .orientation(Orientation::new().flip_horizontal())
             .init(&mut delay::Ets)
             .unwrap();
 

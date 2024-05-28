@@ -50,7 +50,9 @@
       "id": "lcd1",
       "top": -431.2,
       "left": -240.3,
-      "attrs": {}
+      "attrs": {
+        "flipHorizontal": "true"
+      }
     }
   ],
   "connections": [
@@ -65,22 +67,6 @@
       "$serialMonitor:TX",
       "",
       []
-    ],
-    [
-      "encoder1:CLK",
-      "esp:25",
-      "green",
-      [
-        "h0"
-      ]
-    ],
-    [
-      "encoder1:SW",
-      "esp:27",
-      "green",
-      [
-        "h0"
-      ]
     ],
     [
       "esp:35",
@@ -160,7 +146,7 @@
       ]
     ],
     [
-      "esp:13",
+      "esp:12",
       "encoder1:SW",
       "green",
       [
@@ -264,7 +250,7 @@
     ],
     [
       "btn1:1.r",
-      "esp:14",
+      "esp:13",
       "green",
       [
         "h269",
