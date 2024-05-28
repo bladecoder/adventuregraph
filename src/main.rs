@@ -4,6 +4,7 @@ mod ui;
 
 use embedded_graphics::pixelcolor::{Rgb565, RgbColor};
 use embedded_graphics::prelude::*;
+use esp_idf_hal::sys::rand;
 use esp_idf_hal::{
     delay::FreeRtos,
     peripherals::Peripherals,
@@ -79,14 +80,15 @@ fn main() -> anyhow::Result<()> {
         if agink.has_choices() && !choices_displayed {
             choices_displayed = true;
             let choices = agink.get_choices();
-            for (i, choice) in choices.iter().enumerate() {
-                // Display choices
-                if i == selected_choice as usize {
-                    scrolled_text.add_text(&mut agdisplay, &format!(">{}\n", choice));
-                } else {
-                    scrolled_text.add_text(&mut agdisplay, &format!(" {}\n", choice));
-                }
-            }
+
+            scrolled_text.add_choices(&mut agdisplay, &choices);
+
+            // FreeRtos::delay_ms(500u32);
+
+            // // choose a choice randomly
+            // let random_choice = (unsafe { rand() } % agink.get_num_choices() as i32) as usize;
+            // agink.choose(random_choice)?;
+            // scrolled_text.clear(&mut agdisplay);
         }
 
         if aginput.consume_sw() {
@@ -101,6 +103,7 @@ fn main() -> anyhow::Result<()> {
             println!("Left");
             if choices_displayed {
                 selected_choice = (selected_choice + 1) % agink.get_num_choices() as u8;
+                scrolled_text.select_choice(&mut agdisplay, selected_choice as usize);
             }
         }
 
@@ -109,6 +112,7 @@ fn main() -> anyhow::Result<()> {
             if choices_displayed {
                 selected_choice = (selected_choice + agink.get_num_choices() as u8 - 1)
                     % agink.get_num_choices() as u8;
+                scrolled_text.select_choice(&mut agdisplay, selected_choice as usize);
             }
         }
 
