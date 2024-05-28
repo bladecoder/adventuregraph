@@ -1,7 +1,8 @@
 use crate::hardware::aginput::AGInput;
 
 use crate::hardware::agaudio::AGAudio;
-use crate::hardware::agdisplay_st7735::AGDisplay;
+//use crate::hardware::agdisplay_st7735::AGDisplay;
+use crate::hardware::agdisplay_st7789::AGDisplay;
 use esp_idf_hal::peripherals::Peripherals;
 
 // configure Input PINS for esp32

@@ -24,7 +24,7 @@
       "type": "wokwi-ky-040",
       "id": "encoder1",
       "top": 174.5,
-      "left": -413.6,
+      "left": -313.6,
       "attrs": {}
     },
     {
@@ -48,7 +48,7 @@
     {
       "type": "wokwi-ili9341",
       "id": "lcd1",
-      "top": -431.2,
+      "top": -231.2,
       "left": -240.3,
       "attrs": {
         "flipHorizontal": "true"
