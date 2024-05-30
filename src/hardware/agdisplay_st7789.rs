@@ -36,6 +36,7 @@ impl<'d> AGDisplay<'d> {
         sclk: gpio::Gpio6,
         sdo: gpio::Gpio7,
         cs: gpio::Gpio5,
+        sdi: gpio::Gpio3,
     ) -> anyhow::Result<Self> {
         let mut backlight = gpio::PinDriver::output(backlight)?;
 
@@ -44,7 +45,7 @@ impl<'d> AGDisplay<'d> {
                 spi,
                 sclk,
                 sdo,
-                Option::<gpio::AnyIOPin>::None,
+                Some(sdi),
                 Some(cs),
                 &spi::SpiDriverConfig::new().dma(spi::Dma::Disabled),
                 &spi::SpiConfig::new().baudrate(80.MHz().into()),

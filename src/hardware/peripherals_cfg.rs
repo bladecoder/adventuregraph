@@ -54,6 +54,7 @@ pub(crate) fn init_peripherals<'a>(
         peripherals.pins.gpio6,
         peripherals.pins.gpio7,
         peripherals.pins.gpio5,
+        peripherals.pins.gpio3,
     )
     .unwrap();
     println!("Display initialized");
