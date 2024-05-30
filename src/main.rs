@@ -4,7 +4,7 @@ mod ui;
 
 use embedded_graphics::pixelcolor::{Rgb565, RgbColor};
 use embedded_graphics::prelude::*;
-use esp_idf_hal::sys::rand;
+use esp_idf_hal::sys::{esp_timer_get_time, rand};
 use esp_idf_hal::{
     delay::FreeRtos,
     peripherals::Peripherals,
@@ -53,9 +53,21 @@ fn main() -> anyhow::Result<()> {
         &format!("Display dimensions: {}x{}", width, height),
     );
 
-    println!("setup ink...");
+    // test scroll display: write 40 lines
+    // for i in 0..40 {
+    //     scrolled_text.add_text(&mut agdisplay, &format!("Line {}\n", i));
+    // }
+
+    println!("loading Ink story...");
+    scrolled_text.add_text(&mut agdisplay, "loading Ink story...");
+    let start = unsafe { esp_timer_get_time() };
     let mut agink = AGInk::new()?;
-    println!("ink file loaded");
+    let end = unsafe { esp_timer_get_time() };
+    println!("Ink story loaded in {} ms", (end - start) / 1000);
+    scrolled_text.add_text(
+        &mut agdisplay,
+        &format!("Ink story loaded in {} ms", (end - start) / 1000),
+    );
 
     let free_mem = unsafe { heap_caps_get_free_size(MALLOC_CAP_8BIT) };
     println!(
@@ -83,12 +95,21 @@ fn main() -> anyhow::Result<()> {
 
             scrolled_text.add_choices(&mut agdisplay, &choices);
 
-            // FreeRtos::delay_ms(500u32);
+            // choose a choice randomly
+            let random_choice = (unsafe { rand() } % agink.get_num_choices() as i32) as usize;
+            agink.choose(random_choice)?;
+            //scrolled_text.clear(&mut agdisplay);
+            scrolled_text.select_choice(&mut agdisplay, random_choice);
+            choices_displayed = false;
+            FreeRtos::delay_ms(1000u32);
+        }
 
-            // // choose a choice randomly
-            // let random_choice = (unsafe { rand() } % agink.get_num_choices() as i32) as usize;
-            // agink.choose(random_choice)?;
-            // scrolled_text.clear(&mut agdisplay);
+        if !agink.can_continue() && !agink.has_choices() {
+            scrolled_text.add_text(&mut agdisplay, "The End");
+            println!("The End");
+            loop {
+                FreeRtos::delay_ms(1000u32);
+            }
         }
 
         if aginput.consume_sw() {
