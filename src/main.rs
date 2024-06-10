@@ -10,8 +10,11 @@ use esp_idf_hal::{
     peripherals::Peripherals,
     sys::{heap_caps_get_free_size, MALLOC_CAP_8BIT},
 };
+use ui::scrolled_text;
 
 use crate::{agink::AGInk, hardware::peripherals_cfg, ui::scrolled_text::ScrolledText};
+
+const CHOOSE_RANDOM: bool = false;
 
 fn main() -> anyhow::Result<()> {
     // It is necessary to call this function once. Otherwise some patches to the runtime
@@ -42,7 +45,7 @@ fn main() -> anyhow::Result<()> {
     println!("Peripherals initialized");
     scrolled_text.add_text(
         &mut agdisplay,
-        &format!("Free memory: {} kb\n", free_mem / 1024),
+        &format!("Free memory: {} kb", free_mem / 1024),
     );
 
     let width = agdisplay.get_display().bounding_box().size.width;
@@ -53,10 +56,7 @@ fn main() -> anyhow::Result<()> {
         &format!("Display dimensions: {}x{}", width, height),
     );
 
-    // test scroll display: write 40 lines
-    // for i in 0..40 {
-    //     scrolled_text.add_text(&mut agdisplay, &format!("Line {}\n", i));
-    // }
+    //test_rotary_encoder(&mut aginput, &mut agdisplay, &mut scrolled_text);
 
     println!("loading Ink story...");
     scrolled_text.add_text(&mut agdisplay, "loading Ink story...");
@@ -96,12 +96,13 @@ fn main() -> anyhow::Result<()> {
             scrolled_text.add_choices(&mut agdisplay, &choices);
 
             // choose a choice randomly
-            let random_choice = (unsafe { rand() } % agink.get_num_choices() as i32) as usize;
-            agink.choose(random_choice)?;
-            //scrolled_text.clear(&mut agdisplay);
-            scrolled_text.select_choice(&mut agdisplay, random_choice);
-            choices_displayed = false;
-            FreeRtos::delay_ms(1000u32);
+            if CHOOSE_RANDOM {
+                let random_choice = (unsafe { rand() } % agink.get_num_choices() as i32) as usize;
+                agink.choose(random_choice)?;
+                scrolled_text.select_choice(&mut agdisplay, random_choice);
+                choices_displayed = false;
+                FreeRtos::delay_ms(1000u32);
+            }
         }
 
         if !agink.can_continue() && !agink.has_choices() {
@@ -114,29 +115,71 @@ fn main() -> anyhow::Result<()> {
 
         if aginput.consume_sw() {
             println!("Button pressed");
+
             if choices_displayed {
                 agink.choose(selected_choice as usize)?;
                 choices_displayed = false;
+                //scrolled_text.clear(&mut agdisplay);
             }
         }
 
-        if aginput.consume_left() {
-            println!("Left");
-            if choices_displayed {
-                selected_choice = (selected_choice + 1) % agink.get_num_choices() as u8;
-                scrolled_text.select_choice(&mut agdisplay, selected_choice as usize);
-            }
-        }
+        match aginput.consume_rotary() {
+            hardware::aginput::Direction::Left => {
+                println!("Left");
 
-        if aginput.consume_right() {
-            println!("Right");
-            if choices_displayed {
-                selected_choice = (selected_choice + agink.get_num_choices() as u8 - 1)
-                    % agink.get_num_choices() as u8;
-                scrolled_text.select_choice(&mut agdisplay, selected_choice as usize);
+                if choices_displayed {
+                    selected_choice = (selected_choice + 1) % agink.get_num_choices() as u8;
+                    scrolled_text.select_choice(&mut agdisplay, selected_choice as usize);
+                }
             }
+            hardware::aginput::Direction::Right => {
+                println!("Right");
+
+                if choices_displayed {
+                    selected_choice = (selected_choice + agink.get_num_choices() as u8 - 1)
+                        % agink.get_num_choices() as u8;
+                    scrolled_text.select_choice(&mut agdisplay, selected_choice as usize);
+                }
+            }
+            hardware::aginput::Direction::None => {}
         }
 
         FreeRtos::delay_ms(100u32);
+    }
+}
+
+fn test_rotary_encoder(
+    aginput: &mut hardware::aginput::AGInput,
+    agdisplay: &mut hardware::agdisplay_st7735::AGDisplay,
+    scrolled_text: &mut scrolled_text::ScrolledText,
+) {
+    loop {
+        if aginput.consume_sw() {
+            scrolled_text.add_text(agdisplay, "Button pressed");
+            println!("Button pressed");
+        }
+
+        match aginput.consume_rotary() {
+            hardware::aginput::Direction::Left => {
+                scrolled_text.add_text(agdisplay, "Left");
+                println!("Left");
+            }
+            hardware::aginput::Direction::Right => {
+                scrolled_text.add_text(agdisplay, "Right");
+                println!("Right");
+            }
+            hardware::aginput::Direction::None => {}
+        }
+
+        FreeRtos::delay_ms(100u32);
+    }
+}
+
+fn test_scroll(agdisplay: &mut hardware::agdisplay_st7735::AGDisplay) {
+    let mut scrolled_text = ScrolledText::new();
+
+    //test scroll display: write 40 lines
+    for i in 0..100 {
+        scrolled_text.add_text(agdisplay, &format!("Line {}\n", i));
     }
 }
