@@ -43,11 +43,11 @@ Inspirado en: https://hackaday.com/2024/03/15/retro-unit-converter-is-a-neat-lit
 
 ## PARTS ##
 
-- ESP32-S2 (el soporte de wifi no es necesario, aunque podría ser útil para bajarse nuevas historias).
+- ESP32-S2 (el soporte de wifi no es necesario, aunque podría ser útil para bajarse nuevas historias) con 2MB PSRAM.
 - Carga batería: TP4056
 - LDO
 - Batería 18650
-- Potenciómetro (codificador)
+- Codificador rotatorio
 - Carcasa 3D
 
 PANTALLAS:
@@ -79,6 +79,12 @@ ESP-32S2:
 - BUTTON: 13
 - BUZZER: 18
 
+## CONSUMO
+
+- 0.09A sin pantalla.
+- 0.12-0.14 con pantalla.
+- con wifi??
+
 ## SPI
 
 RS/DC/AO: Data/command
@@ -87,20 +93,27 @@ SDA: MOSI
 
 ## MILESTONES ##
 
-- [✔] "Hello world" en Rust por el serial port.
-- [✔] El ESP32-S2 muestra por el serial una historia Ink de una línea.
-    - [✔] Usar el ESP32 básico para empezar.
-- [✔] El ESP32-S2 muestra por pantalla una historia Ink de una línea.
-- [✔] El ESP32-S2 se puede manejar con el codificador.
-    - Historia con choice. <- **WIP**
-    - https://github.com/nanoframework/nanoframework.IoT.Device/blob/develop/devices/RotaryEncoder.Esp32/README.md
-- Añadir TP4056 y probar con pila.
-- Diseño de carcasa.
-- Software!
-- Circuito de corte y carga: https://www.youtube.com/watch?v=37kGva3NW8w
-- Circuito de info de carga de batería.
-- Añadir buzzer.
-
+- Rotary encoder funcionando
+- Prototipo "The Intercept"
+  - Sin carga
+  - Solo rotary encoder
+  - Pantalla pequeña
+  - Custom PCB
+  - Carcasa
+- Prototipo "Aventuregraph 0"
+  - Custom PCB
+  - Sin carga
+  - Pantalla grande
+  - Dos botones
+  - Buzzer
+  - Carcasa.
+- Prototipo "Aventuregraph 1"
+  - Añadir TP4056 y probar con batería.
+  - Circuito de corte y carga: https://www.youtube.com/watch?v=37kGva3NW8w
+- Prototipo "Aventuregraph 2"
+  - Pantalla OLED
+  - Circuito de info de carga de batería.
+- Nueva aventura!
 
 ## BUILD AND MONITOR
 

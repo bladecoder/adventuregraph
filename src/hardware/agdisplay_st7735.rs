@@ -1,9 +1,4 @@
 use display_interface_spi::SPIInterface;
-use embedded_graphics::mono_font::iso_8859_15::FONT_10X20;
-use embedded_graphics::mono_font::MonoTextStyle;
-use embedded_graphics::pixelcolor::Rgb565;
-use embedded_graphics::prelude::*;
-use embedded_graphics::text::Text;
 use esp_idf_hal::spi::config::MODE_3;
 use esp_idf_svc::hal::delay;
 use esp_idf_svc::hal::gpio;
@@ -12,8 +7,7 @@ use esp_idf_svc::hal::prelude::*;
 use esp_idf_svc::hal::spi;
 
 use mipidsi::models::ST7735s;
-use mipidsi::options::ColorInversion;
-use mipidsi::options::Orientation;
+
 use mipidsi::Builder;
 use mipidsi::Display;
 

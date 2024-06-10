@@ -1,8 +1,8 @@
 use crate::hardware::aginput::AGInput;
 
 use crate::hardware::agaudio::AGAudio;
-//use crate::hardware::agdisplay_st7735::AGDisplay;
-use crate::hardware::agdisplay_st7789::AGDisplay;
+use crate::hardware::agdisplay_st7735::AGDisplay;
+//use crate::hardware::agdisplay_st7789::AGDisplay;
 use esp_idf_hal::peripherals::Peripherals;
 
 // configure Input PINS for esp32
@@ -34,18 +34,6 @@ pub(crate) fn init_peripherals<'a>(
     // .unwrap();
     //let agdisplay = NoDisplay::new();
 
-    // let agdisplay = AGDisplayST7789::new(
-    //     peripherals.pins.gpio9,
-    //     peripherals.pins.gpio4,
-    //     peripherals.pins.gpio8,
-    //     peripherals.spi3,
-    //     peripherals.pins.gpio6,
-    //     peripherals.pins.gpio7,
-    //     peripherals.pins.gpio5,
-    //     peripherals.pins.gpio3,
-    // )
-    // .unwrap();
-
     let agdisplay = AGDisplay::new(
         peripherals.pins.gpio9,
         peripherals.pins.gpio4,
@@ -54,9 +42,20 @@ pub(crate) fn init_peripherals<'a>(
         peripherals.pins.gpio6,
         peripherals.pins.gpio7,
         peripherals.pins.gpio5,
-        peripherals.pins.gpio3,
     )
     .unwrap();
+
+    // let agdisplay = AGDisplay::new(
+    //     peripherals.pins.gpio9,
+    //     peripherals.pins.gpio4,
+    //     peripherals.pins.gpio8,
+    //     peripherals.spi2,
+    //     peripherals.pins.gpio6,
+    //     peripherals.pins.gpio7,
+    //     peripherals.pins.gpio5,
+    //     peripherals.pins.gpio3,
+    // )
+    // .unwrap();
     println!("Display initialized");
 
     println!("setup input...");
@@ -64,6 +63,7 @@ pub(crate) fn init_peripherals<'a>(
         peripherals.pins.gpio12,
         peripherals.pins.gpio10,
         peripherals.pins.gpio11,
+        peripherals.timer00,
     )
     .unwrap();
 
