@@ -20,26 +20,26 @@ const H: u16 = 160;
 type TAGDisplay<'d> = Display<
     SPIInterface<
         spi::SpiDeviceDriver<'d, spi::SpiDriver<'d>>,
-        gpio::PinDriver<'d, gpio::Gpio4, gpio::Output>,
+        gpio::PinDriver<'d, gpio::Gpio7, gpio::Output>,
     >,
     ST7735s,
-    gpio::PinDriver<'d, gpio::Gpio8, gpio::Output>,
+    gpio::PinDriver<'d, gpio::Gpio5, gpio::Output>,
 >;
 
 pub struct AGDisplay<'d> {
     display: TAGDisplay<'d>,
-    backlight: gpio::PinDriver<'d, gpio::Gpio9, gpio::Output>,
+    backlight: gpio::PinDriver<'d, gpio::Gpio12, gpio::Output>,
 }
 
 impl<'d> AGDisplay<'d> {
     pub fn new(
-        backlight: gpio::Gpio9,
-        dc: gpio::Gpio4,
-        rst: gpio::Gpio8,
+        backlight: gpio::Gpio12,
+        dc: gpio::Gpio7,
+        rst: gpio::Gpio5,
         spi: spi::SPI2,
-        sclk: gpio::Gpio6,
-        sdo: gpio::Gpio7,
-        cs: gpio::Gpio5,
+        sclk: gpio::Gpio11,
+        sdo: gpio::Gpio9,
+        cs: gpio::Gpio3,
     ) -> anyhow::Result<Self> {
         let mut backlight = gpio::PinDriver::output(backlight)?;
 
