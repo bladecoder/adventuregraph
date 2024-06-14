@@ -15,11 +15,11 @@ pub type PinB = esp_idf_hal::gpio::Gpio25;
 
 // configure Input PINS for esp32s2
 #[cfg(esp32s2)]
-pub type PinSw = esp_idf_hal::gpio::Gpio12;
+pub type PinSw = esp_idf_hal::gpio::Gpio36;
 #[cfg(esp32s2)]
-pub type PinA = esp_idf_hal::gpio::Gpio10;
+pub type PinA = esp_idf_hal::gpio::Gpio38;
 #[cfg(esp32s2)]
-pub type PinB = esp_idf_hal::gpio::Gpio11;
+pub type PinB = esp_idf_hal::gpio::Gpio40;
 
 #[cfg(esp32s2)]
 pub(crate) fn init_peripherals<'a>(
@@ -35,13 +35,13 @@ pub(crate) fn init_peripherals<'a>(
     //let agdisplay = NoDisplay::new();
 
     let agdisplay = AGDisplay::new(
-        peripherals.pins.gpio9,
-        peripherals.pins.gpio4,
-        peripherals.pins.gpio8,
-        peripherals.spi2,
-        peripherals.pins.gpio6,
+        peripherals.pins.gpio12,
         peripherals.pins.gpio7,
         peripherals.pins.gpio5,
+        peripherals.spi2,
+        peripherals.pins.gpio11,
+        peripherals.pins.gpio9,
+        peripherals.pins.gpio3,
     )
     .unwrap();
 
@@ -60,9 +60,9 @@ pub(crate) fn init_peripherals<'a>(
 
     println!("setup input...");
     let input = AGInput::new(
-        peripherals.pins.gpio12,
-        peripherals.pins.gpio10,
-        peripherals.pins.gpio11,
+        peripherals.pins.gpio36,
+        peripherals.pins.gpio38,
+        peripherals.pins.gpio40,
         peripherals.timer00,
     )
     .unwrap();

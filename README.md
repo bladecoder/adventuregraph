@@ -74,8 +74,8 @@ ESP-32:
 
 ESP-32S2:
 - DISPLAY I2C: 33(SDA),35(SCL)
-- DISPLAY SPI: 4(RS/DC/AO), 5(CS), 6(SCK, CLK, SCLK), 7(MISO/SDO/DOUT), 8(RST/RES/REST), 9(BACKLIGHT), 3(MOSI/SDI/DIN/SDA)
-- ENCODER: 10(A), 11(B), 12(SW)
+- DISPLAY SPI: 7(RS/DC/AO), 7(CS), 12(SCK, CLK, SCLK), 11(MISO/SDO/DOUT), 5(RST/RES/REST), 12(BACKLIGHT), 3(MOSI/SDI/DIN/SDA)
+- ENCODER: 38(A), 40(B), 36(SW)
 - BUTTON: 13
 - BUZZER: 18
 
@@ -93,7 +93,7 @@ SDA: MOSI
 
 ## MILESTONES ##
 
-- Rotary encoder funcionando
+✓ Rotary encoder funcionando
 - Prototipo "The Intercept"
   - Sin carga
   - Solo rotary encoder
