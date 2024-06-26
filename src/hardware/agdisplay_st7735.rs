@@ -1,4 +1,8 @@
 use display_interface_spi::SPIInterface;
+use esp_idf_hal::gpio::AnyOutputPin;
+use esp_idf_hal::gpio::OutputPin;
+use esp_idf_hal::gpio::PinDriver;
+use esp_idf_hal::peripheral::Peripheral;
 use esp_idf_hal::spi::config::MODE_3;
 use esp_idf_svc::hal::delay;
 use esp_idf_svc::hal::gpio;
@@ -28,7 +32,7 @@ type TAGDisplay<'d> = Display<
 
 pub struct AGDisplay<'d> {
     display: TAGDisplay<'d>,
-    backlight: gpio::PinDriver<'d, gpio::Gpio12, gpio::Output>,
+    backlight: PinDriver<'d, gpio::Gpio12, gpio::Output>,
 }
 
 impl<'d> AGDisplay<'d> {
@@ -37,11 +41,11 @@ impl<'d> AGDisplay<'d> {
         dc: gpio::Gpio7,
         rst: gpio::Gpio5,
         spi: spi::SPI2,
-        sclk: gpio::Gpio11,
-        sdo: gpio::Gpio9,
-        cs: gpio::Gpio3,
+        sclk: impl Peripheral<P = impl OutputPin> + 'd,
+        sdo: impl Peripheral<P = impl OutputPin> + 'd,
+        cs: impl Peripheral<P = impl OutputPin> + 'd,
     ) -> anyhow::Result<Self> {
-        let mut backlight = gpio::PinDriver::output(backlight)?;
+        let mut backlight = PinDriver::output(backlight)?;
 
         let di = SPIInterface::new(
             spi::SpiDeviceDriver::new_single(
