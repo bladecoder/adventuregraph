@@ -1,6 +1,8 @@
-pub(crate) mod agaudio;
-//pub(crate) mod agdisplay_ssd1306;
-pub(crate) mod agdisplay_st7735;
-// pub(crate) mod agdisplay_st7789;
-pub(crate) mod aginput;
-pub(crate) mod peripherals_cfg;
+pub mod agaudio;
+
+#[cfg_attr(feature = "pcbv1", path = "agdisplay_st7735.rs")]
+#[cfg_attr(not(feature = "pcbv1"), path = "agdisplay_st7789.rs")]
+pub mod agdisplay;
+
+pub mod aginput;
+pub mod peripherals_cfg;

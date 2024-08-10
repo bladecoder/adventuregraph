@@ -1,5 +1,8 @@
 use display_interface_spi::SPIInterface;
 
+use esp_idf_hal::gpio::OutputPin;
+use esp_idf_hal::gpio::PinDriver;
+use esp_idf_hal::peripheral::Peripheral;
 use esp_idf_svc::hal::delay;
 use esp_idf_svc::hal::gpio;
 
@@ -7,6 +10,7 @@ use esp_idf_svc::hal::prelude::*;
 use esp_idf_svc::hal::spi;
 
 use mipidsi::models::ST7789;
+use mipidsi::options::Orientation;
 use mipidsi::Builder;
 use mipidsi::Display;
 
@@ -16,27 +20,26 @@ const H: u16 = 320;
 type TAGDisplay<'d> = Display<
     SPIInterface<
         spi::SpiDeviceDriver<'d, spi::SpiDriver<'d>>,
-        gpio::PinDriver<'d, gpio::Gpio4, gpio::Output>,
+        gpio::PinDriver<'d, gpio::Gpio7, gpio::Output>,
     >,
     ST7789,
-    gpio::PinDriver<'d, gpio::Gpio8, gpio::Output>,
+    gpio::PinDriver<'d, gpio::Gpio5, gpio::Output>,
 >;
 
 pub struct AGDisplay<'d> {
     display: TAGDisplay<'d>,
-    backlight: gpio::PinDriver<'d, gpio::Gpio9, gpio::Output>,
+    backlight: PinDriver<'d, gpio::Gpio12, gpio::Output>,
 }
 
 impl<'d> AGDisplay<'d> {
     pub fn new(
-        backlight: gpio::Gpio9,
-        dc: gpio::Gpio4,
-        rst: gpio::Gpio8,
+        backlight: gpio::Gpio12,
+        dc: gpio::Gpio7,
+        rst: gpio::Gpio5,
         spi: spi::SPI2,
-        sclk: gpio::Gpio6,
-        sdo: gpio::Gpio7,
-        cs: gpio::Gpio5,
-        sdi: gpio::Gpio3,
+        sclk: impl Peripheral<P = impl OutputPin> + 'd,
+        sdo: impl Peripheral<P = impl OutputPin> + 'd,
+        cs: impl Peripheral<P = impl OutputPin> + 'd,
     ) -> anyhow::Result<Self> {
         let mut backlight = gpio::PinDriver::output(backlight)?;
 
@@ -45,7 +48,7 @@ impl<'d> AGDisplay<'d> {
                 spi,
                 sclk,
                 sdo,
-                Some(sdi),
+                Option::<gpio::AnyIOPin>::None,
                 Some(cs),
                 &spi::SpiDriverConfig::new().dma(spi::Dma::Disabled),
                 &spi::SpiConfig::new().baudrate(80.MHz().into()),
@@ -56,6 +59,7 @@ impl<'d> AGDisplay<'d> {
         let display = Builder::new(ST7789, di)
             .reset_pin(gpio::PinDriver::output(rst)?)
             .display_size(W, H)
+            //.orientation(Orientation::new().rotate(rotation))
             .init(&mut delay::Ets)
             .unwrap();
 

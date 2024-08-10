@@ -1,0 +1,62 @@
+use embedded_graphics::mono_font::iso_8859_1::FONT_9X18_BOLD;
+use embedded_graphics::mono_font::MonoTextStyle;
+use embedded_graphics::pixelcolor::{Rgb565, RgbColor};
+use embedded_graphics::prelude::*;
+use embedded_graphics::text::{Baseline, Text};
+
+use crate::{
+    aventuregraph::Aventuregraph,
+    hardware::{agaudio::AGAudio, agdisplay::AGDisplay},
+};
+
+use super::screen::Screen;
+
+pub struct TitleScreen {
+    title: String,
+    character_style: MonoTextStyle<'static, Rgb565>,
+}
+
+impl TitleScreen {
+    pub fn new(title: &str) -> Self {
+        Self {
+            title: title.to_string(),
+            character_style: MonoTextStyle::new(&FONT_9X18_BOLD, Rgb565::GREEN),
+        }
+    }
+
+    pub fn draw(&self, agdisplay: &mut AGDisplay, agaudio: &mut AGAudio) -> anyhow::Result<()> {
+        agdisplay
+            .get_display()
+            .clear(Rgb565::BLACK)
+            .map_err(|_| anyhow::anyhow!("Clearing screen"))?;
+
+        let title_width =
+            self.title.len() as i32 * self.character_style.font.character_size.width as i32;
+        let title_height = self.character_style.font.character_size.height as i32;
+
+        Text::with_baseline(
+            &self.title,
+            Point::new(
+                (agdisplay.get_display().bounding_box().size.width as i32 - title_width) / 2,
+                (agdisplay.get_display().bounding_box().size.height as i32 - title_height) / 2,
+            ),
+            self.character_style,
+            Baseline::Top,
+        )
+        .draw(agdisplay.get_display())
+        .unwrap();
+
+        agaudio.play_ok();
+        Ok(())
+    }
+}
+
+impl Screen for TitleScreen {
+    fn draw(&self, ag: &mut Aventuregraph) -> anyhow::Result<()> {
+        self.draw(&mut ag.agdisplay, &mut ag.agaudio)
+    }
+
+    fn update(&mut self, ag: &mut Aventuregraph) -> anyhow::Result<()> {
+        Ok(())
+    }
+}

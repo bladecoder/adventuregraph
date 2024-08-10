@@ -18,9 +18,6 @@ use mipidsi::Display;
 const W: u16 = 128;
 const H: u16 = 160;
 
-// const W: u16 = 320;
-// const H: u16 = 240;
-
 type TAGDisplay<'d> = Display<
     SPIInterface<
         spi::SpiDeviceDriver<'d, spi::SpiDriver<'d>>,
