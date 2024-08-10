@@ -1,0 +1,1 @@
+// Locate target in riot and stop him

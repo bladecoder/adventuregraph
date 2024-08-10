@@ -1,5 +1,5 @@
 use embedded_graphics::{
-    mono_font::{iso_8859_15::FONT_6X10, MonoTextStyle},
+    mono_font::{iso_8859_15::FONT_6X10, MonoTextStyle, MonoTextStyleBuilder},
     pixelcolor::{Rgb565, RgbColor},
     primitives::Rectangle,
     text::{Baseline, Text},
@@ -8,13 +8,14 @@ use embedded_graphics::{
 use embedded_graphics::geometry::*;
 use embedded_graphics::prelude::*;
 
-use crate::hardware::agdisplay_st7735::AGDisplay;
+use crate::hardware::agdisplay::AGDisplay;
 
 pub struct ScrolledText {
     text: Vec<String>,
     position: i32,    // position in the vector of the first line shown in the display
     scroll_line: i32, // this is the line in memory showed as last line in the display
-    character_style: MonoTextStyle<'static, Rgb565>,
+    text_style: MonoTextStyle<'static, Rgb565>,
+    selected_style: MonoTextStyle<'static, Rgb565>,
 
     choices_idx: Vec<i32>,
     selected: usize,
@@ -22,18 +23,25 @@ pub struct ScrolledText {
 
 impl ScrolledText {
     pub fn new() -> Self {
+        let selected_style = MonoTextStyleBuilder::new()
+            .font(&FONT_6X10)
+            .text_color(Rgb565::BLACK)
+            .background_color(Rgb565::GREEN)
+            .build();
+
         Self {
             text: Vec::new(),
             position: 0,
             scroll_line: 0,
-            character_style: MonoTextStyle::new(&FONT_6X10, Rgb565::GREEN),
+            text_style: MonoTextStyle::new(&FONT_6X10, Rgb565::GREEN),
+            selected_style,
             choices_idx: Vec::new(),
             selected: 0,
         }
     }
 
     pub fn add_text(&mut self, display: &mut AGDisplay<'_>, text: &str) {
-        let w = self.character_style.font.character_size.width as i32;
+        let w = self.text_style.font.character_size.width as i32;
 
         // split the text in multiple lines if it is longer than the display width
         let chars_per_line = display.get_display().bounding_box().size.width / w as u32;
@@ -101,7 +109,7 @@ impl ScrolledText {
                 0,
                 self.get_pos_y(display, self.text.len() as i32 - self.position - 1),
             ),
-            self.character_style,
+            self.text_style,
             Baseline::Top,
         )
         .draw(display.get_display())
@@ -129,7 +137,7 @@ impl ScrolledText {
         // }
 
         // HARDWARE SCROLLING
-        let h = self.character_style.font.character_size.height as i32;
+        let h = self.text_style.font.character_size.height as i32;
         let offset = (h as u16 * self.position as u16)
             % display.get_display().bounding_box().size.height as u16;
 
@@ -153,7 +161,7 @@ impl ScrolledText {
     }
 
     fn get_pos_y(&self, display: &mut AGDisplay<'_>, row: i32) -> i32 {
-        let h = self.character_style.font.character_size.height as i32;
+        let h = self.text_style.font.character_size.height as i32;
         let max_display_rows = self.get_display_rows(display);
         let row_with_scroll = (row + self.scroll_line) % max_display_rows;
 
@@ -161,7 +169,7 @@ impl ScrolledText {
     }
 
     fn get_display_rows(&self, display: &mut AGDisplay<'_>) -> i32 {
-        let h = self.character_style.font.character_size.height as i32;
+        let h = self.text_style.font.character_size.height as i32;
         display.get_display().bounding_box().size.height as i32 / h
     }
 
@@ -199,8 +207,8 @@ impl ScrolledText {
             .unwrap()
             .replace_range(0..1, " ");
 
-        let w = self.character_style.font.character_size.width as i32;
-        let h = self.character_style.font.character_size.height as i32;
+        let w = self.text_style.font.character_size.width as i32;
+        let h = self.text_style.font.character_size.height as i32;
 
         let y = self.get_pos_y(display, self.choices_idx[self.selected] - self.position);
 
@@ -223,8 +231,15 @@ impl ScrolledText {
 
         let y = self.get_pos_y(display, self.choices_idx[self.selected] - self.position);
 
-        Text::with_baseline(">", Point::new(0, y), self.character_style, Baseline::Top)
+        Text::with_baseline(">", Point::new(0, y), self.text_style, Baseline::Top)
             .draw(display.get_display())
             .unwrap();
+    }
+
+    pub fn test_scroll(&mut self, agdisplay: &mut AGDisplay) {
+        //test scroll display: write 40 lines
+        for i in 0..100 {
+            self.add_text(agdisplay, &format!("Line {}\n", i));
+        }
     }
 }

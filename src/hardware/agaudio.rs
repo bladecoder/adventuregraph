@@ -9,7 +9,7 @@ use esp_idf_hal::{
     units::Hertz,
 };
 
-pub(crate) struct AGAudio<'d> {
+pub struct AGAudio<'d> {
     channel: LedcDriver<'d>, // Add named lifetime parameter
     tone_duty: u32,
 }
@@ -31,15 +31,15 @@ impl<'d> AGAudio<'d> {
         Ok(Self { channel, tone_duty })
     }
 
-    pub(crate) fn play_ok(&mut self) {
+    pub fn play_ok(&mut self) {
         self.tone(300, 100);
     }
 
-    pub(crate) fn play_error(&mut self) {
+    pub fn play_error(&mut self) {
         self.tone(100, 200);
     }
 
-    pub(crate) fn tone(&mut self, frequency: u32, delay: u32) {
+    pub fn tone(&mut self, frequency: u32, delay: u32) {
         let _ = self.channel.set_duty(self.tone_duty);
         unsafe {
             ledc_set_freq(
@@ -52,7 +52,7 @@ impl<'d> AGAudio<'d> {
         let _ = self.channel.set_duty(0);
     }
 
-    pub(crate) fn melody(&mut self, notes: [u32; 12], cycles: u32) {
+    pub fn melody(&mut self, notes: [u32; 12], cycles: u32) {
         for _ in 0..cycles {
             for note in notes {
                 self.tone(note, 50);

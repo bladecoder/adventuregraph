@@ -2,7 +2,7 @@
 
 Un device vintage con un juego de texto tipo elige tu propia aventura.
 
-"El Aventurógrafo Éter Cinético sería una herramienta de exploración revolucionaria, mezclando lo antiguo con lo nuevo, y lo físico con lo místico, para abrir puertas a mundos y experiencias que antes solo podían ser imaginados."
+"El Aventurógrafo Éter Cinético sería una herramienta de exploración revolucionaria, mezclando lo antiguo con lo nuevo, y lo físico con lo abstracto, para abrir puertas a mundos y experiencias que antes solo podían ser imaginados."
 
 Inspirado en: https://hackaday.com/2024/03/15/retro-unit-converter-is-a-neat-little-gadget/
 
@@ -94,7 +94,7 @@ SDA: MOSI
 ## MILESTONES ##
 
 ✓ Rotary encoder funcionando
-- Prototipo "The Intercept"
+✓ Prototipo "The Intercept"
   - Sin carga
   - Solo rotary encoder
   - Pantalla pequeña

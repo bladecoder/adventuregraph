@@ -15,11 +15,14 @@ opt-level = "z"
 
 [features]
 default = [
+    "pcbv1",
     "std",
     "embassy",
     "esp-idf-svc/native",
     "bladeink/stream-json-parser",
 ]
+
+pcbv1 = []
 
 pio = ["esp-idf-svc/pio"]
 std = ["alloc", "esp-idf-svc/binstart", "esp-idf-svc/std"]
@@ -40,7 +43,6 @@ esp-idf-svc = { version = "0.48.1", default-features = false }
 bladeink = { git = "https://github.com/bladecoder/blade-ink-rs.git", branch = "json_read_stream" }
 esp-idf-hal = { version = "0.43.1", default-features = false }
 anyhow = "1"
-ssd1306 = "0.8.4"
 embedded-graphics = "0.8.1"
 mipidsi = "0.8.0"
 display-interface-spi = "0.5.0"
