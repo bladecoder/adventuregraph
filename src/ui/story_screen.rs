@@ -77,7 +77,7 @@ impl Screen for StoryScreen {
             if self.choices_displayed {
                 ag.agink.choose(self.selected_choice as usize)?;
                 self.choices_displayed = false;
-                //scrolled_text.clear(&mut agdisplay);
+                self.scrolled_text.clear_choices(&mut ag.agdisplay);
             }
         }
 
