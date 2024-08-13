@@ -12,9 +12,17 @@ use super::{screen::Screen, scrolled_text::ScrolledText};
 
 const CHOOSE_RANDOM: bool = false;
 
+#[derive(Debug, PartialEq, Clone, Copy)]
+enum StoryScreenState {
+    Text,
+    Choices,
+    ScrollLock,
+    End,
+}
+
 pub struct StoryScreen {
     scrolled_text: ScrolledText,
-    choices_displayed: bool,
+    state: StoryScreenState,
     selected_choice: u8,
 }
 
@@ -22,7 +30,7 @@ impl StoryScreen {
     pub fn new() -> Self {
         Self {
             scrolled_text: ScrolledText::new(),
-            choices_displayed: false,
+            state: StoryScreenState::Text,
             selected_choice: 0,
         }
     }
@@ -39,13 +47,17 @@ impl Screen for StoryScreen {
     }
 
     fn update(&mut self, ag: &mut Aventuregraph) -> anyhow::Result<()> {
-        if ag.agink.can_continue() {
+        if ag.agink.can_continue() && self.state == StoryScreenState::Text {
             let line = ag.agink.next_line()?;
             self.scrolled_text.add_text(&mut ag.agdisplay, &line);
+            if self.scrolled_text.is_scroll_locked(&mut ag.agdisplay) {
+                self.state = StoryScreenState::ScrollLock;
+                println!("Scroll locked!!");
+            }
         }
 
-        if ag.agink.has_choices() && !self.choices_displayed {
-            self.choices_displayed = true;
+        if ag.agink.has_choices() && self.state == StoryScreenState::Text {
+            self.state = StoryScreenState::Choices;
             self.selected_choice = 0;
             let choices = ag.agink.get_choices();
 
@@ -58,14 +70,20 @@ impl Screen for StoryScreen {
                 ag.agink.choose(random_choice)?;
                 self.scrolled_text
                     .select_choice(&mut ag.agdisplay, random_choice);
-                self.choices_displayed = false;
+                self.state = StoryScreenState::Text;
                 FreeRtos::delay_ms(1000u32);
             }
         }
 
-        if !ag.agink.can_continue() && !ag.agink.has_choices() {
+        if !ag.agink.can_continue()
+            && !ag.agink.has_choices()
+            && self.state == StoryScreenState::Text
+        {
+            self.state = StoryScreenState::End;
             self.scrolled_text.add_text(&mut ag.agdisplay, "The End");
             println!("The End");
+            let choice = vec!["--restart--".to_owned()];
+            self.scrolled_text.add_choices(&mut ag.agdisplay, &choice);
             loop {
                 FreeRtos::delay_ms(1000u32);
             }
@@ -74,18 +92,30 @@ impl Screen for StoryScreen {
         if ag.aginput.consume_sw() {
             println!("Button pressed");
 
-            if self.choices_displayed {
-                ag.agink.choose(self.selected_choice as usize)?;
-                self.choices_displayed = false;
-                self.scrolled_text.clear_choices(&mut ag.agdisplay);
+            match self.state {
+                StoryScreenState::Choices => {
+                    ag.agink.choose(self.selected_choice as usize)?;
+                    self.scrolled_text.clear_choices(&mut ag.agdisplay);
+                }
+                StoryScreenState::ScrollLock => {
+                    self.scrolled_text.more(&mut ag.agdisplay);
+                }
+                StoryScreenState::End => {
+                    self.scrolled_text.clear(&mut ag.agdisplay);
+                    ag.agink.restart()?;
+                }
+
+                _ => {}
             }
+
+            self.state = StoryScreenState::Text;
         }
 
         match ag.aginput.consume_rotary() {
             hardware::aginput::Direction::Left => {
                 println!("Left");
 
-                if self.choices_displayed {
+                if self.state == StoryScreenState::Choices {
                     self.selected_choice =
                         (self.selected_choice + 1) % ag.agink.get_num_choices() as u8;
                     self.scrolled_text
@@ -95,7 +125,7 @@ impl Screen for StoryScreen {
             hardware::aginput::Direction::Right => {
                 println!("Right");
 
-                if self.choices_displayed {
+                if self.state == StoryScreenState::Choices {
                     self.selected_choice =
                         (self.selected_choice + ag.agink.get_num_choices() as u8 - 1)
                             % ag.agink.get_num_choices() as u8;

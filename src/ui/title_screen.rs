@@ -1,6 +1,5 @@
-use embedded_graphics::mono_font::iso_8859_1::FONT_9X18_BOLD;
 use embedded_graphics::mono_font::MonoTextStyle;
-use embedded_graphics::pixelcolor::{Rgb565, RgbColor};
+use embedded_graphics::pixelcolor::Rgb565;
 use embedded_graphics::prelude::*;
 use embedded_graphics::text::{Baseline, Text};
 
@@ -10,6 +9,7 @@ use crate::{
 };
 
 use super::screen::Screen;
+use super::theme::{BG_COLOR, FG_COLOR, TITLE_FONT};
 
 pub struct TitleScreen {
     title: String,
@@ -20,14 +20,14 @@ impl TitleScreen {
     pub fn new(title: &str) -> Self {
         Self {
             title: title.to_string(),
-            character_style: MonoTextStyle::new(&FONT_9X18_BOLD, Rgb565::GREEN),
+            character_style: MonoTextStyle::new(TITLE_FONT, FG_COLOR),
         }
     }
 
     pub fn draw(&self, agdisplay: &mut AGDisplay, agaudio: &mut AGAudio) -> anyhow::Result<()> {
         agdisplay
             .get_display()
-            .clear(Rgb565::BLACK)
+            .clear(BG_COLOR)
             .map_err(|_| anyhow::anyhow!("Clearing screen"))?;
 
         let title_width =
