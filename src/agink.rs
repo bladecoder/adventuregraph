@@ -18,6 +18,11 @@ impl AGInk {
         Ok(Self { story })
     }
 
+    pub fn restart(&mut self) -> anyhow::Result<()> {
+        self.story.reset_state()?;
+        Ok(())
+    }
+
     pub fn next_line(&mut self) -> anyhow::Result<String> {
         let line = self.story.cont()?;
         print!("{}", line);
