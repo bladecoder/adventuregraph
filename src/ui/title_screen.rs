@@ -4,7 +4,7 @@ use embedded_graphics::prelude::*;
 use embedded_graphics::text::{Baseline, Text};
 
 use crate::{
-    aventuregraph::Aventuregraph,
+    adventuregraph::Adventuregraph,
     hardware::{agaudio::AGAudio, agdisplay::AGDisplay},
 };
 
@@ -52,11 +52,11 @@ impl TitleScreen {
 }
 
 impl Screen for TitleScreen {
-    fn draw(&self, ag: &mut Aventuregraph) -> anyhow::Result<()> {
+    fn draw(&self, ag: &mut Adventuregraph) -> anyhow::Result<()> {
         self.draw(&mut ag.agdisplay, &mut ag.agaudio)
     }
 
-    fn update(&mut self, ag: &mut Aventuregraph) -> anyhow::Result<()> {
+    fn update(&mut self, ag: &mut Adventuregraph) -> anyhow::Result<()> {
         Ok(())
     }
 }

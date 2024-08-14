@@ -1,5 +1,5 @@
 {
-  "name": "aventuregraph",
+  "name": "adventuregraph",
   // Select between image and build propieties to pull or build the image.
   // "image": "docker.io/espressif/idf-rust:esp32_latest",
   "build": {
@@ -39,6 +39,6 @@
     3333,
     8000
   ],
-  "workspaceMount": "source=${localWorkspaceFolder},target=/home/esp/aventuregraph,type=bind,consistency=cached",
-  "workspaceFolder": "/home/esp/aventuregraph"
+  "workspaceMount": "source=${localWorkspaceFolder},target=/home/esp/adventuregraph,type=bind,consistency=cached",
+  "workspaceFolder": "/home/esp/adventuregraph"
 }

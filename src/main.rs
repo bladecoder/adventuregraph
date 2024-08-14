@@ -1,11 +1,12 @@
+mod adventuregraph;
 mod agink;
-mod aventuregraph;
 mod hardware;
 mod ui;
 
-use aventuregraph::Aventuregraph;
+use adventuregraph::Adventuregraph;
 use esp_idf_hal::delay::FreeRtos;
 use ui::screen::Screen;
+use ui::scrolled_text;
 use ui::story_screen::StoryScreen;
 
 fn main() -> anyhow::Result<()> {
@@ -15,14 +16,22 @@ fn main() -> anyhow::Result<()> {
     // Bind the log crate to the ESP Logging facilities
     esp_idf_svc::log::EspLogger::initialize_default();
 
-    let mut aventuregraph = Aventuregraph::new()?;
+    let mut adventuregraph = Adventuregraph::new()?;
     let mut story_screen = StoryScreen::new();
 
-    story_screen.draw(&mut aventuregraph)?;
+    story_screen.draw(&mut adventuregraph)?;
 
     loop {
-        story_screen.update(&mut aventuregraph)?;
+        story_screen.update(&mut adventuregraph)?;
         FreeRtos::delay_ms(100u32);
+    }
+}
+
+pub fn test_scroll(agdisplay: &mut hardware::agdisplay::AGDisplay) {
+    let mut scrolled_text = scrolled_text::ScrolledText::new();
+    //test scroll display: write 40 lines
+    for i in 0..100 {
+        scrolled_text.add_text(agdisplay, &format!("Line {}\n", i));
     }
 }
 

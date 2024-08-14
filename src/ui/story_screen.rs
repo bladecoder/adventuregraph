@@ -4,10 +4,11 @@ use embedded_graphics::prelude::*;
 use esp_idf_hal::{delay::FreeRtos, sys::rand};
 
 use crate::{
-    aventuregraph::Aventuregraph,
+    adventuregraph::Adventuregraph,
     hardware::{self},
 };
 
+use super::theme::BG_COLOR;
 use super::{screen::Screen, scrolled_text::ScrolledText};
 
 const CHOOSE_RANDOM: bool = false;
@@ -37,16 +38,16 @@ impl StoryScreen {
 }
 
 impl Screen for StoryScreen {
-    fn draw(&self, ag: &mut Aventuregraph) -> anyhow::Result<()> {
+    fn draw(&self, ag: &mut Adventuregraph) -> anyhow::Result<()> {
         ag.agdisplay
             .get_display()
-            .clear(Rgb565::BLACK)
+            .clear(BG_COLOR)
             .map_err(|_| anyhow::anyhow!("Clearing screen"))?;
 
         Ok(())
     }
 
-    fn update(&mut self, ag: &mut Aventuregraph) -> anyhow::Result<()> {
+    fn update(&mut self, ag: &mut Adventuregraph) -> anyhow::Result<()> {
         if ag.agink.can_continue() && self.state == StoryScreenState::Text {
             let line = ag.agink.next_line()?;
             self.scrolled_text.add_text(&mut ag.agdisplay, &line);
@@ -80,13 +81,11 @@ impl Screen for StoryScreen {
             && self.state == StoryScreenState::Text
         {
             self.state = StoryScreenState::End;
-            self.scrolled_text.add_text(&mut ag.agdisplay, "The End");
+            self.scrolled_text
+                .add_text(&mut ag.agdisplay, "\n    The End\n");
             println!("The End");
             let choice = vec!["--restart--".to_owned()];
             self.scrolled_text.add_choices(&mut ag.agdisplay, &choice);
-            loop {
-                FreeRtos::delay_ms(1000u32);
-            }
         }
 
         if ag.aginput.consume_sw() {

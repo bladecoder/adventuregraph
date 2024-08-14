@@ -18,4 +18,4 @@ case "$1" in
     ;;
 esac
 
-web-flash --chip esp32s2 target/xtensa-esp32s2-espidf/${BUILD_MODE}/aventuregraph
+web-flash --chip esp32s2 target/xtensa-esp32s2-espidf/${BUILD_MODE}/adventuregraph

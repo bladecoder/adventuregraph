@@ -176,13 +176,27 @@ impl ScrolledText {
         // enumerate vector elements from the position to the end
         for (i, line) in self.lines.iter().enumerate().skip(self.position as usize) {
             let row = i as i32 - self.position;
+            let cw = self.text_style.font.character_size.width as i32;
+            let ch = self.text_style.font.character_size.height as i32;
+            let y = self.get_pos_y(display, row);
 
+            // fill the start of the line with black
+            if line.start_col > 0 {
+                let area = Rectangle::new(
+                    Point::new(0, y),
+                    Size::new(line.start_col as u32 * cw as u32, ch as u32),
+                );
+
+                display.get_display().fill_solid(&area, BG_COLOR).unwrap();
+            }
+
+            // print the text
             self.print_row(display, line, row, false);
 
             // fill the rest of the line with black
             let h = self.text_style.font.character_size.height as i32;
             let y = self.get_pos_y(display, row);
-            let start_x = line.text.len() as i32 * self.text_style.font.character_size.width as i32;
+            let start_x = (line.text.len() as i32 + line.start_col) * cw as i32;
             let area = Rectangle::new(
                 Point::new(start_x, y),
                 Size::new(
@@ -320,21 +334,11 @@ impl ScrolledText {
             ),
         );
 
-        display
-            .get_display()
-            .fill_solid(&area, Rgb565::BLACK)
-            .unwrap();
+        display.get_display().fill_solid(&area, BG_COLOR).unwrap();
     }
 
     pub fn more(&mut self, display: &mut AGDisplay<'_>) {
         //self.lines_added_since_last_lock = 0;
         self.clear_choices(display)
-    }
-
-    pub fn test_scroll(&mut self, agdisplay: &mut AGDisplay) {
-        //test scroll display: write 40 lines
-        for i in 0..100 {
-            self.add_text(agdisplay, &format!("Line {}\n", i));
-        }
     }
 }

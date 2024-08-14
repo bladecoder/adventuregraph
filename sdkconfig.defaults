@@ -1,5 +1,6 @@
 # Rust often needs a bit of an extra main task stack size compared to C (the default is 3K)
 CONFIG_ESP_MAIN_TASK_STACK_SIZE=40000
+#CONFIG_ESP_MAIN_TASK_STACK_SIZE=180000
 
 # Use this to set FreeRTOS kernel tick frequency to 1000 Hz (100 Hz by default).
 # This allows to use 1 ms granuality for thread sleeps (10 ms by default).
@@ -19,3 +20,9 @@ CONFIG_ESPTOOLPY_FLASHFREQ_80M=y
 #CONFIG_ESP_INT_WDT_TIMEOUT_MS=300
 CONFIG_ESP_TASK_WDT_TIMEOUT_S=60
 #CONFIG_ESP_CONSOLE_USB_CDC=y
+CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ=240
+CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ_240=y
+
+#Performance QIO or QOUT
+CONFIG_ESPTOOLPY_FLASHMODE_QIO=y
+CONFIG_ESP32_REV_MIN=3
