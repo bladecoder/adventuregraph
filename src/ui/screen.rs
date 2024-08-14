@@ -1,6 +1,6 @@
-use crate::aventuregraph::Aventuregraph;
+use crate::adventuregraph::Adventuregraph;
 
 pub trait Screen {
-    fn draw(&self, ag: &mut Aventuregraph) -> anyhow::Result<()>;
-    fn update(&mut self, ag: &mut Aventuregraph) -> anyhow::Result<()>;
+    fn draw(&self, ag: &mut Adventuregraph) -> anyhow::Result<()>;
+    fn update(&mut self, ag: &mut Adventuregraph) -> anyhow::Result<()>;
 }

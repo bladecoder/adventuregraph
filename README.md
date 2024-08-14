@@ -100,17 +100,17 @@ SDA: MOSI
   - Pantalla pequeña
   - Custom PCB
   - Carcasa
-- Prototipo "Aventuregraph 0"
+- Prototipo "Adventuregraph 0"
   - Custom PCB
   - Sin carga
   - Pantalla grande
   - Dos botones
   - Buzzer
   - Carcasa.
-- Prototipo "Aventuregraph 1"
+- Prototipo "Adventuregraph 1"
   - Añadir TP4056 y probar con batería.
   - Circuito de corte y carga: https://www.youtube.com/watch?v=37kGva3NW8w
-- Prototipo "Aventuregraph 2"
+- Prototipo "Adventuregraph 2"
   - Pantalla OLED
   - Circuito de info de carga de batería.
 - Nueva aventura!
@@ -122,5 +122,5 @@ ESP32S2:
 ```
 source ../export.sh
 MCU=esp32s2 cargo build --target xtensa-esp32s2-espidf
-web-flash --chip esp32s2 target/xtensa-esp32-espidf/debug/aventuregraph
+web-flash --chip esp32s2 target/xtensa-esp32-espidf/debug/adventuregraph
 ```

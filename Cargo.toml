@@ -1,5 +1,5 @@
 [package]
-name = "aventuregraph"
+name = "adventuregraph"
 version = "0.1.0"
 authors = ["Rafael García <bladecoder@gmail.com>"]
 edition = "2021"

@@ -10,7 +10,7 @@ use crate::{
     ui::title_screen::TitleScreen,
 };
 
-pub struct Aventuregraph<'a> {
+pub struct Adventuregraph<'a> {
     pub agdisplay: AGDisplay<'a>,
     pub aginput: AGInput<'a>,
     pub agaudio: AGAudio<'a>,
@@ -18,7 +18,7 @@ pub struct Aventuregraph<'a> {
     pub agink: AGInk,
 }
 
-impl<'a> Aventuregraph<'a> {
+impl<'a> Adventuregraph<'a> {
     pub fn new() -> anyhow::Result<Self> {
         let free_mem = unsafe { heap_caps_get_free_size(MALLOC_CAP_8BIT) };
         println!("Free memory at start: {} kb", free_mem / 1024);
