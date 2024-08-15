@@ -16,6 +16,7 @@ opt-level = "z"
 [features]
 default = [
     "pcbv1",
+    "display-st7735",
     "std",
     "embassy",
     "esp-idf-svc/native",

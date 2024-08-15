@@ -7,6 +7,7 @@ use embedded_graphics::{
 
 use embedded_graphics::geometry::*;
 use embedded_graphics::prelude::*;
+use esp_idf_hal::task::queue;
 
 use crate::hardware::agdisplay::AGDisplay;
 
@@ -26,6 +27,7 @@ pub struct ScrolledText {
     text_style: MonoTextStyle<'static, Rgb565>,
     selected_style: MonoTextStyle<'static, Rgb565>,
 
+    queued_lines: Vec<Line>,
     lines_added_since_last_lock: i32,
 
     choices_idx: Vec<usize>,
@@ -52,6 +54,7 @@ impl ScrolledText {
             scroll_line: 0,
             text_style,
             selected_style,
+            queued_lines: Vec::new(),
             lines_added_since_last_lock: 0,
             choices_idx: Vec::new(),
             selected: 0,
@@ -59,18 +62,17 @@ impl ScrolledText {
     }
 
     pub fn is_scroll_locked(&self, display: &mut AGDisplay<'_>) -> bool {
-        self.lines_added_since_last_lock >= self.char_rows(display) - 2
+        self.lines_added_since_last_lock >= self.char_rows(display) - 1
     }
 
     pub fn add_text(&mut self, display: &mut AGDisplay<'_>, text: &str) {
-        let prev_lines = self.lines.len() as i32;
         self.add_string(display, text, 0);
-        self.lines_added_since_last_lock += self.lines.len() as i32 - prev_lines;
 
         println!(
-            "Lines added since last lock: {}. Scroll locked: {}",
+            "Lines added since last lock: {}. Scroll locked: {}. Lines in queue: {}",
             self.lines_added_since_last_lock,
-            self.is_scroll_locked(display)
+            self.is_scroll_locked(display),
+            self.queued_lines.len()
         );
 
         if self.is_scroll_locked(display) {
@@ -134,6 +136,16 @@ impl ScrolledText {
     }
 
     fn add_row(&mut self, display: &mut AGDisplay<'_>, text: &str, start_col: i32) {
+        self.lines_added_since_last_lock += 1;
+
+        if self.is_scroll_locked(display) && self.choices_idx.is_empty() {
+            self.queued_lines.push(Line {
+                start_col,
+                text: text.to_owned(),
+            });
+            return;
+        }
+
         self.lines.push(Line {
             start_col,
             text: text.to_owned(),
@@ -169,7 +181,7 @@ impl ScrolledText {
     }
 
     /// SOFTWARE SCROLLING
-    pub fn scroll(&mut self, display: &mut AGDisplay<'_>) {
+    pub fn scroll_sw(&mut self, display: &mut AGDisplay<'_>) {
         // println!("scrolling...");
         self.position += 1;
 
@@ -210,7 +222,7 @@ impl ScrolledText {
     }
 
     /// HARDWARE SCROLLING
-    pub fn scroll_hw(&mut self, display: &mut AGDisplay<'_>) {
+    pub fn scroll(&mut self, display: &mut AGDisplay<'_>) {
         // println!("scrolling...");
         self.position += 1;
         self.scroll_line += 1;
@@ -254,6 +266,7 @@ impl ScrolledText {
         self.choices_idx.clear();
         self.selected = 0;
         self.lines_added_since_last_lock = 0;
+        self.queued_lines.clear();
         display.get_display().clear(BG_COLOR).unwrap();
 
         // reset the vertical scroll offset
@@ -322,7 +335,7 @@ impl ScrolledText {
         }
     }
 
-    pub fn clear_rows(&self, display: &mut AGDisplay<'_>, row: i32, num_rows: i32) {
+    pub fn clear_rows_old(&self, display: &mut AGDisplay<'_>, row: i32, num_rows: i32) {
         let y = self.get_pos_y(display, row);
         let h = self.text_style.font.character_size.height as i32;
 
@@ -337,8 +350,30 @@ impl ScrolledText {
         display.get_display().fill_solid(&area, BG_COLOR).unwrap();
     }
 
+    pub fn clear_rows(&self, display: &mut AGDisplay<'_>, row: i32, num_rows: i32) {
+        let h = self.text_style.font.character_size.height as i32;
+
+        // clear the rows from row to row + num_rows
+        for i in 0..num_rows {
+            let y = self.get_pos_y(display, row + i);
+
+            let area = Rectangle::new(
+                Point::new(0, y),
+                Size::new(display.get_display().bounding_box().size.width, h as u32),
+            );
+
+            display.get_display().fill_solid(&area, BG_COLOR).unwrap();
+        }
+    }
+
     pub fn more(&mut self, display: &mut AGDisplay<'_>) {
-        //self.lines_added_since_last_lock = 0;
-        self.clear_choices(display)
+        self.clear_choices(display);
+
+        // extract the queued lines and add them to the display
+        let queued_lines = std::mem::take(&mut self.queued_lines);
+
+        for line in queued_lines {
+            self.add_row(display, &line.text, line.start_col);
+        }
     }
 }
