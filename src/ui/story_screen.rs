@@ -1,4 +1,3 @@
-use embedded_graphics::pixelcolor::{Rgb565, RgbColor};
 use embedded_graphics::prelude::*;
 
 use esp_idf_hal::{delay::FreeRtos, sys::rand};
@@ -24,7 +23,6 @@ enum StoryScreenState {
 pub struct StoryScreen {
     scrolled_text: ScrolledText,
     state: StoryScreenState,
-    selected_choice: u8,
 }
 
 impl StoryScreen {
@@ -32,7 +30,6 @@ impl StoryScreen {
         Self {
             scrolled_text: ScrolledText::new(),
             state: StoryScreenState::Text,
-            selected_choice: 0,
         }
     }
 }
@@ -59,7 +56,6 @@ impl Screen for StoryScreen {
 
         if ag.agink.has_choices() && self.state == StoryScreenState::Text {
             self.state = StoryScreenState::Choices;
-            self.selected_choice = 0;
             let choices = ag.agink.get_choices();
 
             self.scrolled_text.add_choices(&mut ag.agdisplay, &choices);
@@ -91,9 +87,14 @@ impl Screen for StoryScreen {
         if ag.aginput.consume_sw() {
             println!("Button pressed");
 
+            if !self.scrolled_text.is_at_end(&mut ag.agdisplay) {
+                self.scrolled_text.goto_end(&mut ag.agdisplay);
+                return Ok(());
+            }
+
             match self.state {
                 StoryScreenState::Choices => {
-                    ag.agink.choose(self.selected_choice as usize)?;
+                    ag.agink.choose(self.scrolled_text.get_selected_choice())?;
                     self.scrolled_text.clear_choices(&mut ag.agdisplay);
                 }
                 StoryScreenState::ScrollLock => {
@@ -112,24 +113,17 @@ impl Screen for StoryScreen {
 
         match ag.aginput.consume_rotary() {
             hardware::aginput::Direction::Left => {
-                println!("Left");
+                println!("Down");
 
-                if self.state == StoryScreenState::Choices {
-                    self.selected_choice =
-                        (self.selected_choice + 1) % ag.agink.get_num_choices() as u8;
-                    self.scrolled_text
-                        .select_choice(&mut ag.agdisplay, self.selected_choice as usize);
+                if self.state != StoryScreenState::Text {
+                    self.scrolled_text.down(&mut ag.agdisplay);
                 }
             }
             hardware::aginput::Direction::Right => {
-                println!("Right");
+                println!("Up");
 
-                if self.state == StoryScreenState::Choices {
-                    self.selected_choice =
-                        (self.selected_choice + ag.agink.get_num_choices() as u8 - 1)
-                            % ag.agink.get_num_choices() as u8;
-                    self.scrolled_text
-                        .select_choice(&mut ag.agdisplay, self.selected_choice as usize);
+                if self.state != StoryScreenState::Text {
+                    self.scrolled_text.up(&mut ag.agdisplay);
                 }
             }
             hardware::aginput::Direction::None => {}
