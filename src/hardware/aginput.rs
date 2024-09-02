@@ -11,7 +11,10 @@ use std::sync::atomic::{AtomicBool, AtomicI8, Ordering};
 
 use crate::hardware::peripherals_cfg::{PinA, PinB, PinSw};
 
+use super::peripherals_cfg::Btn1;
+
 static BUTTON_PRESSED: AtomicBool = AtomicBool::new(false);
+static BUTTON1_PRESSED: AtomicBool = AtomicBool::new(false);
 const ROT_ENC_TABLE: [u8; 16] = [0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0];
 static mut PREV_NEXT_CODE: u8 = 0;
 static mut STORE: u16 = 0;
@@ -27,6 +30,7 @@ pub enum Direction {
 
 pub struct AGInput<'d> {
     enc_sw: PinDriver<'d, PinSw, Input>,
+    btn1: PinDriver<'d, Btn1, Input>,
     _timer: TimerDriver<'d>,
 }
 
@@ -35,8 +39,21 @@ impl<'d> AGInput<'d> {
         pin_sw: PinSw,
         pin_a: PinA,
         pin_b: PinB,
+        pin_btn1: Btn1,
         timer: impl Peripheral<P = TIMER> + 'd,
     ) -> Result<Self, EspError> {
+        let mut btn1 = PinDriver::input(pin_btn1)?;
+        btn1.set_pull(Pull::Up)?;
+
+        btn1.set_interrupt_type(InterruptType::PosEdge)?;
+        unsafe {
+            btn1.subscribe(|| {
+                BUTTON1_PRESSED.store(true, Ordering::Relaxed);
+            })
+        }?;
+
+        btn1.enable_interrupt()?;
+
         let mut enc_sw = PinDriver::input(pin_sw)?;
         enc_sw.set_pull(Pull::Up)?;
 
@@ -84,6 +101,7 @@ impl<'d> AGInput<'d> {
 
         Ok(AGInput {
             enc_sw,
+            btn1,
             _timer: timer,
         })
     }
@@ -122,6 +140,17 @@ impl<'d> AGInput<'d> {
         if pressed {
             BUTTON_PRESSED.store(false, Ordering::Relaxed);
             self.enc_sw.enable_interrupt().unwrap();
+        }
+
+        pressed
+    }
+
+    pub fn consume_btn1(&mut self) -> bool {
+        let pressed = BUTTON1_PRESSED.load(Ordering::Relaxed);
+
+        if pressed {
+            BUTTON1_PRESSED.store(false, Ordering::Relaxed);
+            self.btn1.enable_interrupt().unwrap();
         }
 
         pressed

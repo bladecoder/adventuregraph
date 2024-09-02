@@ -85,7 +85,7 @@ impl Screen for StoryScreen {
         }
 
         if ag.aginput.consume_sw() {
-            println!("Button pressed");
+            println!("Rotary Button pressed");
 
             if !self.scrolled_text.is_at_end(&mut ag.agdisplay) {
                 self.scrolled_text.goto_end(&mut ag.agdisplay);
@@ -128,6 +128,13 @@ impl Screen for StoryScreen {
             }
             hardware::aginput::Direction::None => {}
         }
+
+        if ag.aginput.consume_btn1() {
+            println!("Button1 pressed");
+
+            ag.agaudio.play_ok();
+        }
+
         Ok(())
     }
 }

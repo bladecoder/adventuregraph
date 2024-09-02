@@ -11,6 +11,7 @@ use esp_idf_svc::hal::spi;
 
 use mipidsi::models::ST7789;
 use mipidsi::options::Orientation;
+use mipidsi::options::Rotation;
 use mipidsi::Builder;
 use mipidsi::Display;
 
@@ -59,7 +60,7 @@ impl<'d> AGDisplay<'d> {
         let display = Builder::new(ST7789, di)
             .reset_pin(gpio::PinDriver::output(rst)?)
             .display_size(W, H)
-            //.orientation(Orientation::new().rotate(rotation))
+            .orientation(Orientation::new().rotate(Rotation::Deg180))
             .init(&mut delay::Ets)
             .unwrap();
 
