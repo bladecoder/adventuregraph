@@ -44,7 +44,7 @@ impl<'d> AGAudio<'d> {
         unsafe {
             ledc_set_freq(
                 ledc_mode_t_LEDC_LOW_SPEED_MODE,
-                self.channel.timer().into(),
+                self.channel.timer(),
                 frequency,
             );
         }

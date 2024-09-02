@@ -1,3 +1,5 @@
+use std::char;
+
 use embedded_graphics::{
     mono_font::{MonoTextStyle, MonoTextStyleBuilder},
     pixelcolor::{Rgb565, RgbColor},
@@ -7,6 +9,7 @@ use embedded_graphics::{
 
 use embedded_graphics::geometry::*;
 use embedded_graphics::prelude::*;
+use mipidsi::options::Rotation;
 
 use crate::hardware::agdisplay::AGDisplay;
 
@@ -276,8 +279,17 @@ impl ScrolledText {
         self.position += nlines;
 
         let h = self.text_style.font.character_size.height as i32;
-        let offset = (h as u16 * self.position as u16)
-            % display.get_display().bounding_box().size.height as u16;
+        let char_rows = self.char_rows(display);
+
+        let orientation = display.get_display().orientation();
+
+        let offset = if orientation.rotation == Rotation::Deg0 {
+            ((self.position % char_rows) * h) as u16
+        } else {
+            display.get_display().bounding_box().size.height as u16
+                - 1
+                - ((self.position % char_rows) * h) as u16
+        };
 
         display
             .get_display()

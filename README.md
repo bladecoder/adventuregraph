@@ -103,7 +103,7 @@ SDA: MOSI
 - Prototipo "Adventuregraph 0"
   - Custom PCB
   - Sin carga
-  - Pantalla grande
+  - **Pantalla grande**
   - Dos botones
   - Buzzer
   - Carcasa.

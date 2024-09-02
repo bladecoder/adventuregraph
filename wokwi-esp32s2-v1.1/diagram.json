@@ -14,17 +14,10 @@
       }
     },
     {
-      "type": "board-ssd1306",
-      "id": "oled1",
-      "top": 108.74,
-      "left": 173.03,
-      "attrs": {}
-    },
-    {
       "type": "wokwi-ky-040",
       "id": "encoder1",
-      "top": 174.5,
-      "left": -313.6,
+      "top": 529.7,
+      "left": 66.4,
       "attrs": {}
     },
     {
@@ -37,21 +30,23 @@
       }
     },
     {
-      "type": "wokwi-pushbutton",
-      "id": "btn1",
-      "top": 303.8,
-      "left": -355.2,
+      "type": "wokwi-ili9341",
+      "id": "lcd1",
+      "top": 324.2,
+      "left": -252.5,
+      "rotate": 180,
       "attrs": {
-        "color": "green"
+        "flipHorizontal": "1"
       }
     },
     {
-      "type": "wokwi-ili9341",
-      "id": "lcd1",
-      "top": -231.2,
-      "left": -240.3,
+      "type": "wokwi-pushbutton",
+      "id": "btn1",
+      "top": 335.9,
+      "left": 99.5,
+      "rotate": 90,
       "attrs": {
-        "flipHorizontal": "true"
+        "color": "green"
       }
     }
   ],
@@ -69,52 +64,19 @@
       []
     ],
     [
-      "esp:35",
-      "oled1:SCL",
+      "encoder1:CLK",
+      "esp:25",
       "green",
       [
-        "h66.97",
-        "v-118.45",
-        "h66.9"
+        "h0"
       ]
     ],
     [
-      "esp:33",
-      "oled1:SDA",
+      "encoder1:SW",
+      "esp:27",
       "green",
       [
-        "h18.97",
-        "v-147.25",
-        "h124.73"
-      ]
-    ],
-    [
-      "bz1:2",
-      "esp:18",
-      "green",
-      [
-        "v0"
-      ]
-    ],
-    [
-      "oled1:VCC",
-      "esp:3V3",
-      "red",
-      [
-        "v-76.8",
-        "h-230.25",
-        "v32.05"
-      ]
-    ],
-    [
-      "oled1:GND",
-      "esp:GND.1",
-      "black",
-      [
-        "v-28.8",
-        "h-67.2",
-        "v201.6",
-        "h-134.17"
+        "h0"
       ]
     ],
     [
@@ -131,9 +93,8 @@
       "esp:GND.1",
       "black",
       [
-        "v68",
-        "h220.8",
-        "v-86.4"
+        "v58.4",
+        "h-172.57"
       ]
     ],
     [
@@ -143,35 +104,6 @@
       [
         "h76.8",
         "v-92.35"
-      ]
-    ],
-    [
-      "esp:12",
-      "encoder1:SW",
-      "green",
-      [
-        "v-3.25",
-        "h-86.63",
-        "v-48.1"
-      ]
-    ],
-    [
-      "esp:11",
-      "encoder1:DT",
-      "green",
-      [
-        "h-67.43",
-        "v-41.75"
-      ]
-    ],
-    [
-      "btn1:2.r",
-      "esp:GND.1",
-      "black",
-      [
-        "h29",
-        "v0.2",
-        "h269.03"
       ]
     ],
     [
@@ -193,76 +125,105 @@
       ]
     ],
     [
-      "esp:5",
-      "lcd1:CS",
-      "orange",
-      [
-        "h0"
-      ]
-    ],
-    [
-      "esp:8",
-      "lcd1:RST",
-      "gold",
-      [
-        "h0"
-      ]
-    ],
-    [
-      "esp:4",
-      "lcd1:D/C",
-      "green",
-      [
-        "h0"
-      ]
-    ],
-    [
-      "esp:6",
-      "lcd1:SCK",
-      "violet",
-      [
-        "h0"
-      ]
-    ],
-    [
-      "esp:10",
       "encoder1:CLK",
+      "esp:38",
       "green",
       [
-        "h0"
+        "h48",
+        "v230.4"
       ]
     ],
     [
-      "esp:9",
-      "lcd1:LED",
-      "gray",
-      [
-        "h0"
-      ]
-    ],
-    [
-      "esp:7",
-      "lcd1:MOSI",
-      "blue",
-      [
-        "h0"
-      ]
-    ],
-    [
-      "btn1:1.r",
-      "esp:13",
+      "encoder1:DT",
+      "esp:40",
       "green",
       [
-        "h269",
-        "v-102.35"
+        "h38.4",
+        "v211.3"
+      ]
+    ],
+    [
+      "encoder1:SW",
+      "esp:36",
+      "magenta",
+      [
+        "h19.2",
+        "v240.1"
       ]
     ],
     [
       "esp:3",
-      "lcd1:MISO",
-      "white",
+      "lcd1:CS",
+      "green",
       [
         "h0"
+      ]
+    ],
+    [
+      "esp:5",
+      "lcd1:RST",
+      "green",
+      [
+        "h0"
+      ]
+    ],
+    [
+      "lcd1:D/C",
+      "esp:7",
+      "green",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "lcd1:MOSI",
+      "esp:9",
+      "green",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "lcd1:SCK",
+      "esp:11",
+      "green",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "lcd1:LED",
+      "esp:12",
+      "green",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "esp:37",
+      "btn1:1.l",
+      "purple",
+      [
+        "h0"
+      ]
+    ],
+    [
+      "btn1:2.l",
+      "esp:GND.1",
+      "black",
+      [
+        "v-38.4",
+        "h-115.4"
+      ]
+    ],
+    [
+      "bz1:2",
+      "esp:1",
+      "green",
+      [
+        "v38.4",
+        "h-154",
+        "v48"
       ]
     ]
   ],
