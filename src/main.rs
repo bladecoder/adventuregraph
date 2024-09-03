@@ -40,11 +40,12 @@ fn test_rotary_encoder(
     agdisplay: &mut hardware::agdisplay::AGDisplay,
 ) {
     loop {
-        if aginput.consume_sw() {
+        let inputs = aginput.get_inputs();
+        if inputs.encsw {
             println!("Button pressed");
         }
 
-        match aginput.consume_rotary() {
+        match inputs.rotary {
             hardware::aginput::Direction::Left => {
                 println!("Left");
             }

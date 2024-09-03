@@ -23,6 +23,7 @@ default = [
 
 pcbv1 = []
 display-st7735 = []
+software-scroll = []
 
 pio = ["esp-idf-svc/pio"]
 std = ["alloc", "esp-idf-svc/binstart", "esp-idf-svc/std"]
