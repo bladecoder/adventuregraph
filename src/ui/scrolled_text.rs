@@ -1,15 +1,12 @@
-use std::char;
-
 use embedded_graphics::{
     mono_font::{MonoTextStyle, MonoTextStyleBuilder},
-    pixelcolor::{Rgb565, RgbColor},
+    pixelcolor::Rgb565,
     primitives::Rectangle,
     text::{Baseline, Text},
 };
 
 use embedded_graphics::geometry::*;
 use embedded_graphics::prelude::*;
-use mipidsi::options::Rotation;
 
 use crate::hardware::agdisplay::AGDisplay;
 
@@ -241,7 +238,6 @@ impl ScrolledText {
 
         // fill the rest of the line with black
         let h = self.text_style.font.character_size.height as i32;
-        let y = self.get_pos_y(display, row);
         let start_x = (line.text.len() as i32 + start_col) * cw;
         let area = Rectangle::new(
             Point::new(start_x, y),
@@ -255,25 +251,27 @@ impl ScrolledText {
     }
 
     /// SOFTWARE SCROLLING
-    pub fn scroll_sw(&mut self, display: &mut AGDisplay<'_>, nlines: i32) {
+    #[cfg(feature = "software-scroll")]
+    pub fn scroll(&mut self, display: &mut AGDisplay<'_>, nlines: i32) {
         // println!("scrolling...");
         self.position += nlines;
 
         // enumerate vector elements from the position to the screen height
-        let nlines = self.char_rows(display) as usize;
         for (i, line) in self
             .lines
             .iter()
             .enumerate()
             .skip(self.position as usize)
-            .take(nlines)
+            .take(self.char_rows(display) as usize)
         {
             let row = i as i32 - self.position;
+            println!("row: {}", row);
             self.print_row(display, line, row);
         }
     }
 
     /// HARDWARE SCROLLING
+    #[cfg(not(feature = "software-scroll"))]
     pub fn scroll(&mut self, display: &mut AGDisplay<'_>, nlines: i32) {
         // println!("scrolling...");
         self.position += nlines;
@@ -315,6 +313,14 @@ impl ScrolledText {
         }
     }
 
+    #[cfg(feature = "software-scroll")]
+    fn get_pos_y(&self, _display: &mut AGDisplay<'_>, row: i32) -> i32 {
+        let h = self.text_style.font.character_size.height as i32;
+
+        row * h
+    }
+
+    #[cfg(not(feature = "software-scroll"))]
     fn get_pos_y(&self, display: &mut AGDisplay<'_>, row: i32) -> i32 {
         let h = self.text_style.font.character_size.height as i32;
         let max_display_rows = self.char_rows(display);
@@ -322,7 +328,6 @@ impl ScrolledText {
 
         row_with_scroll * h
     }
-
     fn char_rows(&self, display: &mut AGDisplay<'_>) -> i32 {
         let h = self.text_style.font.character_size.height as i32;
         display.get_display().bounding_box().size.height as i32 / h
@@ -440,7 +445,8 @@ impl ScrolledText {
         }
     }
 
-    pub fn clear_rows_old(&self, display: &mut AGDisplay<'_>, row: i32, num_rows: i32) {
+    #[cfg(feature = "software-scroll")]
+    pub fn clear_rows(&self, display: &mut AGDisplay<'_>, row: i32, num_rows: i32) {
         let y = self.get_pos_y(display, row);
         let h = self.text_style.font.character_size.height as i32;
 
@@ -455,6 +461,7 @@ impl ScrolledText {
         display.get_display().fill_solid(&area, BG_COLOR).unwrap();
     }
 
+    #[cfg(not(feature = "software-scroll"))]
     pub fn clear_rows(&self, display: &mut AGDisplay<'_>, row: i32, num_rows: i32) {
         let h = self.text_style.font.character_size.height as i32;
 

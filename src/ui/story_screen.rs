@@ -84,7 +84,9 @@ impl Screen for StoryScreen {
             self.scrolled_text.add_choices(&mut ag.agdisplay, &choice);
         }
 
-        if ag.aginput.consume_sw() {
+        let inputs = ag.aginput.get_inputs();
+
+        if inputs.encsw {
             println!("Rotary Button pressed");
 
             if !self.scrolled_text.is_at_end(&mut ag.agdisplay) {
@@ -111,7 +113,7 @@ impl Screen for StoryScreen {
             self.state = StoryScreenState::Text;
         }
 
-        match ag.aginput.consume_rotary() {
+        match inputs.rotary {
             hardware::aginput::Direction::Left => {
                 println!("Down");
 
@@ -129,7 +131,7 @@ impl Screen for StoryScreen {
             hardware::aginput::Direction::None => {}
         }
 
-        if ag.aginput.consume_btn1() {
+        if inputs.btn1 {
             println!("Button1 pressed");
 
             ag.agaudio.play_ok();
