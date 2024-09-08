@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   width="47.523mm"
-   height="103.276mm"
-   viewBox="4032.5 2967.5 187.1 406.6"
+   width="52.253784mm"
+   height="90.253632mm"
+   viewBox="4067.5 3039 205.72283 355.33001"
    version="1.1"
-   id="svg78"
+   id="svg80"
    sodipodi:docname="adventuregraph_1.2_PCB.svg"
    inkscape:version="1.3.2 (091e20e, 2023-11-25)"
    inkscape:export-filename="adventuregraph_1.2_PCB.png"
@@ -15,26 +15,27 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
   <defs
-     id="defs78" />
+     id="defs80" />
   <sodipodi:namedview
-     id="namedview78"
-     pagecolor="#505050"
-     bordercolor="#eeeeee"
-     borderopacity="1"
-     inkscape:showpageshadow="0"
-     inkscape:pageopacity="0"
+     id="namedview80"
+     pagecolor="#ffffff"
+     bordercolor="#717171"
+     borderopacity="0.24705882"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
-     inkscape:zoom="2.4184386"
-     inkscape:cx="67.605603"
-     inkscape:cy="179.86812"
-     inkscape:window-width="1856"
-     inkscape:window-height="1027"
-     inkscape:window-x="1920"
-     inkscape:window-y="25"
-     inkscape:window-maximized="0"
-     inkscape:current-layer="svg78" />
+     showgrid="false"
+     inkscape:zoom="2.2486467"
+     inkscape:cx="88.720029"
+     inkscape:cy="158.76216"
+     inkscape:window-width="1854"
+     inkscape:window-height="1011"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg80" />
   <title
      id="title1" />
   <style
@@ -116,2611 +117,1721 @@ g[c_partid=&quot;part_hole&quot;] &gt; circle {fill: #000000;}path, polyline, po
 rect, circle, ellipse, polyline, line, polygon, path {shape-rendering:crispEdges;}
 </style>
   <rect
-     x="4032.5"
-     y="2967.5"
-     width="187.10001"
-     height="406.60001"
+     x="-4282.7236"
+     y="3029.5"
+     width="224.7"
+     height="374.29999"
      fill="#000000"
      stroke="none"
      id="rect1"
-     transform="matrix(-1,0,0,1,8252.1,0)" />
+     transform="scale(-1,1)" />
   <polyline
-     points="4148 3223 4148.88 3223 4157 3228.5 4156.5 3260.86 4097.7 3319.66"
-     stroke-width="3.1496"
+     points="4215 3102.626 4215 3115.5 4215 3116.5"
+     stroke-width="4.7244"
      stroke-linecap="round"
      fill="none"
      layerid="2"
-     net="ESP32S2_25"
-     id="gge8670"
+     net="Q1_3"
+     id="gge9878"
      locked="0"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1" />
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
   <polyline
-     points="4138 3223 4138 3221.83 4144.83 3215.01 4150.97 3215.01 4167 3215 4166.5 3283.5 4110.5 3339.5 4097.7 3339.35"
-     stroke-width="3.1496"
+     points="4246.98 3111.5 4215 3110.7593 4215 3102.63"
+     stroke-width="4.7244"
      stroke-linecap="round"
      fill="none"
      layerid="2"
-     net="ESP32S2_26"
-     id="gge8667"
+     net="Q1_3"
+     id="gge9481"
      locked="0"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:none;fill-opacity:1" />
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
   <polyline
-     points="4128 3223 4128 3222.18 4133.5 3204 4178.5 3205 4178.5 3295.95 4154.78 3319.66"
-     stroke-width="3.937"
-     stroke-linecap="round"
-     fill="none"
-     layerid="2"
-     net="ESP32S2_27"
-     id="gge8664"
-     locked="0"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:none;fill-opacity:1" />
-  <polyline
-     points="4089 3330 4089 3343 4093.5 3347.5 4116.57 3346.35 4124.5 3340 4154.78 3339.35"
-     stroke-width="3.937"
-     stroke-linecap="round"
-     fill="none"
-     layerid="2"
-     net="GND"
-     id="gge8610"
-     locked="0"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:none;fill-opacity:1" />
-  <polyline
-     points="4124.48 3052.001 4124.48 3052.001 4082 3053.626"
-     stroke-width="5.9055"
+     points="4205 3116.5 4204.49 3129.67 4214.52 3140.5 4229 3140.5"
+     stroke-width="4.7244"
      stroke-linecap="round"
      fill="none"
      layerid="2"
      net="U1_1"
-     id="gge8592"
+     id="gge9881"
      locked="0"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:none;fill-opacity:1;stroke-width:5.90556157;stroke-dasharray:none" />
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
   <polyline
-     points="4199 3074.5 4187 3042.5 4124.519 3042"
+     points="4229.5 3069 4215.626 3069 4215 3068.374"
      stroke-width="4.7244"
-     stroke-linecap="round"
-     fill="none"
-     layerid="2"
-     net="VOUT"
-     id="gge9144"
-     locked="0"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1" />
-  <polyline
-     points="4124.519 3042 4109 3042 4109 3008 4108.5 3007.5"
-     stroke-width="4.7244"
-     stroke-linecap="round"
-     fill="none"
-     layerid="2"
-     net="VOUT"
-     id="gge9147"
-     locked="0"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1" />
-  <polyline
-     points="4145 3080.5 4145 3074.5"
-     stroke-width="5.9055"
-     stroke-linecap="round"
-     fill="none"
-     layerid="2"
-     net="GND"
-     id="gge8604"
-     locked="0"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1" />
-  <polyline
-     points="4176.7857 3152.3557 4177 3125.5 4177 3119.5 4145 3091.91 4145 3080.5"
-     stroke-width="4.7244"
-     stroke-linecap="round"
-     fill="none"
-     layerid="2"
-     net="GND"
-     id="gge8607"
-     locked="0"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:none;fill-opacity:1" />
-  <polyline
-     points="4145 3080.5 4139.5 3086 4080.5 3086"
-     stroke-width="4.7244"
-     stroke-linecap="round"
-     fill="none"
-     layerid="2"
-     net="GND"
-     id="gge8601"
-     locked="0"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1" />
-  <polyline
-     points="4090.424 3329.504 4097.697 3329.504"
-     stroke-width="3.937"
-     stroke-linecap="round"
-     fill="none"
-     layerid="2"
-     net="GND"
-     id="gge8616"
-     locked="0"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1" />
-  <polyline
-     points="4124.52 3032 4124.52 2991.2151 4123.52 2990.2151"
-     stroke-width="3.937"
      stroke-linecap="round"
      fill="none"
      layerid="2"
      net="TP4056_1"
-     id="gge8640"
+     id="gge9496"
      locked="0"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1" />
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
   <polyline
-     points="4123.52 2990.22 4115.8 2982.5 4092 2982.5 4082 2992.5 4082 3019.37"
-     stroke-width="3.937"
+     points="4247.02 3091.5 4242.2151 3081.7151 4229.5 3069"
+     stroke-width="4.7244"
      stroke-linecap="round"
      fill="none"
      layerid="2"
      net="TP4056_1"
-     id="gge8643"
+     id="gge9490"
      locked="0"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1" />
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
   <polyline
-     points="4080.5 3086 4070 3083 4070.5 3037 4094 3031 4094 3008"
+     points="4141.5 3302 4190.5 3301.5"
+     stroke-width="4.7244"
+     stroke-linecap="round"
+     fill="none"
+     layerid="2"
+     net="GND"
+     id="gge9385"
+     locked="0"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <polyline
+     points="4130 3370 4151.1968 3368.0039"
      stroke-width="3.937"
      stroke-linecap="round"
      fill="none"
      layerid="2"
      net="GND"
-     id="gge8598"
+     id="gge9304"
      locked="0"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:none;fill-opacity:1" />
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
   <polyline
-     points="4080.5 3096 4078 3110.761 4078 3110.761"
-     stroke-width="4.7244"
-     stroke-linecap="round"
-     fill="none"
-     layerid="2"
-     net="3.3V"
-     id="gge8700"
-     locked="0"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1" />
-  <polyline
-     points="4078 3110.761 4078 3143"
-     stroke-width="4.7244"
-     stroke-linecap="round"
-     fill="none"
-     layerid="2"
-     net="3.3V"
-     id="gge8697"
-     locked="0"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1" />
-  <polyline
-     points="4078 3110.761 4152 3111.5 4159.5 3123"
-     stroke-width="4.7244"
-     stroke-linecap="round"
-     fill="none"
-     layerid="2"
-     net="3.3V"
-     id="gge8703"
-     locked="0"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1" />
-  <polyline
-     points="4094 3008 4099 2999.5 4102.5 2991.5"
+     points="4141.5 3271.5 4141.5 3299.0759 4141.5 3302.3"
      stroke-width="3.937"
      stroke-linecap="round"
      fill="none"
      layerid="2"
      net="GND"
-     id="gge8899"
+     id="gge9379"
      locked="0"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1" />
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
   <polyline
-     points="4058 3069.5 4057.5 3069 4057.5 3008"
-     stroke-width="5.9055"
+     points="4084.5 3067 4092.02 3059.48 4206.106 3059.48 4215 3068.374"
+     stroke-width="4.7244"
+     stroke-linecap="round"
+     fill="none"
+     layerid="2"
+     net="TP4056_1"
+     id="gge9493"
+     locked="0"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <polyline
+     points="4091 3140 4150 3078.5 4174.5 3067"
+     stroke-width="4.7244"
      stroke-linecap="round"
      fill="none"
      layerid="2"
      net="VOUT"
-     id="gge9060"
+     id="gge9526"
      locked="0"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1" />
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
   <polyline
-     points="4080.5 3076 4080.5 3076 4082 3053.626"
-     stroke-width="5.9055"
-     stroke-linecap="round"
-     fill="none"
-     layerid="2"
-     net="U1_1"
-     id="gge8595"
-     locked="0"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:none;fill-opacity:1" />
-  <polyline
-     points="4154.5 3135 4192.461 3168.031 4192.461 3190"
+     points="4229.5 3150.5 4269 3150.18"
      stroke-width="3.937"
      stroke-linecap="round"
      fill="none"
      layerid="2"
      net="GND"
-     id="gge8619"
+     id="gge9769"
      locked="0"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1" />
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
   <polyline
-     points="4138 3143 4138 3124.5 4138.5 3123"
+     points="4174.5 3067 4195 3072.5 4230.894 3101.5 4247.019 3101.5"
      stroke-width="3.937"
      stroke-linecap="round"
      fill="none"
      layerid="2"
-     net="ESP32S2_2"
-     id="gge8688"
+     net="VOUT"
+     id="gge9529"
      locked="0"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1" />
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
   <polyline
-     points="4128 3143 4128 3124.5 4128.5 3123"
-     stroke-width="3.937"
+     points="4229 3160.5 4212 3161.5 4205.5 3150"
+     stroke-width="4.7244"
      stroke-linecap="round"
      fill="none"
      layerid="2"
-     net="ESP32S2_3"
-     id="gge8685"
+     net="3.3V"
+     id="gge9760"
      locked="0"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1" />
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
   <polyline
-     points="4118 3143 4118 3124.5 4118.5 3123"
-     stroke-width="3.937"
+     points="4268.5 3128.5 4268.5 3210.4609 4261.9609 3217 4261.96 3217"
+     stroke-width="4.7244"
      stroke-linecap="round"
      fill="none"
      layerid="2"
-     net="ESP32S2_4"
-     id="gge8682"
+     net="GND"
+     id="gge9778"
      locked="0"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1" />
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
   <polyline
-     points="4108 3143 4108 3124.5 4109.5 3123"
-     stroke-width="3.937"
+     points="4269 3124.5 4268.5 3125 4268.5 3128.5"
+     stroke-width="4.7244"
      stroke-linecap="round"
      fill="none"
      layerid="2"
-     net="ESP32S2_5"
-     id="gge8679"
+     net="GND"
+     id="gge9817"
      locked="0"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1" />
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
   <polyline
-     points="4098 3143 4098 3124.5 4099.5 3123"
-     stroke-width="3.937"
+     points="4269.5 3069 4269 3124"
+     stroke-width="4.7244"
+     stroke-linecap="round"
+     fill="none"
+     layerid="2"
+     net="GND"
+     id="gge9787"
+     locked="0"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <polyline
+     points="4151.5 3181.5 4152 3161.5 4152 3161.5"
+     stroke-width="4.7244"
      stroke-linecap="round"
      fill="none"
      layerid="2"
      net="ESP32S2_6"
-     id="gge8676"
+     id="gge9349"
      locked="0"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1" />
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
   <polyline
-     points="4088 3143 4088 3124.5 4089.5 3123"
-     stroke-width="3.937"
+     points="4141.5 3181.5 4142 3161.5 4142 3161.5"
+     stroke-width="4.7244"
      stroke-linecap="round"
      fill="none"
      layerid="2"
      net="ESP32S2_7"
-     id="gge8673"
+     id="gge9352"
      locked="0"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1" />
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
   <polyline
-     points="4149.5 3123 4149.5 3125.07 4154.5 3135"
-     stroke-width="3.937"
+     points="4161.5 3181.5 4162 3161.5 4162 3161.5"
+     stroke-width="4.7244"
+     stroke-linecap="round"
+     fill="none"
+     layerid="2"
+     net="ESP32S2_5"
+     id="gge9346"
+     locked="0"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <polyline
+     points="4171.5 3181.5 4172 3161.5 4172 3161.5"
+     stroke-width="4.7244"
+     stroke-linecap="round"
+     fill="none"
+     layerid="2"
+     net="ESP32S2_4"
+     id="gge9343"
+     locked="0"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <polyline
+     points="4181.5 3181.5 4182 3161.5 4182 3161.5"
+     stroke-width="4.7244"
+     stroke-linecap="round"
+     fill="none"
+     layerid="2"
+     net="ESP32S2_3"
+     id="gge9340"
+     locked="0"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <polyline
+     points="4191.5 3181.5 4192 3161.5 4192 3161.5"
+     stroke-width="4.7244"
+     stroke-linecap="round"
+     fill="none"
+     layerid="2"
+     net="ESP32S2_2"
+     id="gge9337"
+     locked="0"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <polyline
+     points="4202 3161.5 4202 3161.5 4206 3173.5"
+     stroke-width="4.7244"
      stroke-linecap="round"
      fill="none"
      layerid="2"
      net="GND"
-     id="gge8622"
+     id="gge9355"
      locked="0"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1" />
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
   <polyline
-     points="4062.5 2991.5 4068.5 2999.5 4082 3019.37"
-     stroke-width="3.937"
-     stroke-linecap="round"
-     fill="none"
-     layerid="2"
-     net="TP4056_1"
-     id="gge8649"
-     locked="0"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1" />
-  <polyline
-     points="4058 3109.5 4058 3149.5 4094.5 3186"
+     points="4206 3173.5 4206 3173.5 4235 3190.039 4261.961 3217"
      stroke-width="4.7244"
      stroke-linecap="round"
      fill="none"
      layerid="2"
-     net="VPROBE"
-     id="gge8652"
+     net="GND"
+     id="gge9334"
      locked="0"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1" />
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
   <polyline
-     points="4094.5 3186 4108 3199.5 4108 3223"
-     stroke-width="4.7244"
-     stroke-linecap="round"
-     fill="none"
-     layerid="2"
-     net="VPROBE"
-     id="gge8655"
-     locked="0"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1" />
-  <polyline
-     points="4148 3153 4162.54 3167.54 4162.54 3190"
+     points="4201.5 3191.5 4227 3217 4232.04 3217"
      stroke-width="4.7244"
      stroke-linecap="round"
      fill="none"
      layerid="2"
      net="ESP32S2_17"
-     id="gge8691"
+     id="gge9367"
      locked="0"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1" />
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
   <polyline
-     points="4138 3233 4138 3252 4137 3253"
-     stroke-width="4.7244"
-     stroke-linecap="round"
-     fill="none"
-     layerid="2"
-     net="ESP32S2_10"
-     id="gge8694"
-     locked="0"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1" />
-  <polyline
-     points="4088 3223 4088 3233"
+     points="4208.28 3377.85 4261 3351.5 4261.96 3217"
      stroke-width="4.7244"
      stroke-linecap="round"
      fill="none"
      layerid="2"
      net="GND"
-     id="gge8634"
+     id="gge9388"
      locked="0"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1" />
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
   <polyline
-     points="4054.5 3186 4088 3219.5 4088 3223"
+     points="4131.5 3149.261 4205.5 3150 4212 3161.5"
      stroke-width="4.7244"
      stroke-linecap="round"
      fill="none"
      layerid="2"
-     net="GND"
-     id="gge8637"
-     locked="0"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1" />
-  <polyline
-     points="4088 3233 4088 3260.576 4088 3263.8"
-     stroke-width="3.937"
-     stroke-linecap="round"
-     fill="none"
-     layerid="2"
-     net="GND"
-     id="gge8628"
-     locked="0"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1" />
-  <polyline
-     points="4088 3263.5 4088.9999 3329.004"
-     stroke-width="3.937"
-     stroke-linecap="round"
-     fill="none"
-     layerid="2"
-     net="GND"
-     id="gge8613"
-     locked="0"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1" />
-  <polyline
-     points="4088 3263.5 4137 3263"
-     stroke-width="4.7244"
-     stroke-linecap="round"
-     fill="none"
-     layerid="2"
-     net="GND"
-     id="gge8625"
-     locked="0"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1" />
-  <polyline
-     points="4154.783 3339.347 4192.461 3301.669 4192.461 3190"
-     stroke-width="3.937"
-     stroke-linecap="round"
-     fill="none"
-     layerid="2"
-     net="GND"
-     id="gge8631"
-     locked="0"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:none;fill-opacity:1" />
-  <polyline
-     points="4178.5 3094.5 4187 3086 4187 3074.5"
-     stroke-width="4.7244"
-     stroke-linecap="round"
-     fill="none"
-     layerid="2"
-     net="TP4056_3"
-     id="gge8661"
-     locked="0"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1" />
-  <polyline
-     points="4168.5 3094.5 4157 3083 4157 3074.5"
-     stroke-width="4.7244"
-     stroke-linecap="round"
-     fill="none"
-     layerid="2"
-     net="TP4056_4"
-     id="gge8658"
-     locked="0"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1" />
-  <polyline
-     points="4199 2984.5 4151.5 3032 4124.52 3032"
-     stroke-width="4.7244"
-     stroke-linecap="round"
-     fill="none"
-     layerid="2"
-     net="TP4056_1"
-     id="gge8646"
-     locked="0"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1" />
-  <g
-     c_partid="part_pcbtext"
-     c_etype="pinpart"
-     c_origin="4055,3343"
-     c_rotation="-90"
-     c_mirror="1"
-     id="gge4183"
-     locked="0"
-     layerid="2"
-     c_shapetype="group"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1">
-    <path
-       c_fontsize="8"
-       c_fontfamily=""
-       c_text="ADVENTUREGRAPH v1.2"
-       d="m 4063.0727,3340.0909 -7.6363,2.9091 m 7.6363,-2.9091 -7.6363,-2.9091 m 2.5454,4.7273 v -3.6364 m 5.0909,-3.4909 h -7.6363 m 7.6363,0 v -2.5454 l -0.3636,-1.0909 -0.7273,-0.7273 -0.7273,-0.3637 -1.0909,-0.3636 h -1.8181 l -1.091,0.3636 -0.7272,0.3637 -0.7273,0.7273 -0.3636,1.0909 v 2.5454 m 7.6363,-7.4909 -7.6363,-2.9091 m 7.6363,-2.9091 -7.6363,2.9091 m 7.6363,-5.3091 h -7.6363 m 7.6363,0 v -4.7272 m -3.6363,4.7272 v -2.9091 m -4,2.9091 v -4.7272 m 7.6363,-2.4 h -7.6363 m 7.6363,0 -7.6363,-5.091 m 7.6363,0 h -7.6363 m 7.6363,-4.9454 h -7.6363 m 7.6363,2.5454 v -5.0909 m 0,-2.4 h -5.4545 l -1.0909,-0.3636 -0.7273,-0.7273 -0.3636,-1.0909 v -0.7273 l 0.3636,-1.0909 0.7273,-0.7272 1.0909,-0.3637 h 5.4545 m 0,-2.4 h -7.6363 m 7.6363,0 V 3286.2 l -0.3636,-1.0909 -0.3636,-0.3636 -0.7273,-0.3637 h -0.7273 l -0.7273,0.3637 -0.3636,0.3636 -0.3636,1.0909 v 3.2727 m 0,-2.5454 -4,-2.5455 m 7.6363,-2.4 h -7.6363 m 7.6363,0 v -4.7273 m -3.6363,4.7273 v -2.9091 m -4,2.9091 v -4.7273 m 5.8181,-7.8545 0.7273,0.3636 0.7273,0.7273 0.3636,0.7273 v 1.4545 l -0.3636,0.7273 -0.7273,0.7273 -0.7273,0.3636 -1.0909,0.3636 h -1.8181 l -1.091,-0.3636 -0.7272,-0.3636 -0.7273,-0.7273 -0.3636,-0.7273 v -1.4545 l 0.3636,-0.7273 0.7273,-0.7273 0.7272,-0.3636 h 1.091 m 0,1.8182 V 3269.4 m 4.7272,-2.4 h -7.6363 m 7.6363,0 v -3.2727 l -0.3636,-1.0909 -0.3636,-0.3637 -0.7273,-0.3636 h -0.7273 l -0.7273,0.3636 -0.3636,0.3637 -0.3636,1.0909 V 3267 m 0,-2.5455 -4,-2.5454 m 7.6363,-5.3091 -7.6363,2.9091 m 7.6363,-2.9091 -7.6363,-2.9091 m 2.5454,4.7273 v -3.6364 m 5.0909,-3.4909 h -7.6363 m 7.6363,0 v -3.2727 l -0.3636,-1.0909 -0.3636,-0.3637 -0.7273,-0.3636 h -1.0909 l -0.7273,0.3636 -0.3636,0.3637 -0.3637,1.0909 v 3.2727 m 4,-7.4909 h -7.6363 m 7.6363,-5.0909 h -7.6363 m 4,5.0909 v -5.0909 m 1.0909,-8 -5.0909,-2.1818 m 5.0909,-2.1818 -5.0909,2.1818 m 6.1818,-4.5818 0.3636,-0.7273 1.0909,-1.0909 h -7.6363 m 1.8181,-2.7637 -0.3636,0.3637 -0.3636,-0.3637 0.3636,-0.3636 0.3636,0.3636 m 4,-3.1272 h 0.3637 l 0.7273,-0.3637 0.3636,-0.3636 0.3636,-0.7273 v -1.4545 l -0.3636,-0.7273 -0.3636,-0.3636 -0.7273,-0.3637 h -0.7273 l -0.7273,0.3637 -1.0909,0.7272 -3.6363,3.6364 v -5.0909"
-       fill="none"
-       stroke-width="1.5748"
-       id="path1"
-       style="fill:#000000;fill-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4137.5,3263"
-     layerid="11"
-     number="1"
-     net="GND"
-     plated="Y"
-     id="gge4271"
-     locked="0"
-     c_rotation="90"
-     c_width="6.6929"
-     c_height="6.6929"
-     title="GND"
-     c_shape="ELLIPSE"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;opacity:1;vector-effect:none;stroke:none;stroke-width:3.1496;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1">
-    <circle
-       c_etype="pad_shell"
-       cx="4137.5"
-       cy="3263"
-       layerid="11"
-       stroke-width="0"
-       id="ellipse1"
-       r="3.3464501"
-       style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;vector-effect:none;stroke:none;stroke-width:3.1496;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1" />
-    <polyline
-       c_etype="pad_hole"
-       points="4137.5 3263.01 4137.5 3262.99"
-       layerid="11"
-       stroke-width="3.937"
-       id="polyline1"
-       style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;vector-effect:none;stroke:none;stroke-width:3.1496;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4137.5,3253"
-     layerid="11"
-     number="3"
-     net="ESP32S2_10"
-     plated="Y"
-     id="gge4286"
-     locked="0"
-     c_rotation="90"
-     c_width="6.6929"
-     c_height="6.6929"
-     title="ESP32S2_10"
-     c_shape="ELLIPSE"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;opacity:1;vector-effect:none;stroke:none;stroke-width:3.1496;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1">
-    <circle
-       c_etype="pad_shell"
-       cx="4137.5"
-       cy="3253"
-       layerid="11"
-       stroke-width="0"
-       id="ellipse2"
-       r="3.3464501"
-       style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;vector-effect:none;stroke:none;stroke-width:3.1496;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1" />
-    <polyline
-       c_etype="pad_hole"
-       points="4137.5 3253.01 4137.5 3252.99"
-       layerid="11"
-       stroke-width="3.937"
-       id="polyline2"
-       style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;vector-effect:none;stroke:none;stroke-width:3.1496;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4162.54,3190"
-     layerid="11"
-     number="1"
-     net="ESP32S2_17"
-     plated="Y"
-     id="gge1248"
-     locked="0"
-     c_rotation="0"
-     c_width="7.874"
-     c_height="7.874"
-     title="ESP32S2_17"
-     c_shape="ELLIPSE"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;opacity:1;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1">
-    <circle
-       c_etype="pad_shell"
-       cx="4162.54"
-       cy="3190"
-       layerid="11"
-       stroke-width="0"
-       id="ellipse4"
-       r="3.937"
-       style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4158.5,3123"
-     layerid="11"
-     number="1"
      net="3.3V"
-     plated="Y"
-     id="gge1317"
+     id="gge9322"
      locked="0"
-     c_rotation="180"
-     c_width="5.9055"
-     c_height="5.9055"
-     title="3.3V"
-     c_shape="RECT"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;opacity:1;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1">
-    <polygon
-       c_etype="pad_shell"
-       points="4155.5472,3125.9528 4155.5472,3120.0472 4161.4527,3120.0472 4161.4527,3125.9528 "
-       layerid="11"
-       stroke-width="0"
-       id="polygon4"
-       style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4148.5,3123"
-     layerid="11"
-     number="2"
-     net="GND"
-     plated="Y"
-     id="gge1332"
-     locked="0"
-     c_rotation="180"
-     c_width="5.9055"
-     c_height="5.9055"
-     title="GND"
-     c_shape="ELLIPSE"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;opacity:1;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1">
-    <circle
-       c_etype="pad_shell"
-       cx="4148.5"
-       cy="3123"
-       layerid="11"
-       stroke-width="0"
-       id="ellipse5"
-       r="2.95275"
-       style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4138.5,3123"
-     layerid="11"
-     number="3"
-     net="ESP32S2_2"
-     plated="Y"
-     id="gge1347"
-     locked="0"
-     c_rotation="180"
-     c_width="5.9055"
-     c_height="5.9055"
-     title="ESP32S2_2"
-     c_shape="ELLIPSE"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;opacity:1;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1">
-    <circle
-       c_etype="pad_shell"
-       cx="4138.5"
-       cy="3123"
-       layerid="11"
-       stroke-width="0"
-       id="ellipse6"
-       r="2.95275"
-       style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4128.5,3123"
-     layerid="11"
-     number="4"
-     net="ESP32S2_3"
-     plated="Y"
-     id="gge1362"
-     locked="0"
-     c_rotation="180"
-     c_width="5.9055"
-     c_height="5.9055"
-     title="ESP32S2_3"
-     c_shape="ELLIPSE"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;opacity:1;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1">
-    <circle
-       c_etype="pad_shell"
-       cx="4128.5"
-       cy="3123"
-       layerid="11"
-       stroke-width="0"
-       id="ellipse7"
-       r="2.95275"
-       style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4118.5,3123"
-     layerid="11"
-     number="5"
-     net="ESP32S2_4"
-     plated="Y"
-     id="gge1377"
-     locked="0"
-     c_rotation="180"
-     c_width="5.9055"
-     c_height="5.9055"
-     title="ESP32S2_4"
-     c_shape="ELLIPSE"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;opacity:1;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1">
-    <circle
-       c_etype="pad_shell"
-       cx="4118.5"
-       cy="3123"
-       layerid="11"
-       stroke-width="0"
-       id="ellipse8"
-       r="2.95275"
-       style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4108.5,3123"
-     layerid="11"
-     number="6"
-     net="ESP32S2_5"
-     plated="Y"
-     id="gge1392"
-     locked="0"
-     c_rotation="180"
-     c_width="5.9055"
-     c_height="5.9055"
-     title="ESP32S2_5"
-     c_shape="ELLIPSE"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;opacity:1;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1">
-    <circle
-       c_etype="pad_shell"
-       cx="4108.5"
-       cy="3123"
-       layerid="11"
-       stroke-width="0"
-       id="ellipse9"
-       r="2.95275"
-       style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4098.5,3123"
-     layerid="11"
-     number="7"
-     net="ESP32S2_6"
-     plated="Y"
-     id="gge1407"
-     locked="0"
-     c_rotation="180"
-     c_width="5.9055"
-     c_height="5.9055"
-     title="ESP32S2_6"
-     c_shape="ELLIPSE"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;opacity:1;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1">
-    <circle
-       c_etype="pad_shell"
-       cx="4098.5"
-       cy="3123"
-       layerid="11"
-       stroke-width="0"
-       id="ellipse10"
-       r="2.95275"
-       style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4088.5,3123"
-     layerid="11"
-     number="8"
-     net="ESP32S2_7"
-     plated="Y"
-     id="gge1422"
-     locked="0"
-     c_rotation="180"
-     c_width="5.9055"
-     c_height="5.9055"
-     title="ESP32S2_7"
-     c_shape="ELLIPSE"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;opacity:1;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1">
-    <circle
-       c_etype="pad_shell"
-       cx="4088.5"
-       cy="3123"
-       layerid="11"
-       stroke-width="0"
-       id="ellipse11"
-       r="2.95275"
-       style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4097.697,3319.662"
-     layerid="11"
-     number="A"
-     net="ESP32S2_25"
-     plated="Y"
-     id="gge1515"
-     locked="0"
-     c_rotation="270"
-     c_width="6.2992"
-     c_height="6.2992"
-     title="ESP32S2_25"
-     c_shape="ELLIPSE"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;opacity:1;vector-effect:none;stroke:none;stroke-width:3.1496;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1">
-    <circle
-       c_etype="pad_shell"
-       cx="4097.6968"
-       cy="3319.6621"
-       layerid="11"
-       stroke-width="0"
-       id="ellipse12"
-       r="3.1496"
-       style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;vector-effect:none;stroke:none;stroke-width:3.1496;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4097.697,3329.504"
-     layerid="11"
-     number="C"
-     net="GND"
-     plated="Y"
-     id="gge1530"
-     locked="0"
-     c_rotation="270"
-     c_width="6.2992"
-     c_height="6.2992"
-     title="GND"
-     c_shape="ELLIPSE"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;opacity:1;vector-effect:none;stroke:none;stroke-width:3.1496;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1">
-    <circle
-       c_etype="pad_shell"
-       cx="4097.6968"
-       cy="3329.5039"
-       layerid="11"
-       stroke-width="0"
-       id="ellipse13"
-       r="3.1496"
-       style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;vector-effect:none;stroke:none;stroke-width:3.1496;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4097.697,3339.347"
-     layerid="11"
-     number="B"
-     net="ESP32S2_26"
-     plated="Y"
-     id="gge1545"
-     locked="0"
-     c_rotation="270"
-     c_width="6.2992"
-     c_height="6.2992"
-     title="ESP32S2_26"
-     c_shape="ELLIPSE"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;opacity:1;vector-effect:none;stroke:none;stroke-width:3.1496;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1">
-    <circle
-       c_etype="pad_shell"
-       cx="4097.6968"
-       cy="3339.3469"
-       layerid="11"
-       stroke-width="0"
-       id="ellipse14"
-       r="3.1496"
-       style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;vector-effect:none;stroke:none;stroke-width:3.1496;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4154.783,3319.662"
-     layerid="11"
-     number="D"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <polyline
+     points="4181.5 3261.5 4181.5 3260.68 4187 3242.5 4241.5 3237.5 4246 3320.44 4208.28 3358.16"
+     stroke-width="3.937"
+     stroke-linecap="round"
+     fill="none"
+     layerid="2"
      net="ESP32S2_27"
-     plated="Y"
-     id="gge1560"
+     id="gge9283"
      locked="0"
-     c_rotation="270"
-     c_width="7.874"
-     c_height="7.874"
-     title="ESP32S2_27"
-     c_shape="ELLIPSE"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;opacity:1;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1">
-    <circle
-       c_etype="pad_shell"
-       cx="4154.7832"
-       cy="3319.6621"
-       layerid="11"
-       stroke-width="0"
-       id="ellipse15"
-       r="3.937"
-       style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4154.783,3339.347"
-     layerid="11"
-     number="E"
-     net="GND"
-     plated="Y"
-     id="gge1575"
-     locked="0"
-     c_rotation="270"
-     c_width="7.874"
-     c_height="7.874"
-     title="GND"
-     c_shape="ELLIPSE"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;opacity:1;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1">
-    <circle
-       c_etype="pad_shell"
-       cx="4154.7832"
-       cy="3339.3469"
-       layerid="11"
-       stroke-width="0"
-       id="ellipse16"
-       r="3.937"
-       style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4127.225,3307.851"
-     layerid="11"
-     number="6"
-     net="ENCODER_6"
-     plated="Y"
-     id="gge1590"
-     locked="0"
-     c_rotation="90"
-     c_width="9.4488"
-     c_height="13.7795"
-     title="ENCODER_6"
-     c_shape="OVAL"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)">
-    <polyline
-       c_etype="pad_shell"
-       points="4125.0597 3307.851 4129.3904 3307.851"
-       layerid="11"
-       stroke-width="9.4488"
-       id="polyline17" />
-    <polyline
-       c_etype="pad_hole"
-       points="4129.3899 3307.8505 4125.0591 3307.8505"
-       layerid="11"
-       stroke-width="6.2992"
-       id="polyline18" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4127.225,3351.158"
-     layerid="11"
-     number="7"
-     net="ENCODER_7"
-     plated="Y"
-     id="gge1605"
-     locked="0"
-     c_rotation="270"
-     c_width="9.4488"
-     c_height="13.7795"
-     title="ENCODER_7"
-     c_shape="OVAL"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)">
-    <polyline
-       c_etype="pad_shell"
-       points="4129.3904 3351.158 4125.0597 3351.158"
-       layerid="11"
-       stroke-width="9.4488"
-       id="polyline19" />
-    <polyline
-       c_etype="pad_hole"
-       points="4125.0591 3351.1575 4129.3899 3351.1575"
-       layerid="11"
-       stroke-width="6.2992"
-       id="polyline20" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4148,3143"
-     layerid="11"
-     number="1"
-     net="ESP32S2_1"
-     plated="Y"
-     id="gge1701"
-     locked="0"
-     c_rotation="270"
-     c_width="8"
-     c_height="6"
-     title="ESP32S2_1"
-     c_shape="OVAL"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1">
-    <polyline
-       c_etype="pad_shell"
-       points="4148 3142 4148 3144"
-       layerid="11"
-       stroke-width="6"
-       id="polyline21"
-       style="fill:#000000;fill-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4138,3143"
-     layerid="11"
-     number="2"
-     net="ESP32S2_2"
-     plated="Y"
-     id="gge1716"
-     locked="0"
-     c_rotation="270"
-     c_width="8"
-     c_height="6"
-     title="ESP32S2_2"
-     c_shape="OVAL"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1">
-    <polyline
-       c_etype="pad_shell"
-       points="4138 3142 4138 3144"
-       layerid="11"
-       stroke-width="6"
-       id="polyline22"
-       style="fill:#000000;fill-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4128,3143"
-     layerid="11"
-     number="3"
-     net="ESP32S2_3"
-     plated="Y"
-     id="gge1731"
-     locked="0"
-     c_rotation="270"
-     c_width="8"
-     c_height="6"
-     title="ESP32S2_3"
-     c_shape="OVAL"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1">
-    <polyline
-       c_etype="pad_shell"
-       points="4128 3142 4128 3144"
-       layerid="11"
-       stroke-width="6"
-       id="polyline23"
-       style="fill:#000000;fill-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4118,3143"
-     layerid="11"
-     number="4"
-     net="ESP32S2_4"
-     plated="Y"
-     id="gge1746"
-     locked="0"
-     c_rotation="270"
-     c_width="8"
-     c_height="6"
-     title="ESP32S2_4"
-     c_shape="OVAL"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1">
-    <polyline
-       c_etype="pad_shell"
-       points="4118 3142 4118 3144"
-       layerid="11"
-       stroke-width="6"
-       id="polyline24"
-       style="fill:#000000;fill-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4108,3143"
-     layerid="11"
-     number="5"
-     net="ESP32S2_5"
-     plated="Y"
-     id="gge1761"
-     locked="0"
-     c_rotation="270"
-     c_width="8"
-     c_height="6"
-     title="ESP32S2_5"
-     c_shape="OVAL"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1">
-    <polyline
-       c_etype="pad_shell"
-       points="4108 3142 4108 3144"
-       layerid="11"
-       stroke-width="6"
-       id="polyline25"
-       style="fill:#000000;fill-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4098,3143"
-     layerid="11"
-     number="6"
-     net="ESP32S2_6"
-     plated="Y"
-     id="gge1776"
-     locked="0"
-     c_rotation="270"
-     c_width="8"
-     c_height="6"
-     title="ESP32S2_6"
-     c_shape="OVAL"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1">
-    <polyline
-       c_etype="pad_shell"
-       points="4098 3142 4098 3144"
-       layerid="11"
-       stroke-width="6"
-       id="polyline26"
-       style="fill:#000000;fill-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4088,3143"
-     layerid="11"
-     number="7"
-     net="ESP32S2_7"
-     plated="Y"
-     id="gge1791"
-     locked="0"
-     c_rotation="270"
-     c_width="8"
-     c_height="6"
-     title="ESP32S2_7"
-     c_shape="OVAL"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1">
-    <polyline
-       c_etype="pad_shell"
-       points="4088 3142 4088 3144"
-       layerid="11"
-       stroke-width="6"
-       id="polyline27"
-       style="fill:#000000;fill-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4078,3143"
-     layerid="11"
-     number="8"
-     net="3.3V"
-     plated="Y"
-     id="gge1806"
-     locked="0"
-     c_rotation="270"
-     c_width="8"
-     c_height="6"
-     title="3.3V"
-     c_shape="OVAL"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1">
-    <polyline
-       c_etype="pad_shell"
-       points="4078 3142 4078 3144"
-       layerid="11"
-       stroke-width="6"
-       id="polyline28"
-       style="fill:#000000;fill-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4078,3153"
-     layerid="11"
-     number="24"
-     net="ESP32S2_24"
-     plated="Y"
-     id="gge1821"
-     locked="0"
-     c_rotation="270"
-     c_width="8"
-     c_height="6"
-     title="ESP32S2_24"
-     c_shape="OVAL"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1">
-    <polyline
-       c_etype="pad_shell"
-       points="4078 3152 4078 3154"
-       layerid="11"
-       stroke-width="6"
-       id="polyline29"
-       style="fill:#000000;fill-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4088,3153"
-     layerid="11"
-     number="23"
-     net="ESP32S2_23"
-     plated="Y"
-     id="gge1836"
-     locked="0"
-     c_rotation="270"
-     c_width="8"
-     c_height="6"
-     title="ESP32S2_23"
-     c_shape="OVAL"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1">
-    <polyline
-       c_etype="pad_shell"
-       points="4088 3152 4088 3154"
-       layerid="11"
-       stroke-width="6"
-       id="polyline30"
-       style="fill:#000000;fill-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4098,3153"
-     layerid="11"
-     number="22"
-     net="ESP32S2_22"
-     plated="Y"
-     id="gge1851"
-     locked="0"
-     c_rotation="270"
-     c_width="8"
-     c_height="6"
-     title="ESP32S2_22"
-     c_shape="OVAL"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1">
-    <polyline
-       c_etype="pad_shell"
-       points="4098 3152 4098 3154"
-       layerid="11"
-       stroke-width="6"
-       id="polyline31"
-       style="fill:#000000;fill-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4108,3153"
-     layerid="11"
-     number="21"
-     net="ESP32S2_21"
-     plated="Y"
-     id="gge1866"
-     locked="0"
-     c_rotation="270"
-     c_width="8"
-     c_height="6"
-     title="ESP32S2_21"
-     c_shape="OVAL"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1">
-    <polyline
-       c_etype="pad_shell"
-       points="4108 3152 4108 3154"
-       layerid="11"
-       stroke-width="6"
-       id="polyline32"
-       style="fill:#000000;fill-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4118,3153"
-     layerid="11"
-     number="20"
-     net="ESP32S2_20"
-     plated="Y"
-     id="gge1881"
-     locked="0"
-     c_rotation="270"
-     c_width="8"
-     c_height="6"
-     title="ESP32S2_20"
-     c_shape="OVAL"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1">
-    <polyline
-       c_etype="pad_shell"
-       points="4118 3152 4118 3154"
-       layerid="11"
-       stroke-width="6"
-       id="polyline33"
-       style="fill:#000000;fill-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4128,3153"
-     layerid="11"
-     number="19"
-     net="ESP32S2_19"
-     plated="Y"
-     id="gge1896"
-     locked="0"
-     c_rotation="270"
-     c_width="8"
-     c_height="6"
-     title="ESP32S2_19"
-     c_shape="OVAL"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1">
-    <polyline
-       c_etype="pad_shell"
-       points="4128 3152 4128 3154"
-       layerid="11"
-       stroke-width="6"
-       id="polyline34"
-       style="fill:#000000;fill-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4138,3153"
-     layerid="11"
-     number="18"
-     net="ESP32S2_18"
-     plated="Y"
-     id="gge1911"
-     locked="0"
-     c_rotation="270"
-     c_width="8"
-     c_height="6"
-     title="ESP32S2_18"
-     c_shape="OVAL"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1">
-    <polyline
-       c_etype="pad_shell"
-       points="4138 3152 4138 3154"
-       layerid="11"
-       stroke-width="6"
-       id="polyline35"
-       style="fill:#000000;fill-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4148,3153"
-     layerid="11"
-     number="17"
-     net="ESP32S2_17"
-     plated="Y"
-     id="gge1926"
-     locked="0"
-     c_rotation="270"
-     c_width="8"
-     c_height="6"
-     title="ESP32S2_17"
-     c_shape="OVAL"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1">
-    <polyline
-       c_etype="pad_shell"
-       points="4148 3152 4148 3154"
-       layerid="11"
-       stroke-width="6"
-       id="polyline36"
-       style="fill:#000000;fill-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4078,3223"
-     layerid="11"
-     number="32"
-     net="ESP32S2_32"
-     plated="Y"
-     id="gge1941"
-     locked="0"
-     c_rotation="270"
-     c_width="8"
-     c_height="6"
-     title="ESP32S2_32"
-     c_shape="OVAL"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1">
-    <polyline
-       c_etype="pad_shell"
-       points="4078 3222 4078 3224"
-       layerid="11"
-       stroke-width="6"
-       id="polyline37"
-       style="fill:#000000;fill-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4088,3223"
-     layerid="11"
-     number="31"
-     net="GND"
-     plated="Y"
-     id="gge1956"
-     locked="0"
-     c_rotation="270"
-     c_width="8"
-     c_height="6"
-     title="GND"
-     c_shape="OVAL"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1">
-    <polyline
-       c_etype="pad_shell"
-       points="4088 3222 4088 3224"
-       layerid="11"
-       stroke-width="6"
-       id="polyline38"
-       style="fill:#000000;fill-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4098,3223"
-     layerid="11"
-     number="30"
-     net="ESP32S2_30"
-     plated="Y"
-     id="gge1971"
-     locked="0"
-     c_rotation="270"
-     c_width="8"
-     c_height="6"
-     title="ESP32S2_30"
-     c_shape="OVAL"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1">
-    <polyline
-       c_etype="pad_shell"
-       points="4098 3222 4098 3224"
-       layerid="11"
-       stroke-width="6"
-       id="polyline39"
-       style="fill:#000000;fill-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4108,3223"
-     layerid="11"
-     number="29"
-     net="VPROBE"
-     plated="Y"
-     id="gge1986"
-     locked="0"
-     c_rotation="270"
-     c_width="8"
-     c_height="6"
-     title="VPROBE"
-     c_shape="OVAL"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1">
-    <polyline
-       c_etype="pad_shell"
-       points="4108 3222 4108 3224"
-       layerid="11"
-       stroke-width="6"
-       id="polyline40"
-       style="fill:#000000;fill-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4118,3223"
-     layerid="11"
-     number="28"
-     net="ESP32S2_28"
-     plated="Y"
-     id="gge2001"
-     locked="0"
-     c_rotation="270"
-     c_width="8"
-     c_height="6"
-     title="ESP32S2_28"
-     c_shape="OVAL"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1">
-    <polyline
-       c_etype="pad_shell"
-       points="4118 3222 4118 3224"
-       layerid="11"
-       stroke-width="6"
-       id="polyline41"
-       style="fill:#000000;fill-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4128,3223"
-     layerid="11"
-     number="27"
-     net="ESP32S2_27"
-     plated="Y"
-     id="gge2016"
-     locked="0"
-     c_rotation="270"
-     c_width="8"
-     c_height="6"
-     title="ESP32S2_27"
-     c_shape="OVAL"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1">
-    <polyline
-       c_etype="pad_shell"
-       points="4128 3222 4128 3224"
-       layerid="11"
-       stroke-width="6"
-       id="polyline42"
-       style="fill:#000000;fill-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4138,3223"
-     layerid="11"
-     number="26"
-     net="ESP32S2_26"
-     plated="Y"
-     id="gge2031"
-     locked="0"
-     c_rotation="270"
-     c_width="8"
-     c_height="6"
-     title="ESP32S2_26"
-     c_shape="OVAL"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1">
-    <polyline
-       c_etype="pad_shell"
-       points="4138 3222 4138 3224"
-       layerid="11"
-       stroke-width="6"
-       id="polyline43"
-       style="fill:#000000;fill-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4148,3223"
-     layerid="11"
-     number="25"
-     net="ESP32S2_25"
-     plated="Y"
-     id="gge2046"
-     locked="0"
-     c_rotation="270"
-     c_width="8"
-     c_height="6"
-     title="ESP32S2_25"
-     c_shape="OVAL"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1">
-    <polyline
-       c_etype="pad_shell"
-       points="4148 3222 4148 3224"
-       layerid="11"
-       stroke-width="6"
-       id="polyline44"
-       style="fill:#000000;fill-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4078,3233"
-     layerid="11"
-     number="16"
-     net="ESP32S2_16"
-     plated="Y"
-     id="gge2061"
-     locked="0"
-     c_rotation="270"
-     c_width="8"
-     c_height="6"
-     title="ESP32S2_16"
-     c_shape="OVAL"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1">
-    <polyline
-       c_etype="pad_shell"
-       points="4078 3232 4078 3234"
-       layerid="11"
-       stroke-width="6"
-       id="polyline45"
-       style="fill:#000000;fill-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4088,3233"
-     layerid="11"
-     number="15"
-     net="GND"
-     plated="Y"
-     id="gge2076"
-     locked="0"
-     c_rotation="270"
-     c_width="8"
-     c_height="6"
-     title="GND"
-     c_shape="OVAL"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1">
-    <polyline
-       c_etype="pad_shell"
-       points="4088 3232 4088 3234"
-       layerid="11"
-       stroke-width="6"
-       id="polyline46"
-       style="fill:#000000;fill-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4098,3233"
-     layerid="11"
-     number="14"
-     net="ESP32S2_14"
-     plated="Y"
-     id="gge2091"
-     locked="0"
-     c_rotation="270"
-     c_width="8"
-     c_height="6"
-     title="ESP32S2_14"
-     c_shape="OVAL"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1">
-    <polyline
-       c_etype="pad_shell"
-       points="4098 3232 4098 3234"
-       layerid="11"
-       stroke-width="6"
-       id="polyline47"
-       style="fill:#000000;fill-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4108,3233"
-     layerid="11"
-     number="13"
-     net="ESP32S2_13"
-     plated="Y"
-     id="gge2106"
-     locked="0"
-     c_rotation="270"
-     c_width="8"
-     c_height="6"
-     title="ESP32S2_13"
-     c_shape="OVAL"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1">
-    <polyline
-       c_etype="pad_shell"
-       points="4108 3232 4108 3234"
-       layerid="11"
-       stroke-width="6"
-       id="polyline48"
-       style="fill:#000000;fill-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4118,3233"
-     layerid="11"
-     number="12"
-     net="ESP32S2_12"
-     plated="Y"
-     id="gge2121"
-     locked="0"
-     c_rotation="270"
-     c_width="8"
-     c_height="6"
-     title="ESP32S2_12"
-     c_shape="OVAL"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1">
-    <polyline
-       c_etype="pad_shell"
-       points="4118 3232 4118 3234"
-       layerid="11"
-       stroke-width="6"
-       id="polyline49"
-       style="fill:#000000;fill-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4128,3233"
-     layerid="11"
-     number="11"
-     net="ESP32S2_11"
-     plated="Y"
-     id="gge2136"
-     locked="0"
-     c_rotation="270"
-     c_width="8"
-     c_height="6"
-     title="ESP32S2_11"
-     c_shape="OVAL"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1">
-    <polyline
-       c_etype="pad_shell"
-       points="4128 3232 4128 3234"
-       layerid="11"
-       stroke-width="6"
-       id="polyline50"
-       style="fill:#000000;fill-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4138,3233"
-     layerid="11"
-     number="10"
-     net="ESP32S2_10"
-     plated="Y"
-     id="gge2151"
-     locked="0"
-     c_rotation="270"
-     c_width="8"
-     c_height="6"
-     title="ESP32S2_10"
-     c_shape="OVAL"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1">
-    <polyline
-       c_etype="pad_shell"
-       points="4138 3232 4138 3234"
-       layerid="11"
-       stroke-width="6"
-       id="polyline51"
-       style="fill:#000000;fill-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4148,3233"
-     layerid="11"
-     number="9"
-     net="ESP32S2_9"
-     plated="Y"
-     id="gge2166"
-     locked="0"
-     c_rotation="270"
-     c_width="8"
-     c_height="6"
-     title="ESP32S2_9"
-     c_shape="OVAL"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1">
-    <polyline
-       c_etype="pad_shell"
-       points="4148 3232 4148 3234"
-       layerid="11"
-       stroke-width="6"
-       id="polyline52"
-       style="fill:#000000;fill-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4082,3019.374"
-     layerid="11"
-     number="1"
-     net="TP4056_1"
-     plated="Y"
-     id="gge4981"
-     locked="0"
-     c_rotation="90"
-     c_width="7.874"
-     c_height="7.874"
-     title="TP4056_1"
-     c_shape="ELLIPSE"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;opacity:1;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1">
-    <circle
-       c_etype="pad_shell"
-       cx="4082"
-       cy="3019.374"
-       layerid="11"
-       stroke-width="0"
-       id="ellipse52"
-       r="3.937"
-       style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4082,3053.626"
-     layerid="11"
-     number="2"
-     net="U1_1"
-     plated="Y"
-     id="gge4996"
-     locked="0"
-     c_rotation="90"
-     c_width="7.874"
-     c_height="7.874"
-     title="U1_1"
-     c_shape="ELLIPSE"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;opacity:1;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1">
-    <circle
-       c_etype="pad_shell"
-       cx="4082"
-       cy="3053.626"
-       layerid="11"
-       stroke-width="0"
-       id="ellipse53"
-       r="3.937"
-       style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4124.519,3042"
-     layerid="11"
-     number="2"
-     net="VOUT"
-     plated="Y"
-     id="gge5065"
-     locked="0"
-     c_rotation="270"
-     c_width="7.0866"
-     c_height="10.2362"
-     title="VOUT"
-     c_shape="OVAL"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1">
-    <polyline
-       c_etype="pad_shell"
-       points="4126.0938 3042 4122.9442 3042"
-       layerid="11"
-       stroke-width="7.0866"
-       id="polyline54"
-       style="fill:#000000;fill-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4124.48,3052.001"
-     layerid="11"
-     number="3"
-     net="U1_1"
-     plated="Y"
-     id="gge5080"
-     locked="0"
-     c_rotation="270"
-     c_width="7.0866"
-     c_height="10.2362"
-     title="U1_1"
-     c_shape="OVAL"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1">
-    <polyline
-       c_etype="pad_shell"
-       points="4126.0548 3052.001 4122.9052 3052.001"
-       layerid="11"
-       stroke-width="7.0866"
-       id="polyline55"
-       style="fill:#000000;fill-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4124.52,3032"
-     layerid="11"
-     number="1"
-     net="TP4056_1"
-     plated="Y"
-     id="gge5095"
-     locked="0"
-     c_rotation="270"
-     c_width="7.0866"
-     c_height="10.2362"
-     title="TP4056_1"
-     c_shape="RECT"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;opacity:1;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1">
-    <polygon
-       c_etype="pad_shell"
-       points="4129.6376,3035.5428 4119.4014,3035.5428 4119.4014,3028.4562 4129.6376,3028.4562 "
-       layerid="11"
-       stroke-width="0"
-       id="polygon56"
-       style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4199,2984.5"
-     layerid="11"
-     number="1"
-     net="TP4056_1"
-     plated="Y"
-     id="gge5287"
-     locked="0"
-     c_rotation="270"
-     c_width="7.874"
-     c_height="7.874"
-     title="TP4056_1"
-     c_shape="ELLIPSE"
-     pasteexpansion="0"
-     solderexpansion="0.4"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;opacity:1;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1">
-    <circle
-       c_etype="pad_shell"
-       cx="4199"
-       cy="2984.5"
-       layerid="11"
-       stroke-width="0"
-       id="ellipse57"
-       r="3.937"
-       style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4145,2984.5"
-     layerid="11"
-     number="2"
-     net="TP4056_2"
-     plated="Y"
-     id="gge5302"
-     locked="0"
-     c_rotation="270"
-     c_width="7.5"
-     c_height="7.5"
-     title="TP4056_2"
-     c_shape="ELLIPSE"
-     pasteexpansion="0"
-     solderexpansion="0.4"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#000000;fill-opacity:1">
-    <circle
-       c_etype="pad_shell"
-       cx="4145"
-       cy="2984.5"
-       layerid="11"
-       stroke-width="0"
-       id="ellipse58"
-       r="3.75"
-       style="fill:#000000;fill-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4145,3074.5"
-     layerid="11"
-     number="6"
-     net="GND"
-     plated="Y"
-     id="gge5317"
-     locked="0"
-     c_rotation="270"
-     c_width="7.5"
-     c_height="7.5"
-     title="GND"
-     c_shape="ELLIPSE"
-     pasteexpansion="0"
-     solderexpansion="0.4"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;opacity:1;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1">
-    <circle
-       c_etype="pad_shell"
-       cx="4145"
-       cy="3074.5"
-       layerid="11"
-       stroke-width="0"
-       id="ellipse59"
-       r="3.75"
-       style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4199,3074.5"
-     layerid="11"
-     number="5"
-     net="VOUT"
-     plated="Y"
-     id="gge5332"
-     locked="0"
-     c_rotation="270"
-     c_width="7.5"
-     c_height="7.5"
-     title="VOUT"
-     c_shape="ELLIPSE"
-     pasteexpansion="0"
-     solderexpansion="0.4"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;opacity:1;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1">
-    <circle
-       c_etype="pad_shell"
-       cx="4199"
-       cy="3074.5"
-       layerid="11"
-       stroke-width="0"
-       id="ellipse60"
-       r="3.75"
-       style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4187,3074.5"
-     layerid="11"
-     number="3"
-     net="TP4056_3"
-     plated="Y"
-     id="gge5347"
-     locked="0"
-     c_rotation="270"
-     c_width="7.5"
-     c_height="7.5"
-     title="TP4056_3"
-     c_shape="ELLIPSE"
-     pasteexpansion="0"
-     solderexpansion="0.4"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;opacity:1;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1">
-    <circle
-       c_etype="pad_shell"
-       cx="4187"
-       cy="3074.5"
-       layerid="11"
-       stroke-width="0"
-       id="ellipse61"
-       r="3.75"
-       style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4157,3074.5"
-     layerid="11"
-     number="4"
-     net="TP4056_4"
-     plated="Y"
-     id="gge5362"
-     locked="0"
-     c_rotation="270"
-     c_width="7.5"
-     c_height="7.5"
-     title="TP4056_4"
-     c_shape="ELLIPSE"
-     pasteexpansion="0"
-     solderexpansion="0.4"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;opacity:1;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1">
-    <circle
-       c_etype="pad_shell"
-       cx="4157"
-       cy="3074.5"
-       layerid="11"
-       stroke-width="0"
-       id="ellipse62"
-       r="3.75"
-       style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4080.5,3096"
-     layerid="11"
-     number="3"
-     net="3.3V"
-     plated="Y"
-     id="gge5434"
-     locked="0"
-     c_rotation="0"
-     c_width="6"
-     c_height="6"
-     title="3.3V"
-     c_shape="ELLIPSE"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;opacity:1;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1">
-    <circle
-       c_etype="pad_shell"
-       cx="4080.5"
-       cy="3096"
-       layerid="11"
-       stroke-width="0"
-       id="ellipse63"
-       r="3"
-       style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4080.5,3086"
-     layerid="11"
-     number="2"
-     net="GND"
-     plated="Y"
-     id="gge5449"
-     locked="0"
-     c_rotation="0"
-     c_width="6"
-     c_height="6"
-     title="GND"
-     c_shape="ELLIPSE"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;opacity:1;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1">
-    <circle
-       c_etype="pad_shell"
-       cx="4080.5"
-       cy="3086"
-       layerid="11"
-       stroke-width="0"
-       id="ellipse64"
-       r="3"
-       style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4080.5,3076"
-     layerid="11"
-     number="1"
-     net="U1_1"
-     plated="Y"
-     id="gge5464"
-     locked="0"
-     c_rotation="0"
-     c_width="6"
-     c_height="6"
-     title="U1_1"
-     c_shape="ELLIPSE"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;opacity:1;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1">
-    <circle
-       c_etype="pad_shell"
-       cx="4080.5"
-       cy="3076"
-       layerid="11"
-       stroke-width="0"
-       id="ellipse65"
-       r="3"
-       style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4058,3109.5"
-     layerid="11"
-     number="1"
-     net="VPROBE"
-     plated="Y"
-     id="gge6908"
-     locked="0"
-     c_rotation="90"
-     c_width="9.8425"
-     c_height="9.8425"
-     title="VPROBE"
-     c_shape="ELLIPSE"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;opacity:1;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1">
-    <circle
-       c_etype="pad_shell"
-       cx="4058"
-       cy="3109.5"
-       layerid="11"
-       stroke-width="0"
-       id="ellipse66"
-       r="4.9212499"
-       style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4058,3069.5"
-     layerid="11"
-     number="2"
-     net="VOUT"
-     plated="Y"
-     id="gge6923"
-     locked="0"
-     c_rotation="90"
-     c_width="9.8425"
-     c_height="9.8425"
-     title="VOUT"
-     c_shape="ELLIPSE"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.00000843;stroke-dasharray:none">
-    <circle
-       c_etype="pad_shell"
-       cx="4058"
-       cy="3069.5"
-       layerid="11"
-       stroke-width="0"
-       id="ellipse67"
-       r="4.9212499"
-       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.00000843;stroke-dasharray:none" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4062.5,2991.5"
-     layerid="11"
-     number="1"
-     net="TP4056_1"
-     plated="Y"
-     id="gge7037"
-     locked="0"
-     c_rotation="0"
-     c_width="9.8425"
-     c_height="9.8425"
-     title="TP4056_1"
-     c_shape="ELLIPSE"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;opacity:1;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1">
-    <circle
-       c_etype="pad_shell"
-       cx="4062.5"
-       cy="2991.5"
-       layerid="11"
-       stroke-width="0"
-       id="ellipse68"
-       r="4.9212499"
-       style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4102.5,2991.5"
-     layerid="11"
-     number="2"
-     net="GND"
-     plated="Y"
-     id="gge7052"
-     locked="0"
-     c_rotation="0"
-     c_width="7.874"
-     c_height="7.874"
-     title="GND"
-     c_shape="ELLIPSE"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;opacity:1;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1">
-    <circle
-       c_etype="pad_shell"
-       cx="4102.5"
-       cy="2991.5"
-       layerid="11"
-       stroke-width="0"
-       id="ellipse69"
-       r="3.937"
-       style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4054.5,3186"
-     layerid="11"
-     number="1"
-     net="GND"
-     plated="Y"
-     id="gge7115"
-     locked="0"
-     c_rotation="0"
-     c_width="7.874"
-     c_height="7.874"
-     title="GND"
-     c_shape="ELLIPSE"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;opacity:1;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1">
-    <circle
-       c_etype="pad_shell"
-       cx="4054.5"
-       cy="3186"
-       layerid="11"
-       stroke-width="0"
-       id="ellipse70"
-       r="3.937"
-       style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4094.5,3186"
-     layerid="11"
-     number="2"
-     net="VPROBE"
-     plated="Y"
-     id="gge7130"
-     locked="0"
-     c_rotation="0"
-     c_width="7.874"
-     c_height="7.874"
-     title="VPROBE"
-     c_shape="ELLIPSE"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;opacity:1;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1">
-    <circle
-       c_etype="pad_shell"
-       cx="4094.5"
-       cy="3186"
-       layerid="11"
-       stroke-width="0"
-       id="ellipse71"
-       r="3.937"
-       style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4178.5,3094.5"
-     layerid="11"
-     number="5V"
-     net="TP4056_3"
-     plated="Y"
-     id="gge7421"
-     locked="0"
-     c_rotation="180"
-     c_width="6"
-     c_height="6"
-     title="TP4056_3"
-     c_shape="ELLIPSE"
-     pasteexpansion="0"
-     solderexpansion="0.4"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;opacity:1;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1">
-    <circle
-       c_etype="pad_shell"
-       cx="4178.5"
-       cy="3094.5"
-       layerid="11"
-       stroke-width="0"
-       id="ellipse72"
-       r="3"
-       style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1" />
-  </g>
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4168.5,3094.5"
-     layerid="11"
-     number="GND"
-     net="TP4056_4"
-     plated="Y"
-     id="gge7436"
-     locked="0"
-     c_rotation="180"
-     c_width="6"
-     c_height="6"
-     title="TP4056_4"
-     c_shape="ELLIPSE"
-     pasteexpansion="0"
-     solderexpansion="0.4"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;opacity:1;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1">
-    <circle
-       c_etype="pad_shell"
-       cx="4168.5"
-       cy="3094.5"
-       layerid="11"
-       stroke-width="0"
-       id="ellipse73"
-       r="3"
-       style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1" />
-  </g>
-  <g
-     c_partid="part_via"
-     c_etype="pinpart"
-     c_shapetype="group"
-     net="VOUT"
-     c_origin="4057.5,3008"
-     layerid="11"
-     id="gge9072"
-     locked="0"
-     solderexpansion=""
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;opacity:1;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1">
-    <circle
-       cx="4057.5"
-       cy="3008"
-       r="4.9212999"
-       stroke-width="0"
-       c_etype="pad_shell"
-       id="circle75"
-       style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1" />
-  </g>
-  <g
-     c_partid="part_via"
-     c_etype="pinpart"
-     c_shapetype="group"
-     net="VOUT"
-     c_origin="4108.5,3007.5"
-     layerid="11"
-     id="gge9084"
-     locked="0"
-     solderexpansion=""
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;opacity:1;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1">
-    <circle
-       cx="4108.5"
-       cy="3007.5"
-       r="5.9054999"
-       stroke-width="0"
-       c_etype="pad_shell"
-       id="circle77"
-       style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1" />
-  </g>
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
   <polyline
-     points="4047.5 3088.5 4047.5 2977.5 4204.98 2977.5 4204.98 3364.09 4047.5 3364.09 4047.5 3088.5"
+     points="4191.5 3261.5 4191.5 3260.33 4196.5 3252.5 4220 3251.5 4220 3323 4194 3358 4151.2 3377.85"
+     stroke-width="3.937"
+     stroke-linecap="round"
+     fill="none"
+     layerid="2"
+     net="ESP32S2_26"
+     id="gge9406"
+     locked="0"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <polyline
+     points="4174.5 3121 4183 3121 4190.5 3128.5"
+     stroke-width="3.937"
+     stroke-linecap="round"
+     fill="none"
+     layerid="2"
+     net="GND"
+     id="gge9754"
+     locked="0"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <polyline
+     points="4201.5 3261.5 4202.3799 3261.5 4210.5 3267 4210 3299.3601 4151.2002 3358.1599"
+     stroke-width="3.937"
+     stroke-linecap="round"
+     fill="none"
+     layerid="2"
+     net="ESP32S2_25"
+     id="gge9400"
+     locked="0"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <polyline
+     points="4108 3224.5 4141.5 3258 4141.5 3261.5"
+     stroke-width="4.7244"
+     stroke-linecap="round"
+     fill="none"
+     layerid="2"
+     net="GND"
+     id="gge9376"
+     locked="0"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <polyline
+     points="4141.5 3261.5 4141.5 3271.5"
+     stroke-width="4.7244"
+     stroke-linecap="round"
+     fill="none"
+     layerid="2"
+     net="GND"
+     id="gge9373"
+     locked="0"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <polyline
+     points="4191.5 3271.5 4191.5 3290.5 4190.5 3291.5"
+     stroke-width="4.7244"
+     stroke-linecap="round"
+     fill="none"
+     layerid="2"
+     net="ESP32S2_10"
+     id="gge9370"
+     locked="0"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <polyline
+     points="4148 3224.5 4161.5 3238 4161.5 3261.5"
+     stroke-width="4.7244"
+     stroke-linecap="round"
+     fill="none"
+     layerid="2"
+     net="VPROBE"
+     id="gge9364"
+     locked="0"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <polyline
+     points="4091 3180 4103.5 3180 4148 3224.5"
+     stroke-width="4.7244"
+     stroke-linecap="round"
+     fill="none"
+     layerid="2"
+     net="VPROBE"
+     id="gge9361"
+     locked="0"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <polyline
+     points="4131.5 3149.261 4131.5 3181.5"
+     stroke-width="4.7244"
+     stroke-linecap="round"
+     fill="none"
+     layerid="2"
+     net="3.3V"
+     id="gge9319"
+     locked="0"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <polyline
+     points="4141.5 3302 4130 3370"
+     stroke-width="3.937"
+     stroke-linecap="round"
+     fill="none"
+     layerid="2"
+     net="GND"
+     id="gge9382"
+     locked="0"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <polyline
+     points="4130 3370 4142.5 3383.5 4148.5 3389.5 4164 3389.5 4175.65 3377.85 4208.28 3377.85"
+     stroke-width="3.937"
+     stroke-linecap="round"
+     fill="none"
+     layerid="2"
+     net="GND"
+     id="gge9403"
+     locked="0"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <polyline
+     points="4193 3100.5 4184.5 3109 4174.5 3109"
+     stroke-width="3.937"
+     stroke-linecap="round"
+     fill="none"
+     layerid="2"
+     net="TP4056_4"
+     id="gge9502"
+     locked="0"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <polyline
+     points="4193 3090.5 4181.5 3079 4174.5 3079"
+     stroke-width="3.937"
+     stroke-linecap="round"
+     fill="none"
+     layerid="2"
+     net="TP4056_3"
+     id="gge9499"
+     locked="0"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <path
+     c_fontsize="8"
+     c_fontfamily=""
+     c_text="ADVENTUREGRAPH v1.2"
+     d="m 4253.1507,3366.0909 7.6363,2.9091 m -7.6363,-2.9091 7.6363,-2.9091 m -2.5454,4.7273 v -3.6364 m -5.0909,-3.4909 h 7.6363 m -7.6363,0 v -2.5454 l 0.3636,-1.0909 0.7273,-0.7273 0.7273,-0.3637 1.0909,-0.3636 h 1.8181 l 1.091,0.3636 0.7272,0.3637 0.7273,0.7273 0.3636,1.0909 v 2.5454 m -7.6363,-7.4909 7.6363,-2.9091 m -7.6363,-2.9091 7.6363,2.9091 m -7.6363,-5.3091 h 7.6363 m -7.6363,0 v -4.7272 m 3.6363,4.7272 v -2.9091 m 4,2.9091 v -4.7272 m -7.6363,-2.4 h 7.6363 m -7.6363,0 7.6363,-5.091 m -7.6363,0 h 7.6363 m -7.6363,-4.9454 h 7.6363 m -7.6363,2.5454 v -5.0909 m 0,-2.4 h 5.4545 l 1.0909,-0.3636 0.7273,-0.7273 0.3636,-1.0909 v -0.7273 l -0.3636,-1.0909 -0.7273,-0.7272 -1.0909,-0.3637 h -5.4545 m 0,-2.4 h 7.6363 m -7.6363,0 V 3312.2 l 0.3636,-1.0909 0.3636,-0.3636 0.7273,-0.3637 h 0.7273 l 0.7273,0.3637 0.3636,0.3636 0.3636,1.0909 v 3.2727 m 0,-2.5454 4,-2.5455 m -7.6363,-2.4 h 7.6363 m -7.6363,0 v -4.7273 m 3.6363,4.7273 v -2.9091 m 4,2.9091 v -4.7273 m -5.8181,-7.8545 -0.7273,0.3636 -0.7273,0.7273 -0.3636,0.7273 v 1.4545 l 0.3636,0.7273 0.7273,0.7273 0.7273,0.3636 1.0909,0.3636 h 1.8181 l 1.091,-0.3636 0.7272,-0.3636 0.7273,-0.7273 0.3636,-0.7273 v -1.4545 l -0.3636,-0.7273 -0.7273,-0.7273 -0.7272,-0.3636 h -1.091 m 0,1.8182 V 3295.4 m -4.7272,-2.4 h 7.6363 m -7.6363,0 v -3.2727 l 0.3636,-1.0909 0.3636,-0.3637 0.7273,-0.3636 h 0.7273 l 0.7273,0.3636 0.3636,0.3637 0.3636,1.0909 V 3293 m 0,-2.5455 4,-2.5454 m -7.6363,-5.3091 7.6363,2.9091 m -7.6363,-2.9091 7.6363,-2.9091 m -2.5454,4.7273 v -3.6364 m -5.0909,-3.4909 h 7.6363 m -7.6363,0 v -3.2727 l 0.3636,-1.0909 0.3636,-0.3637 0.7273,-0.3636 h 1.0909 l 0.7273,0.3636 0.3636,0.3637 0.3637,1.0909 v 3.2727 m -4,-7.4909 h 7.6363 m -7.6363,-5.0909 h 7.6363 m -4,5.0909 v -5.0909 m -1.0909,-8 5.0909,-2.1818 m -5.0909,-2.1818 5.0909,2.1818 m -6.1818,-4.5818 -0.3636,-0.7273 -1.0909,-1.0909 h 7.6363 m -1.8181,-2.7637 0.3636,0.3637 0.3636,-0.3637 -0.3636,-0.3636 -0.3636,0.3636 m -4,-3.1272 h -0.3637 l -0.7273,-0.3637 -0.3636,-0.3636 -0.3636,-0.7273 v -1.4545 l 0.3636,-0.7273 0.3636,-0.3636 0.7273,-0.3637 h 0.7273 l 0.7273,0.3637 1.0909,0.7272 3.6363,3.6364 v -5.0909"
+     fill="none"
+     stroke-width="1.5748"
+     id="path1"
+     style="stroke:#ffffff" />
+  <circle
+     c_etype="pad_shell"
+     cx="-4145.2236"
+     cy="3107"
+     layerid="11"
+     stroke-width="0"
+     id="ellipse1"
+     r="2.7360001"
+     transform="scale(-1,1)" />
+  <polyline
+     c_etype="pad_hole"
+     points="4204.99 3116.5 4205.01 3116.5"
+     layerid="11"
+     stroke-width="3.937"
+     id="polyline1"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <circle
+     c_etype="pad_shell"
+     cx="-4135.2236"
+     cy="3107"
+     layerid="11"
+     stroke-width="0"
+     id="ellipse2"
+     r="2.7360001"
+     transform="scale(-1,1)" />
+  <polyline
+     c_etype="pad_hole"
+     points="4214.99 3116.5 4215.01 3116.5"
+     layerid="11"
+     stroke-width="3.937"
+     id="polyline2"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <circle
+     c_etype="pad_shell"
+     cx="-4159.2236"
+     cy="3292"
+     layerid="11"
+     stroke-width="0"
+     id="ellipse3"
+     r="3.3464501"
+     transform="scale(-1,1)" />
+  <polyline
+     c_etype="pad_hole"
+     points="4191 3301.51 4191 3301.49"
+     layerid="11"
+     stroke-width="3.937"
+     id="polyline3"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <circle
+     c_etype="pad_shell"
+     cx="-4159.2236"
+     cy="3282"
+     layerid="11"
+     stroke-width="0"
+     id="ellipse4"
+     r="3.3464501"
+     transform="scale(-1,1)" />
+  <polyline
+     c_etype="pad_hole"
+     points="4191 3291.51 4191 3291.49"
+     layerid="11"
+     stroke-width="3.937"
+     id="polyline4"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <circle
+     c_etype="pad_shell"
+     cx="-4088.2625"
+     cy="3207.5"
+     layerid="11"
+     stroke-width="0"
+     id="ellipse5"
+     r="3.937"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4088.2629"
+     cy="3207.5"
+     r="1.9685"
+     layerid="11"
+     stroke-width="0"
+     id="circle5"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_shell"
+     cx="-4118.1836"
+     cy="3207.5"
+     layerid="11"
+     stroke-width="0"
+     id="ellipse6"
+     r="3.937"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4118.1841"
+     cy="3207.5"
+     r="1.9685"
+     layerid="11"
+     stroke-width="0"
+     id="circle6"
+     transform="scale(-1,1)" />
+  <polygon
+     c_etype="pad_shell"
+     points="4209.0472,3164.4528 4209.0472,3158.5472 4214.9527,3158.5472 4214.9527,3164.4528 "
+     layerid="11"
+     stroke-width="0"
+     id="polygon6"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4138.2236"
+     cy="3152"
+     r="1.9685"
+     layerid="11"
+     stroke-width="0"
+     id="circle7"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_shell"
+     cx="-4148.2236"
+     cy="3152"
+     layerid="11"
+     stroke-width="0"
+     id="ellipse7"
+     r="2.95275"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4148.2236"
+     cy="3152"
+     r="1.9685"
+     layerid="11"
+     stroke-width="0"
+     id="circle8"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_shell"
+     cx="-4158.2236"
+     cy="3152"
+     layerid="11"
+     stroke-width="0"
+     id="ellipse8"
+     r="2.95275"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4158.2236"
+     cy="3152"
+     r="1.9685"
+     layerid="11"
+     stroke-width="0"
+     id="circle9"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_shell"
+     cx="-4168.2236"
+     cy="3152"
+     layerid="11"
+     stroke-width="0"
+     id="ellipse9"
+     r="2.95275"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4168.2236"
+     cy="3152"
+     r="1.9685"
+     layerid="11"
+     stroke-width="0"
+     id="circle10"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_shell"
+     cx="-4178.2236"
+     cy="3152"
+     layerid="11"
+     stroke-width="0"
+     id="ellipse10"
+     r="2.95275"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4178.2236"
+     cy="3152"
+     r="1.9685"
+     layerid="11"
+     stroke-width="0"
+     id="circle11"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_shell"
+     cx="-4188.2236"
+     cy="3152"
+     layerid="11"
+     stroke-width="0"
+     id="ellipse11"
+     r="2.95275"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4188.2236"
+     cy="3152"
+     r="1.9685"
+     layerid="11"
+     stroke-width="0"
+     id="circle12"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_shell"
+     cx="-4198.2236"
+     cy="3152"
+     layerid="11"
+     stroke-width="0"
+     id="ellipse12"
+     r="2.95275"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4198.2236"
+     cy="3152"
+     r="1.9685"
+     layerid="11"
+     stroke-width="0"
+     id="circle13"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_shell"
+     cx="-4208.2236"
+     cy="3152"
+     layerid="11"
+     stroke-width="0"
+     id="ellipse13"
+     r="2.95275"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4208.2236"
+     cy="3152"
+     r="1.9685"
+     layerid="11"
+     stroke-width="0"
+     id="circle14"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_shell"
+     cx="-4199.0269"
+     cy="3348.6621"
+     layerid="11"
+     stroke-width="0"
+     id="ellipse14"
+     r="3.1496"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4199.0269"
+     cy="3348.6616"
+     r="2.1654"
+     layerid="11"
+     stroke-width="0"
+     id="circle15"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_shell"
+     cx="-4199.0269"
+     cy="3358.5039"
+     layerid="11"
+     stroke-width="0"
+     id="ellipse15"
+     r="3.1496"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4199.0269"
+     cy="3358.5039"
+     r="2.1654"
+     layerid="11"
+     stroke-width="0"
+     id="circle16"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_shell"
+     cx="-4199.0269"
+     cy="3368.3469"
+     layerid="11"
+     stroke-width="0"
+     id="ellipse16"
+     r="3.1496"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4199.0269"
+     cy="3368.3464"
+     r="2.1654"
+     layerid="11"
+     stroke-width="0"
+     id="circle17"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_shell"
+     cx="-4141.9404"
+     cy="3348.6621"
+     layerid="11"
+     stroke-width="0"
+     id="ellipse17"
+     r="3.937"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4141.9399"
+     cy="3348.6616"
+     r="2.1654"
+     layerid="11"
+     stroke-width="0"
+     id="circle18"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_shell"
+     cx="-4141.9404"
+     cy="3368.3469"
+     layerid="11"
+     stroke-width="0"
+     id="ellipse18"
+     r="3.937"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4141.9399"
+     cy="3368.3464"
+     r="2.1654"
+     layerid="11"
+     stroke-width="0"
+     id="circle19"
+     transform="scale(-1,1)" />
+  <polyline
+     c_etype="pad_shell"
+     points="4178.5597 3346.351 4182.8904 3346.351"
+     layerid="11"
+     stroke-width="9.4488"
+     id="polyline19"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <polyline
+     c_etype="pad_hole"
+     points="4182.8899 3346.3505 4178.5591 3346.3505"
+     layerid="11"
+     stroke-width="6.2992"
+     id="polyline20"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <polyline
+     c_etype="pad_shell"
+     points="4182.8904 3389.658 4178.5597 3389.658"
+     layerid="11"
+     stroke-width="9.4488"
+     id="polyline21"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <polyline
+     c_etype="pad_hole"
+     points="4178.5591 3389.6575 4182.8899 3389.6575"
+     layerid="11"
+     stroke-width="6.2992"
+     id="polyline22"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <polyline
+     c_etype="pad_shell"
+     points="4201.5 3180.5 4201.5 3182.5"
+     layerid="11"
+     stroke-width="6"
+     id="polyline23"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4148.7236"
+     cy="3172"
+     r="1.8"
+     layerid="11"
+     stroke-width="0"
+     id="circle23"
+     transform="scale(-1,1)" />
+  <polyline
+     c_etype="pad_shell"
+     points="4191.5 3180.5 4191.5 3182.5"
+     layerid="11"
+     stroke-width="6"
+     id="polyline24"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4158.7236"
+     cy="3172"
+     r="1.8"
+     layerid="11"
+     stroke-width="0"
+     id="circle24"
+     transform="scale(-1,1)" />
+  <polyline
+     c_etype="pad_shell"
+     points="4181.5 3180.5 4181.5 3182.5"
+     layerid="11"
+     stroke-width="6"
+     id="polyline25"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4168.7236"
+     cy="3172"
+     r="1.8"
+     layerid="11"
+     stroke-width="0"
+     id="circle25"
+     transform="scale(-1,1)" />
+  <polyline
+     c_etype="pad_shell"
+     points="4171.5 3180.5 4171.5 3182.5"
+     layerid="11"
+     stroke-width="6"
+     id="polyline26"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4178.7236"
+     cy="3172"
+     r="1.8"
+     layerid="11"
+     stroke-width="0"
+     id="circle26"
+     transform="scale(-1,1)" />
+  <polyline
+     c_etype="pad_shell"
+     points="4161.5 3180.5 4161.5 3182.5"
+     layerid="11"
+     stroke-width="6"
+     id="polyline27"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4188.7236"
+     cy="3172"
+     r="1.8"
+     layerid="11"
+     stroke-width="0"
+     id="circle27"
+     transform="scale(-1,1)" />
+  <polyline
+     c_etype="pad_shell"
+     points="4151.5 3180.5 4151.5 3182.5"
+     layerid="11"
+     stroke-width="6"
+     id="polyline28"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4198.7236"
+     cy="3172"
+     r="1.8"
+     layerid="11"
+     stroke-width="0"
+     id="circle28"
+     transform="scale(-1,1)" />
+  <polyline
+     c_etype="pad_shell"
+     points="4141.5 3180.5 4141.5 3182.5"
+     layerid="11"
+     stroke-width="6"
+     id="polyline29"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4208.7236"
+     cy="3172"
+     r="1.8"
+     layerid="11"
+     stroke-width="0"
+     id="circle29"
+     transform="scale(-1,1)" />
+  <polyline
+     c_etype="pad_shell"
+     points="4131.5 3180.5 4131.5 3182.5"
+     layerid="11"
+     stroke-width="6"
+     id="polyline30"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4218.7236"
+     cy="3172"
+     r="1.8"
+     layerid="11"
+     stroke-width="0"
+     id="circle30"
+     transform="scale(-1,1)" />
+  <polyline
+     c_etype="pad_shell"
+     points="4131.5 3190.5 4131.5 3192.5"
+     layerid="11"
+     stroke-width="6"
+     id="polyline31"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4218.7236"
+     cy="3182"
+     r="1.8"
+     layerid="11"
+     stroke-width="0"
+     id="circle31"
+     transform="scale(-1,1)" />
+  <polyline
+     c_etype="pad_shell"
+     points="4141.5 3190.5 4141.5 3192.5"
+     layerid="11"
+     stroke-width="6"
+     id="polyline32"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4208.7236"
+     cy="3182"
+     r="1.8"
+     layerid="11"
+     stroke-width="0"
+     id="circle32"
+     transform="scale(-1,1)" />
+  <polyline
+     c_etype="pad_shell"
+     points="4151.5 3190.5 4151.5 3192.5"
+     layerid="11"
+     stroke-width="6"
+     id="polyline33"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4198.7236"
+     cy="3182"
+     r="1.8"
+     layerid="11"
+     stroke-width="0"
+     id="circle33"
+     transform="scale(-1,1)" />
+  <polyline
+     c_etype="pad_shell"
+     points="4161.5 3190.5 4161.5 3192.5"
+     layerid="11"
+     stroke-width="6"
+     id="polyline34"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4188.7236"
+     cy="3182"
+     r="1.8"
+     layerid="11"
+     stroke-width="0"
+     id="circle34"
+     transform="scale(-1,1)" />
+  <polyline
+     c_etype="pad_shell"
+     points="4171.5 3190.5 4171.5 3192.5"
+     layerid="11"
+     stroke-width="6"
+     id="polyline35"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4178.7236"
+     cy="3182"
+     r="1.8"
+     layerid="11"
+     stroke-width="0"
+     id="circle35"
+     transform="scale(-1,1)" />
+  <polyline
+     c_etype="pad_shell"
+     points="4181.5 3190.5 4181.5 3192.5"
+     layerid="11"
+     stroke-width="6"
+     id="polyline36"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4168.7236"
+     cy="3182"
+     r="1.8"
+     layerid="11"
+     stroke-width="0"
+     id="circle36"
+     transform="scale(-1,1)" />
+  <polyline
+     c_etype="pad_shell"
+     points="4191.5 3190.5 4191.5 3192.5"
+     layerid="11"
+     stroke-width="6"
+     id="polyline37"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4158.7236"
+     cy="3182"
+     r="1.8"
+     layerid="11"
+     stroke-width="0"
+     id="circle37"
+     transform="scale(-1,1)" />
+  <polyline
+     c_etype="pad_shell"
+     points="4201.5 3190.5 4201.5 3192.5"
+     layerid="11"
+     stroke-width="6"
+     id="polyline38"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4148.7236"
+     cy="3182"
+     r="1.8"
+     layerid="11"
+     stroke-width="0"
+     id="circle38"
+     transform="scale(-1,1)" />
+  <polyline
+     c_etype="pad_shell"
+     points="4131.5 3260.5 4131.5 3262.5"
+     layerid="11"
+     stroke-width="6"
+     id="polyline39"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4218.7236"
+     cy="3252"
+     r="1.8"
+     layerid="11"
+     stroke-width="0"
+     id="circle39"
+     transform="scale(-1,1)" />
+  <polyline
+     c_etype="pad_shell"
+     points="4141.5 3260.5 4141.5 3262.5"
+     layerid="11"
+     stroke-width="6"
+     id="polyline40"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4208.7236"
+     cy="3252"
+     r="1.8"
+     layerid="11"
+     stroke-width="0"
+     id="circle40"
+     transform="scale(-1,1)" />
+  <polyline
+     c_etype="pad_shell"
+     points="4151.5 3260.5 4151.5 3262.5"
+     layerid="11"
+     stroke-width="6"
+     id="polyline41"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4198.7236"
+     cy="3252"
+     r="1.8"
+     layerid="11"
+     stroke-width="0"
+     id="circle41"
+     transform="scale(-1,1)" />
+  <polyline
+     c_etype="pad_shell"
+     points="4161.5 3260.5 4161.5 3262.5"
+     layerid="11"
+     stroke-width="6"
+     id="polyline42"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4188.7236"
+     cy="3252"
+     r="1.8"
+     layerid="11"
+     stroke-width="0"
+     id="circle42"
+     transform="scale(-1,1)" />
+  <polyline
+     c_etype="pad_shell"
+     points="4171.5 3260.5 4171.5 3262.5"
+     layerid="11"
+     stroke-width="6"
+     id="polyline43"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4178.7236"
+     cy="3252"
+     r="1.8"
+     layerid="11"
+     stroke-width="0"
+     id="circle43"
+     transform="scale(-1,1)" />
+  <polyline
+     c_etype="pad_shell"
+     points="4181.5 3260.5 4181.5 3262.5"
+     layerid="11"
+     stroke-width="6"
+     id="polyline44"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4168.7236"
+     cy="3252"
+     r="1.8"
+     layerid="11"
+     stroke-width="0"
+     id="circle44"
+     transform="scale(-1,1)" />
+  <polyline
+     c_etype="pad_shell"
+     points="4191.5 3260.5 4191.5 3262.5"
+     layerid="11"
+     stroke-width="6"
+     id="polyline45"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4158.7236"
+     cy="3252"
+     r="1.8"
+     layerid="11"
+     stroke-width="0"
+     id="circle45"
+     transform="scale(-1,1)" />
+  <polyline
+     c_etype="pad_shell"
+     points="4201.5 3260.5 4201.5 3262.5"
+     layerid="11"
+     stroke-width="6"
+     id="polyline46"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4148.7236"
+     cy="3252"
+     r="1.8"
+     layerid="11"
+     stroke-width="0"
+     id="circle46"
+     transform="scale(-1,1)" />
+  <polyline
+     c_etype="pad_shell"
+     points="4131.5 3270.5 4131.5 3272.5"
+     layerid="11"
+     stroke-width="6"
+     id="polyline47"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4218.7236"
+     cy="3262"
+     r="1.8"
+     layerid="11"
+     stroke-width="0"
+     id="circle47"
+     transform="scale(-1,1)" />
+  <polyline
+     c_etype="pad_shell"
+     points="4141.5 3270.5 4141.5 3272.5"
+     layerid="11"
+     stroke-width="6"
+     id="polyline48"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4208.7236"
+     cy="3262"
+     r="1.8"
+     layerid="11"
+     stroke-width="0"
+     id="circle48"
+     transform="scale(-1,1)" />
+  <polyline
+     c_etype="pad_shell"
+     points="4151.5 3270.5 4151.5 3272.5"
+     layerid="11"
+     stroke-width="6"
+     id="polyline49"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4198.7236"
+     cy="3262"
+     r="1.8"
+     layerid="11"
+     stroke-width="0"
+     id="circle49"
+     transform="scale(-1,1)" />
+  <polyline
+     c_etype="pad_shell"
+     points="4161.5 3270.5 4161.5 3272.5"
+     layerid="11"
+     stroke-width="6"
+     id="polyline50"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4188.7236"
+     cy="3262"
+     r="1.8"
+     layerid="11"
+     stroke-width="0"
+     id="circle50"
+     transform="scale(-1,1)" />
+  <polyline
+     c_etype="pad_shell"
+     points="4171.5 3270.5 4171.5 3272.5"
+     layerid="11"
+     stroke-width="6"
+     id="polyline51"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4178.7236"
+     cy="3262"
+     r="1.8"
+     layerid="11"
+     stroke-width="0"
+     id="circle51"
+     transform="scale(-1,1)" />
+  <polyline
+     c_etype="pad_shell"
+     points="4181.5 3270.5 4181.5 3272.5"
+     layerid="11"
+     stroke-width="6"
+     id="polyline52"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4168.7236"
+     cy="3262"
+     r="1.8"
+     layerid="11"
+     stroke-width="0"
+     id="circle52"
+     transform="scale(-1,1)" />
+  <polyline
+     c_etype="pad_shell"
+     points="4191.5 3270.5 4191.5 3272.5"
+     layerid="11"
+     stroke-width="6"
+     id="polyline53"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4158.7236"
+     cy="3262"
+     r="1.8"
+     layerid="11"
+     stroke-width="0"
+     id="circle53"
+     transform="scale(-1,1)" />
+  <polyline
+     c_etype="pad_shell"
+     points="4201.5 3270.5 4201.5 3272.5"
+     layerid="11"
+     stroke-width="6"
+     id="polyline54"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4148.7236"
+     cy="3262"
+     r="1.8"
+     layerid="11"
+     stroke-width="0"
+     id="circle54"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_shell"
+     cx="-4135.2236"
+     cy="3058.874"
+     layerid="11"
+     stroke-width="0"
+     id="ellipse54"
+     r="3.937"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4135.2236"
+     cy="3058.8738"
+     r="1.9685"
+     layerid="11"
+     stroke-width="0"
+     id="circle55"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_shell"
+     cx="-4135.2236"
+     cy="3093.126"
+     layerid="11"
+     stroke-width="0"
+     id="ellipse55"
+     r="3.937"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4135.2236"
+     cy="3093.1262"
+     r="1.9685"
+     layerid="11"
+     stroke-width="0"
+     id="circle56"
+     transform="scale(-1,1)" />
+  <polyline
+     c_etype="pad_shell"
+     points="4248.5938 3101.5 4245.4442 3101.5"
+     layerid="11"
+     stroke-width="7.0866"
+     id="polyline56"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4103.2041"
+     cy="3091.9995"
+     r="2.3622"
+     layerid="11"
+     stroke-width="0"
+     id="circle57"
+     transform="scale(-1,1)" />
+  <polyline
+     c_etype="pad_shell"
+     points="4248.5548 3111.501 4245.4052 3111.501"
+     layerid="11"
+     stroke-width="7.0866"
+     id="polyline57"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4103.2437"
+     cy="3101.9995"
+     r="2.3622"
+     layerid="11"
+     stroke-width="0"
+     id="circle58"
+     transform="scale(-1,1)" />
+  <polygon
+     c_etype="pad_shell"
+     points="4252.1376,3095.0428 4241.9014,3095.0428 4241.9014,3087.9562 4252.1376,3087.9562 "
+     layerid="11"
+     stroke-width="0"
+     id="polygon58"
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4103.2041"
+     cy="3081.9995"
+     r="2.3622"
+     layerid="11"
+     stroke-width="0"
+     id="circle59"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_shell"
+     cx="-4265.7236"
+     cy="3057.5"
+     layerid="11"
+     stroke-width="0"
+     id="ellipse59"
+     r="3.937"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4265.7236"
+     cy="3057.5"
+     r="1.8"
+     layerid="11"
+     stroke-width="0"
+     id="circle60"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_shell"
+     cx="-4265.7236"
+     cy="3111.5"
+     layerid="11"
+     stroke-width="0"
+     id="ellipse60"
+     r="3.75"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4265.7236"
+     cy="3111.5"
+     r="1.8"
+     layerid="11"
+     stroke-width="0"
+     id="circle61"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_shell"
+     cx="-4175.7236"
+     cy="3111.5"
+     layerid="11"
+     stroke-width="0"
+     id="ellipse61"
+     r="3.75"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4175.7236"
+     cy="3111.5"
+     r="1.8"
+     layerid="11"
+     stroke-width="0"
+     id="circle62"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_shell"
+     cx="-4175.7236"
+     cy="3057.5"
+     layerid="11"
+     stroke-width="0"
+     id="ellipse62"
+     r="3.75"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4175.7236"
+     cy="3057.5"
+     r="1.8"
+     layerid="11"
+     stroke-width="0"
+     id="circle63"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_shell"
+     cx="-4175.7236"
+     cy="3069.5"
+     layerid="11"
+     stroke-width="0"
+     id="ellipse63"
+     r="3.75"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4175.7236"
+     cy="3069.5"
+     r="1.8"
+     layerid="11"
+     stroke-width="0"
+     id="circle64"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_shell"
+     cx="-4175.7236"
+     cy="3099.5"
+     layerid="11"
+     stroke-width="0"
+     id="ellipse64"
+     r="3.75"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4175.7236"
+     cy="3099.5"
+     r="1.8"
+     layerid="11"
+     stroke-width="0"
+     id="circle65"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_shell"
+     cx="-4121.2236"
+     cy="3151"
+     layerid="11"
+     stroke-width="0"
+     id="ellipse65"
+     r="3"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4121.2236"
+     cy="3151"
+     r="1.8"
+     layerid="11"
+     stroke-width="0"
+     id="circle66"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_shell"
+     cx="-4121.2236"
+     cy="3141"
+     layerid="11"
+     stroke-width="0"
+     id="ellipse66"
+     r="3"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4121.2236"
+     cy="3141"
+     r="1.8"
+     layerid="11"
+     stroke-width="0"
+     id="circle67"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_shell"
+     cx="-4121.2236"
+     cy="3131"
+     layerid="11"
+     stroke-width="0"
+     id="ellipse67"
+     r="3"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4121.2236"
+     cy="3131"
+     r="1.8"
+     layerid="11"
+     stroke-width="0"
+     id="circle68"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_shell"
+     cx="-4259.2236"
+     cy="3170.5"
+     layerid="11"
+     stroke-width="0"
+     id="ellipse68"
+     r="4.9212499"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4259.2236"
+     cy="3170.5"
+     r="1.77"
+     layerid="11"
+     stroke-width="0"
+     id="circle69"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_shell"
+     cx="-4259.2236"
+     cy="3130.5"
+     layerid="11"
+     stroke-width="0"
+     id="ellipse69"
+     r="4.9212499"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4259.2236"
+     cy="3130.5"
+     r="1.77"
+     layerid="11"
+     stroke-width="0"
+     id="circle70"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_shell"
+     cx="-4120.7236"
+     cy="3059.5"
+     layerid="11"
+     stroke-width="0"
+     id="ellipse70"
+     r="4.9212499"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4120.7236"
+     cy="3059.5"
+     r="1.77"
+     layerid="11"
+     stroke-width="0"
+     id="circle71"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_shell"
+     cx="-4080.7234"
+     cy="3059.5"
+     layerid="11"
+     stroke-width="0"
+     id="ellipse71"
+     r="3.937"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4080.7234"
+     cy="3059.5"
+     r="1.77"
+     layerid="11"
+     stroke-width="0"
+     id="circle72"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_shell"
+     cx="-4242.2236"
+     cy="3215"
+     layerid="11"
+     stroke-width="0"
+     id="ellipse72"
+     r="3.937"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4242.2236"
+     cy="3215"
+     r="1.77"
+     layerid="11"
+     stroke-width="0"
+     id="circle73"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_shell"
+     cx="-4202.2236"
+     cy="3215"
+     layerid="11"
+     stroke-width="0"
+     id="ellipse73"
+     r="3.937"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4202.2236"
+     cy="3215"
+     r="1.77"
+     layerid="11"
+     stroke-width="0"
+     id="circle74"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_shell"
+     cx="-4157.2236"
+     cy="3081"
+     layerid="11"
+     stroke-width="0"
+     id="ellipse74"
+     r="3"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4157.2236"
+     cy="3081"
+     r="1.8"
+     layerid="11"
+     stroke-width="0"
+     id="circle75"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_shell"
+     cx="-4157.2236"
+     cy="3091"
+     layerid="11"
+     stroke-width="0"
+     id="ellipse75"
+     r="3"
+     transform="scale(-1,1)" />
+  <circle
+     c_etype="pad_hole"
+     cx="-4157.2236"
+     cy="3091"
+     r="1.8"
+     layerid="11"
+     stroke-width="0"
+     id="circle76"
+     transform="scale(-1,1)" />
+  <circle
+     cx="-4081.7234"
+     cy="3119"
+     r="3.937"
+     stroke-width="0"
+     c_etype="pad_shell"
+     id="circle77"
+     transform="scale(-1,1)"
+     style="fill:#ffffff;stroke:#ffffff" />
+  <circle
+     cx="-4159.7236"
+     cy="3119"
+     r="3.937"
+     stroke-width="0"
+     c_etype="pad_shell"
+     id="circle79"
+     transform="scale(-1,1)"
+     style="fill:#ffffff;stroke:#ffffff" />
+  <polyline
+     points="4077.5 3049 4282.224 3049 4282.224 3403.33 4077.5 3403.33 4077.5 3049"
      stroke-width="1"
      stroke-linecap="round"
      fill="none"
      layerid="10"
      net=""
-     id="gge3841"
+     id="gge9808"
      locked="0"
-     transform="matrix(-1,0,0,1,8252.1,0)" />
-  <g
-     c_partid="part_pad"
-     c_etype="pinpart"
-     c_origin="4192.461,3190"
-     layerid="11"
-     number="2"
-     net="GND"
-     plated="Y"
-     id="gge1233"
-     locked="0"
-     c_rotation="0"
-     c_width="7.874"
-     c_height="7.874"
-     title="GND"
-     c_shape="ELLIPSE"
-     pasteexpansion="0"
-     solderexpansion="0.2"
-     transform="matrix(-1,0,0,1,8252.1,0)"
-     style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;opacity:1;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1">
-    <circle
-       c_etype="pad_shell"
-       cx="4192.4609"
-       cy="3190"
-       layerid="11"
-       stroke-width="0"
-       id="ellipse3"
-       r="3.937"
-       style="fill:#ffffff;fill-opacity:1;font-variation-settings:normal;vector-effect:none;stroke:none;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1" />
-  </g>
+     transform="matrix(-1,0,0,1,8350.2234,-9.5)" />
 </svg>
