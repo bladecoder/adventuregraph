@@ -40,8 +40,7 @@ embassy = [
 log = { version = "0.4", default-features = false }
 esp-idf-svc = { version = "0.48.1", default-features = false }
 #critical-section = { version = "1.1.2", features = ["std"] }
-#bladeink = { version = "1.0.3" }
-bladeink = { git = "https://github.com/bladecoder/blade-ink-rs.git", branch = "json_read_stream" }
+bladeink = "1.1.0"
 esp-idf-hal = { version = "0.43.1", default-features = false }
 anyhow = "1"
 embedded-graphics = "0.8.1"

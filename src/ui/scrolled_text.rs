@@ -274,6 +274,8 @@ impl ScrolledText {
     #[cfg(not(feature = "software-scroll"))]
     pub fn scroll(&mut self, display: &mut AGDisplay<'_>, nlines: i32) {
         // println!("scrolling...");
+
+        use mipidsi::options::Rotation;
         self.position += nlines;
 
         let h = self.text_style.font.character_size.height as i32;
