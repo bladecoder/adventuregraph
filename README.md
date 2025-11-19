@@ -82,8 +82,10 @@ ESP-32S2:
 ## CONSUMO
 
 - 0.09A sin pantalla.
-- 0.12-0.14 con pantalla.
+- 0.12-0.14 con pantalla pequeña.
 - con wifi??
+
+- A máxima velocidad con pantalla de 2.8 -> 150mA, 42mAh.
 
 ## SPI
 
