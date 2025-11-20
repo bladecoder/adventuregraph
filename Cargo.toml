@@ -4,7 +4,7 @@ version = "0.1.0"
 authors = ["Rafael García <bladecoder@gmail.com>"]
 edition = "2021"
 resolver = "2"
-rust-version = "1.71"
+rust-version = "1.77"
 
 [profile.release]
 opt-level = "s"
@@ -38,10 +38,10 @@ embassy = [
 
 [dependencies]
 log = { version = "0.4", default-features = false }
-esp-idf-svc = { version = "0.48.1", default-features = false }
+esp-idf-svc = { version = "0.51", default-features = false }
 #critical-section = { version = "1.1.2", features = ["std"] }
 bladeink = "1.1.0"
-esp-idf-hal = { version = "0.43.1", default-features = false }
+esp-idf-hal = { version = "0.45.2", default-features = false }
 anyhow = "1"
 embedded-graphics = "0.8.1"
 mipidsi = "0.8.0"
@@ -52,4 +52,4 @@ display-interface = "0.5.0"
 # esp-bsp = "0.2.0"
 
 [build-dependencies]
-embuild = "0.31.4"
+embuild = "0.33"
