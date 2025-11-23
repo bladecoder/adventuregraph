@@ -15,11 +15,15 @@ pub struct AGAudio<'d> {
 }
 
 impl<'d> AGAudio<'d> {
-    pub fn new<C: LedcChannel, B: LedcTimer + 'd>(
+    pub fn new<C, B>(
         _channel: impl Peripheral<P = C> + 'd,
         timer: impl Peripheral<P = B> + 'd,
         pin: impl Peripheral<P = impl OutputPin> + 'd,
-    ) -> Result<Self, EspError> {
+    ) -> Result<Self, EspError>
+    where
+        C: LedcChannel<SpeedMode = <B as LedcTimer>::SpeedMode>,
+        B: LedcTimer + 'd,
+    {
         let freq = Hertz::from(500);
         let res = Resolution::Bits10;
         let channel = LedcDriver::new(
