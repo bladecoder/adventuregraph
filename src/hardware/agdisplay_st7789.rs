@@ -1,4 +1,4 @@
-use display_interface_spi::SPIInterface;
+use mipidsi::interface::SpiInterface;
 
 use esp_idf_hal::gpio::OutputPin;
 use esp_idf_hal::gpio::PinDriver;
@@ -19,7 +19,8 @@ const W: u16 = 240;
 const H: u16 = 320;
 
 type TAGDisplay<'d> = Display<
-    SPIInterface<
+    SpiInterface<
+        'd,
         spi::SpiDeviceDriver<'d, spi::SpiDriver<'d>>,
         gpio::PinDriver<'d, gpio::Gpio7, gpio::Output>,
     >,
@@ -44,7 +45,8 @@ impl<'d> AGDisplay<'d> {
     ) -> anyhow::Result<Self> {
         let mut backlight = gpio::PinDriver::output(backlight)?;
 
-        let di = SPIInterface::new(
+        let buffer = Box::leak(Box::new([0_u8; 4096]));
+        let di = SpiInterface::new(
             spi::SpiDeviceDriver::new_single(
                 spi,
                 sclk,
@@ -55,6 +57,7 @@ impl<'d> AGDisplay<'d> {
                 &spi::SpiConfig::new().baudrate(80.MHz().into()),
             )?,
             gpio::PinDriver::output(dc)?,
+            buffer,
         );
 
         let display = Builder::new(ST7789, di)
