@@ -1,128 +1,80 @@
-# ETHER-KINETIC ADVENTUREGRAPH
+# Adventuregraph
 
-Un device vintage con un juego de texto tipo elige tu propia aventura.
+A handheld, battery-powered text adventure player built around an ESP32-S2 and written in Rust with `esp-idf-hal`, `mipidsi`, and the `bladeink` runtime. It renders Ink stories on a SPI TFT display and is driven with a rotary encoder, optional push button, and a piezo buzzer for feedback.
 
-"El Aventurógrafo Éter Cinético sería una herramienta de exploración revolucionaria, mezclando lo antiguo con lo nuevo, y lo físico con lo abstracto, para abrir puertas a mundos y experiencias que antes solo podían ser imaginados."
+- Firmware: Rust 2024 edition targeting `xtensa-esp32s2-espidf`.
+- Story format: Ink, compiled into `assets/story.ink.json` (source under `raw/ink-src/`).
+- Displays: ST7789 (default) or ST7735 via the `display-st7735` feature.
+- Hardware assets: PCBs and enclosure models in `docs/`, Wokwi wiring in `wokwi-esp32s2-v1*`.
 
-Inspirado en: https://hackaday.com/2024/03/15/retro-unit-converter-is-a-neat-little-gadget/
+## Repository Layout
 
-## BRAINSTORMING NAME ##
-    - Narrador
-    - Narratron (ya existe)
-    - Crononarrador
-    - Storycoil / Narracoil
-    - Electro narrador
-    - Story machine
-    - Ink machine
-    - Line/Word/Letter machine
-    - Fantasy Machine
-    - Magic machine
-    - Storytelling machine
-    - Dream machine
-    - Coil Chronicle
-    - Electrofable
-    - La máquina fabulosa
-    - Narrador Éter-Quinético
-    - Aventurógrafo éter cinético / Ether-Kinetic Adventuregraph
+- `src/` – Firmware (hardware drivers, UI screens, and the Ink runtime glue).
+- `assets/story.ink.json` – Packaged story used at runtime.
+- `raw/ink-src/` – Source Ink scripts.
+- `docs/` – PCB exports (1.0, 1.1, 1.2) and enclosure CAD/STL files.
+- `wokwi-esp32s2-v1*/` – Wokwi simulations matching hardware revisions.
 
-## FEATURES ##
+## Building and Flashing
 
-- Recargable por usb-c
-- Pantalla OLED. Necesita al menos 4 líneas, aunque puede tener scroll.
-- Potenciómetro con botón (codificador) para moverse por la interfaz y seleccionar las opciones.
-- Buzzer??
-- Botón para menú??
-- Botón encendido/apagado?
-- Software
-    - Ejecuta una historia en Ink.
-    - Hecho en Rust. Usará ink-rs.
-- Funciona a batería.
-    - Bastará con 1 batería?
-    - Circuito de corte para cargarla y alimentarse a la vez.
+1. Set up the ESP-IDF toolchain and export the environment (for example `source ../export.sh`).
+2. Build for ESP32-S2:
+   ```bash
+   MCU=esp32s2 cargo build --target xtensa-esp32s2-espidf
+   ```
+3. Flash (one option):
+   ```bash
+   web-flash --chip esp32s2 target/xtensa-esp32-espidf/debug/adventuregraph
+   ```
 
+Feature flags:
+- `pcbv1` – Routes the buzzer to GPIO18 (hardware v1.0). Without it, the buzzer uses GPIO1 (hardware v1.1+).
+- `display-st7735` – Selects the smaller ST7735 display driver; otherwise the ST7789 is used.
+- `software-scroll` – Enables software-based scrolling.
 
-## PARTS ##
+## Hardware
 
-- ESP32-S2 (el soporte de wifi no es necesario, aunque podría ser útil para bajarse nuevas historias) con 2MB PSRAM.
-- Carga batería: TP4056
-- LDO
-- Batería 18650
-- Codificador rotatorio
-- Carcasa 3D
+The device uses an ESP32-S2 with 2 MB PSRAM, a SPI TFT (ST7789 by default), a KY-040–style rotary encoder with integrated switch, an optional extra push button, and a piezo buzzer. Charging/power management (TP4056, LDO, 18650 cell) and the 3D-printed enclosure live in `docs/`.
 
-PANTALLAS:
-- Pantalla ssd1306
-✓ LCD 1.8" ST7725S: ST7735S 128x160
-✓ LCD 2.8" ST7789V: ST7789V  NO:ILI9341 320x240
+### Pinout – PCB v1.0 (feature `pcbv1`)
 
-- ENABLE DISPLAY DMA:
-    https://github.com/georgik/esp-display-interface-spi-dma/tree/feature/esp-hal-0.17
+| Function                | ESP32-S2 pin |
+| ----------------------- | ------------ |
+| TFT CS                  | GPIO3        |
+| TFT RST                 | GPIO5        |
+| TFT D/C                 | GPIO7        |
+| TFT MOSI (SDA)          | GPIO9        |
+| TFT SCK (SCL)           | GPIO11       |
+| TFT backlight (LED)     | GPIO12       |
+| Rotary encoder A (CLK)  | GPIO38       |
+| Rotary encoder B (DT)   | GPIO40       |
+| Rotary encoder switch   | GPIO36       |
+| Buzzer (+)              | GPIO18       |
+| User button             | — (not fitted) |
+| Power                   | 3V3 / GND    |
 
-Opcional:
-- Buzzer
-- Led?
-- Circuito de carga y alimentación simultánea
-- Circuito de detección de carga de batería.
+Reference wiring: `wokwi-esp32s2-v1/diagram.json`.
 
-## PINES ##
+### Pinout – PCB v1.1 (default build)
 
-ESP-32:
-- DISPLAY: 5,4
-- ENCODER: 27,26,25
-- BUTTON: 33
-- BUZZER: 16
+| Function                | ESP32-S2 pin |
+| ----------------------- | ------------ |
+| TFT CS                  | GPIO3        |
+| TFT RST                 | GPIO5        |
+| TFT D/C                 | GPIO7        |
+| TFT MOSI (SDA)          | GPIO9        |
+| TFT SCK (SCL)           | GPIO11       |
+| TFT backlight (LED)     | GPIO12       |
+| Rotary encoder A (CLK)  | GPIO38       |
+| Rotary encoder B (DT)   | GPIO40       |
+| Rotary encoder switch   | GPIO36       |
+| Buzzer (+)              | GPIO1        |
+| User button             | GPIO37 → GND |
+| Power                   | 3V3 / GND    |
 
-ESP-32S2:
-- DISPLAY I2C: 33(SDA),35(SCL)
-- DISPLAY SPI: 7(RS/DC/AO), 7(CS), 12(SCK, CLK, SCLK), 11(MISO/SDO/DOUT), 5(RST/RES/REST), 12(BACKLIGHT), 3(MOSI/SDI/DIN/SDA)
-- ENCODER: 38(A), 40(B), 36(SW)
-- BUTTON: 13
-- BUZZER: 18
+Reference wiring: `wokwi-esp32s2-v1.1/diagram.json`.
 
-## CONSUMO
+### Notes
 
-- 0.09A sin pantalla.
-- 0.12-0.14 con pantalla pequeña.
-- con wifi??
-
-- A máxima velocidad con pantalla de 2.8 -> 150mA, 42mAh.
-
-## SPI
-
-RS/DC/AO: Data/command
-CS: Chip select
-SDA: MOSI
-
-## MILESTONES ##
-
-✓ Rotary encoder funcionando
-✓ Prototipo "The Intercept"
-  - Sin carga
-  - Solo rotary encoder
-  - Pantalla pequeña
-  - Custom PCB
-  - Carcasa
-- Prototipo "Adventuregraph 0"
-  - Custom PCB
-  - Sin carga
-  - **Pantalla grande**
-  - Dos botones
-  - Buzzer
-  - Carcasa.
-- Prototipo "Adventuregraph 1"
-  - Añadir TP4056 y probar con batería.
-  - Circuito de corte y carga: https://www.youtube.com/watch?v=37kGva3NW8w
-- Prototipo "Adventuregraph 2"
-  - Pantalla OLED
-  - Circuito de info de carga de batería.
-- Nueva aventura!
-
-## BUILD AND MONITOR
-
-ESP32S2:
-
-```
-source ../export.sh
-MCU=esp32s2 cargo build --target xtensa-esp32s2-espidf
-web-flash --chip esp32s2 target/xtensa-esp32-espidf/debug/adventuregraph
-```
+- Both revisions share the same display and encoder wiring; only the buzzer (GPIO18 → GPIO1) and an added user button on GPIO37 change between v1.0 and v1.1.
+- PCB/3D files for v1.0 and v1.1 are in `docs/`; v1.2 PCB artwork is also included for reference.
