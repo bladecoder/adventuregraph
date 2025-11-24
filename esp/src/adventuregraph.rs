@@ -1,7 +1,7 @@
 use embedded_graphics::prelude::Dimensions;
 use esp_idf_hal::{
     prelude::Peripherals,
-    sys::{esp_timer_get_time, heap_caps_get_free_size, MALLOC_CAP_8BIT},
+    sys::{MALLOC_CAP_8BIT, esp_timer_get_time, heap_caps_get_free_size},
 };
 
 use crate::{

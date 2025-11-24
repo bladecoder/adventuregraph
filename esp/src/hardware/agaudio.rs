@@ -3,9 +3,9 @@
 use esp_idf_hal::{
     delay::FreeRtos,
     gpio::OutputPin,
-    ledc::{config::TimerConfig, LedcChannel, LedcDriver, LedcTimer, LedcTimerDriver, Resolution},
+    ledc::{LedcChannel, LedcDriver, LedcTimer, LedcTimerDriver, Resolution, config::TimerConfig},
     peripheral::Peripheral,
-    sys::{ledc_mode_t_LEDC_LOW_SPEED_MODE, ledc_set_freq, EspError},
+    sys::{EspError, ledc_mode_t_LEDC_LOW_SPEED_MODE, ledc_set_freq},
     units::Hertz,
 };
 

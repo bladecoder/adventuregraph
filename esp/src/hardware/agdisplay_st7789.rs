@@ -9,11 +9,11 @@ use esp_idf_svc::hal::gpio;
 use esp_idf_svc::hal::prelude::*;
 use esp_idf_svc::hal::spi;
 
+use mipidsi::Builder;
+use mipidsi::Display;
 use mipidsi::models::ST7789;
 use mipidsi::options::Orientation;
 use mipidsi::options::Rotation;
-use mipidsi::Builder;
-use mipidsi::Display;
 
 const W: u16 = 240;
 const H: u16 = 320;

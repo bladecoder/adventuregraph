@@ -2,12 +2,12 @@ use esp_idf_hal::{
     gpio::{InputPin, OutputPin, Pin},
     peripheral::Peripheral,
     sys::{
-        gpio_get_level, gpio_mode_t_GPIO_MODE_INPUT, gpio_pullup_en, gpio_set_direction, EspError,
+        EspError, gpio_get_level, gpio_mode_t_GPIO_MODE_INPUT, gpio_pullup_en, gpio_set_direction,
     },
-    timer::{config::Config, Timer, TimerDriver},
+    timer::{Timer, TimerDriver, config::Config},
 };
 
-use std::sync::atomic::{AtomicI32, AtomicI8, Ordering};
+use std::sync::atomic::{AtomicI8, AtomicI32, Ordering};
 
 use crate::hardware::peripherals_cfg::{PinA, PinB, PinSw};
 

@@ -3,7 +3,7 @@ use esp_idf_hal::sys::esp_timer_get_time;
 
 // const JSON_STRING: &str = r##"{"inkVersion":21,"root":[["^Line from Ink.","\n",["done",{"#n":"g-0"}],null],"done",null],"listDefs":{}}"##;
 
-const JSON_STRING: &str = include_str!("../assets/story.ink.json");
+const JSON_STRING: &str = include_str!("../../assets/story.ink.json");
 
 pub struct AGInk {
     story: Story,

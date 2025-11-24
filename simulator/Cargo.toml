@@ -1,0 +1,10 @@
+[package]
+name = "simulator"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0.100"
+embedded-graphics-simulator = "0.7.0"
+mousefood = "0.2.1"
+bladeink = "1.2.1"
+ratatui = { version = "0.29.0", default-features = false, features = ["unstable-rendered-line-info"] }
