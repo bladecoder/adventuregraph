@@ -1,13 +1,15 @@
-mod adventuregraph;
-mod agink;
 mod hardware;
-mod ui;
 
-use adventuregraph::Adventuregraph;
-use esp_idf_hal::delay::FreeRtos;
-use ui::screen::Screen;
-use ui::scrolled_text;
-use ui::story_screen::StoryScreen;
+use adventuregraph_core::{
+    app::App,
+    ui::{UiState, draw},
+};
+use esp_idf_hal::{delay::FreeRtos, peripherals::Peripherals};
+use hardware::aginput::Direction;
+use mousefood::prelude::*;
+use mousefood::ratatui::Terminal;
+
+use mousefood::fonts::{MONO_7X13, MONO_7X13_BOLD};
 
 fn main() -> anyhow::Result<()> {
     // It is necessary to call this function once. Otherwise some patches to the runtime
@@ -16,45 +18,61 @@ fn main() -> anyhow::Result<()> {
     // Bind the log crate to the ESP Logging facilities
     esp_idf_svc::log::EspLogger::initialize_default();
 
-    let mut adventuregraph = Adventuregraph::new()?;
-    let mut story_screen = StoryScreen::new();
+    let peripherals = Peripherals::take()?;
+    let (mut agdisplay, mut aginput, mut agaudio) =
+        hardware::peripherals_cfg::init_peripherals(peripherals);
 
-    story_screen.draw(&mut adventuregraph)?;
+    let mut app = App::new()?;
+    let mut ui_state = UiState::default();
+
+    let config = EmbeddedBackendConfig {
+        font_regular: MONO_7X13,
+        font_bold: MONO_7X13_BOLD,
+        //font_italic: Some(fonts::MONO_6X13_ITALIC),
+        ..Default::default()
+    };
+
+    let backend: EmbeddedBackend<_, _> = EmbeddedBackend::new(agdisplay.get_display(), config);
+    let mut terminal = Terminal::new(backend)?;
 
     loop {
-        story_screen.update(&mut adventuregraph)?;
-        FreeRtos::delay_ms(100u32);
-    }
-}
+        terminal.draw(|frame| draw(frame, &app, &mut ui_state))?;
 
-pub fn test_scroll(agdisplay: &mut hardware::agdisplay::AGDisplay) {
-    let mut scrolled_text = scrolled_text::ScrolledText::new();
-    //test scroll display: write 40 lines
-    for i in 0..100 {
-        scrolled_text.add_text(agdisplay, &format!("Line {}\n", i));
-    }
-}
-
-fn test_rotary_encoder(
-    aginput: &mut hardware::aginput::AGInput,
-    agdisplay: &mut hardware::agdisplay::AGDisplay,
-) {
-    loop {
         let inputs = aginput.get_inputs();
-        if inputs.encsw {
-            println!("Button pressed");
-        }
+        let scroll_step = usize::max(1, ui_state.story_viewport_length / 2) as i32;
 
         match inputs.rotary {
-            hardware::aginput::Direction::Left => {
-                println!("Left");
+            Direction::Left => {
+                if app.has_choices() {
+                    app.select_previous();
+                } else {
+                    ui_state.scroll_story(-scroll_step);
+                }
             }
-            hardware::aginput::Direction::Right => {
-                println!("Right");
+            Direction::Right => {
+                if app.has_choices() {
+                    app.select_next();
+                } else {
+                    ui_state.scroll_story(scroll_step);
+                }
             }
-            hardware::aginput::Direction::None => {}
+            Direction::None => {}
         }
 
-        FreeRtos::delay_ms(100u32);
+        if inputs.encsw {
+            if app.has_choices() || app.is_finished() {
+                app.choose_selected()?;
+                ui_state.jump_story_to_end();
+            } else {
+                ui_state.jump_story_to_end();
+            }
+        }
+
+        if inputs.btn1 {
+            agaudio.play_ok();
+            ui_state.jump_story_to_start();
+        }
+
+        FreeRtos::delay_ms(50u32);
     }
 }
