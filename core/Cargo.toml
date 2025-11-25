@@ -1,0 +1,16 @@
+[package]
+name = "core"
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[lib]
+name = "adventuregraph_core"
+
+[dependencies]
+anyhow = "1.0.100"
+bladeink = "1.2.1"
+mousefood = "0.2.1"
+ratatui = { workspace = true, features = ["unstable-rendered-line-info"] }

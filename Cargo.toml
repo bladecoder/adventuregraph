@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["esp", "simulator"]
+members = ["core","esp", "simulator"]
 
 [workspace.package]
 name = "adventuregraph"

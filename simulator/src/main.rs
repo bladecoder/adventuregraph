@@ -1,17 +1,13 @@
-mod app;
-mod ui;
-
 use std::{cell::RefCell, rc::Rc};
 
 use anyhow::Result;
-use app::App;
+use adventuregraph_core::{app::App, ui::{draw, UiState}};
 use embedded_graphics_simulator::{
     sdl2::Keycode, OutputSettings, SimulatorDisplay, SimulatorEvent, Window,
 };
 use mousefood::embedded_graphics::geometry;
 use mousefood::prelude::*;
 use mousefood::ratatui::Terminal;
-use ui::{draw, UiState};
 
 fn numeric_choice(keycode: Keycode) -> Option<usize> {
     match keycode {
