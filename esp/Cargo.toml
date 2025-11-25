@@ -1,15 +1,10 @@
 [package]
-name = "adventuregraph"
-version = "0.1.0"
-authors = ["Rafael García <bladecoder@gmail.com>"]
-edition = "2024"
-
-[profile.release]
-opt-level = "s"
-
-[profile.dev]
-debug = true    # Symbols are nice and they don't increase the size on Flash
-opt-level = "z"
+name = "adventuregraph-esp"
+version.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+edition.workspace = true
 
 [features]
 default = ["bladeink/stream-json-parser"]
@@ -19,11 +14,11 @@ display-st7735 = []
 software-scroll = []
 
 [dependencies]
-log = { version = "0.4", default-features = false }
+log = { workspace = true }
 esp-idf-svc = { version = "0.51" }
-bladeink = "1.2.1"
+bladeink = { workspace = true }
 esp-idf-hal = { version = "0.45.2", default-features = false }
-anyhow = "1"
+anyhow = { workspace = true }
 embedded-graphics = "0.8.1"
 mipidsi = "0.9.0"
 

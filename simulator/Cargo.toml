@@ -1,9 +1,13 @@
 [package]
 name = "simulator"
-edition = "2021"
+version.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+edition.workspace = true
 
 [dependencies]
 adventuregraph_core = { path = "../core", package = "core" }
-anyhow = "1.0.100"
+anyhow = { workspace = true }
 embedded-graphics-simulator = "0.7.0"
-mousefood = "0.2.1"
+mousefood = { workspace = true }

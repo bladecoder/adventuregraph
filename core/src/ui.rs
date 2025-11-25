@@ -1,11 +1,11 @@
 use crate::app::App;
-use mousefood::ratatui::layout::{Constraint, Direction, Layout, Margin};
-use mousefood::ratatui::style::{Color, Modifier, Style};
-use mousefood::ratatui::widgets::{
+use ratatui::Frame;
+use ratatui::layout::{Constraint, Direction, Layout, Margin};
+use ratatui::style::{Color, Modifier, Style};
+use ratatui::widgets::{
     Block, List, ListItem, ListState, Paragraph, Scrollbar, ScrollbarOrientation, ScrollbarState,
     Wrap,
 };
-use mousefood::ratatui::Frame;
 
 #[derive(Default)]
 pub struct UiState {
