@@ -4,6 +4,17 @@ use bladeink::story::Story;
 const STORY_JSON: &str = include_str!("../../assets/story.ink.json");
 const RESTART_CHOICE: &str = "-- restart --";
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum AppEvent {
+    SelectNext,
+    SelectPrevious,
+    SelectIndex(usize),
+    ChooseSelected,
+    ScrollStory(i32),
+    JumpStoryStart,
+    JumpStoryEnd,
+}
+
 pub struct App {
     story: Story,
     lines: Vec<String>,
@@ -80,6 +91,35 @@ impl App {
         }
 
         self.advance_story()
+    }
+
+    pub fn handle_event(&mut self, ui: &mut crate::ui::UiState, event: AppEvent) -> Result<()> {
+        if ui.is_story_animating()
+            && matches!(
+                event,
+                AppEvent::SelectNext
+                    | AppEvent::SelectPrevious
+                    | AppEvent::SelectIndex(_)
+                    | AppEvent::ChooseSelected
+            )
+        {
+            return Ok(());
+        }
+
+        match event {
+            AppEvent::SelectNext => self.select_next(),
+            AppEvent::SelectPrevious => self.select_previous(),
+            AppEvent::SelectIndex(index) => self.select_choice(index),
+            AppEvent::ChooseSelected => {
+                self.choose_selected()?;
+                ui.jump_story_to_end();
+            }
+            AppEvent::ScrollStory(delta) => ui.scroll_story(delta),
+            AppEvent::JumpStoryStart => ui.jump_story_to_start(),
+            AppEvent::JumpStoryEnd => ui.jump_story_to_end(),
+        }
+
+        Ok(())
     }
 
     pub fn is_finished(&self) -> bool {

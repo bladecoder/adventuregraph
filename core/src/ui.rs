@@ -118,7 +118,8 @@ impl UiState {
             return self.story_target_text.clone();
         }
 
-        let end = self.story_target_text
+        let end = self
+            .story_target_text
             .char_indices()
             .nth(self.story_visible_chars)
             .map(|(idx, _)| idx)
@@ -126,7 +127,7 @@ impl UiState {
         self.story_target_text[..end].to_owned()
     }
 
-    fn story_is_animating(&self) -> bool {
+    pub fn is_story_animating(&self) -> bool {
         self.story_visible_chars < self.story_target_char_count
     }
 }
@@ -160,7 +161,7 @@ pub fn draw(frame: &mut Frame, app: &App, ui: &mut UiState) {
     }
     ui.story_entry_count = entry_count;
     if ui.story_follow_new_content {
-        if ui.story_is_animating() {
+        if ui.is_story_animating() {
             ui.jump_story_to_end();
         } else {
             ui.story_follow_new_content = false;
@@ -189,7 +190,7 @@ pub fn draw(frame: &mut Frame, app: &App, ui: &mut UiState) {
         );
     }
 
-    if app.has_choices() {
+    if app.has_choices() && !ui.is_story_animating() {
         let items: Vec<ListItem> = app
             .choices()
             .iter()
