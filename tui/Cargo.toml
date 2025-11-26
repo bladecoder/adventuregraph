@@ -1,5 +1,5 @@
 [package]
-name = "tui"
+name = "adventuregraph-tui"
 version.workspace = true
 authors.workspace = true
 license.workspace = true
