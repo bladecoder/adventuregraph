@@ -114,16 +114,15 @@ impl UiState {
     }
 
     fn visible_story_text(&self) -> String {
-        let mut end = self.story_target_text.len();
-        let mut count = 0usize;
-        for (idx, _) in self.story_target_text.char_indices() {
-            if count == self.story_visible_chars {
-                end = idx;
-                break;
-            }
-            count += 1;
+        if self.story_visible_chars >= self.story_target_char_count {
+            return self.story_target_text.clone();
         }
 
+        let end = self.story_target_text
+            .char_indices()
+            .nth(self.story_visible_chars)
+            .map(|(idx, _)| idx)
+            .unwrap_or(self.story_target_text.len());
         self.story_target_text[..end].to_owned()
     }
 
