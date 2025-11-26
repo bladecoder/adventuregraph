@@ -27,7 +27,7 @@ pub struct UiState {
 }
 
 impl UiState {
-    const STORY_CHARS_PER_SECOND: f32 = 60.0;
+    const STORY_CHARS_PER_SECOND: f32 = 20.0;
 
     pub fn clamp_story_scroll(&mut self) {
         let max_scroll = self
@@ -248,7 +248,7 @@ pub fn draw(frame: &mut Frame, app: &App, ui: &mut UiState) {
         let info = if app.is_finished() {
             "Story completed. Press Enter to restart, PageUp/PageDown to scroll the text."
         } else {
-            "Showing story... Use PageUp/PageDown/Home/End to scroll."
+            "Showing story..."
         };
 
         let info_paragraph = Paragraph::new(info)

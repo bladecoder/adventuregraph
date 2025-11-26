@@ -46,7 +46,7 @@ fn run_app(terminal: &mut Terminal<CrosstermBackend<io::Stdout>>) -> Result<()> 
     loop {
         terminal.draw(|frame| draw(frame, &mut app, &mut ui_state))?;
 
-        if !event::poll(Duration::from_millis(250))? {
+        if ui_state.is_story_animating() && !event::poll(Duration::from_millis(50))? {
             continue;
         }
 
