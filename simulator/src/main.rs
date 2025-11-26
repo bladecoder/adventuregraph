@@ -1,6 +1,7 @@
 use std::{cell::RefCell, rc::Rc};
 
 use adventuregraph_core::{
+    AppEvent,
     app::App,
     ui::{UiState, draw},
 };
@@ -59,7 +60,7 @@ fn main() -> Result<()> {
 
     // Run an infinite loop, where widgets will be rendered
     loop {
-        terminal.draw(|frame| draw(frame, &app, &mut ui_state))?;
+        terminal.draw(|frame| draw(frame, &mut app, &mut ui_state))?;
 
         let mut window = simulator_window.borrow_mut();
         for event in window.events() {
@@ -67,29 +68,35 @@ fn main() -> Result<()> {
                 SimulatorEvent::Quit => return Ok(()),
                 SimulatorEvent::KeyDown { keycode, .. } => {
                     if let Some(index) = numeric_choice(keycode) {
-                        app.select_choice(index);
-                        app.choose_selected()?;
-                        ui_state.jump_story_to_end();
+                        app.handle_event(&mut ui_state, AppEvent::SelectIndex(index))?;
+                        app.handle_event(&mut ui_state, AppEvent::ChooseSelected)?;
                         continue;
                     }
 
                     match keycode {
-                        Keycode::Down | Keycode::S | Keycode::J => app.select_next(),
-                        Keycode::Up | Keycode::W | Keycode::K => app.select_previous(),
+                        Keycode::Down | Keycode::S | Keycode::J => {
+                            app.handle_event(&mut ui_state, AppEvent::SelectNext)?;
+                        }
+                        Keycode::Up | Keycode::W | Keycode::K => {
+                            app.handle_event(&mut ui_state, AppEvent::SelectPrevious)?;
+                        }
                         Keycode::Return | Keycode::Space => {
-                            app.choose_selected()?;
-                            ui_state.jump_story_to_end();
+                            app.handle_event(&mut ui_state, AppEvent::ChooseSelected)?;
                         }
                         Keycode::PageDown => {
                             let delta = ui_state.story_viewport_length as i32;
-                            ui_state.scroll_story(delta);
+                            app.handle_event(&mut ui_state, AppEvent::ScrollStory(delta))?;
                         }
                         Keycode::PageUp => {
                             let delta = ui_state.story_viewport_length as i32;
-                            ui_state.scroll_story(-delta);
+                            app.handle_event(&mut ui_state, AppEvent::ScrollStory(-delta))?;
                         }
-                        Keycode::Home => ui_state.jump_story_to_start(),
-                        Keycode::End => ui_state.jump_story_to_end(),
+                        Keycode::Home => {
+                            app.handle_event(&mut ui_state, AppEvent::JumpStoryStart)?;
+                        }
+                        Keycode::End => {
+                            app.handle_event(&mut ui_state, AppEvent::JumpStoryEnd)?;
+                        }
                         _ => {}
                     }
                 }

@@ -1,6 +1,7 @@
 mod hardware;
 
 use adventuregraph_core::{
+    AppEvent,
     app::App,
     ui::{UiState, draw},
 };
@@ -36,7 +37,7 @@ fn main() -> anyhow::Result<()> {
     let mut terminal = Terminal::new(backend)?;
 
     loop {
-        terminal.draw(|frame| draw(frame, &app, &mut ui_state))?;
+        terminal.draw(|frame| draw(frame, &mut app, &mut ui_state))?;
 
         let inputs = aginput.get_inputs();
         let scroll_step = usize::max(1, ui_state.story_viewport_length / 2) as i32;
@@ -44,16 +45,16 @@ fn main() -> anyhow::Result<()> {
         match inputs.rotary {
             Direction::Left => {
                 if app.has_choices() {
-                    app.select_previous();
+                    app.handle_event(&mut ui_state, AppEvent::SelectPrevious)?;
                 } else {
-                    ui_state.scroll_story(-scroll_step);
+                    app.handle_event(&mut ui_state, AppEvent::ScrollStory(-scroll_step))?;
                 }
             }
             Direction::Right => {
                 if app.has_choices() {
-                    app.select_next();
+                    app.handle_event(&mut ui_state, AppEvent::SelectNext)?;
                 } else {
-                    ui_state.scroll_story(scroll_step);
+                    app.handle_event(&mut ui_state, AppEvent::ScrollStory(scroll_step))?;
                 }
             }
             Direction::None => {}
@@ -61,16 +62,15 @@ fn main() -> anyhow::Result<()> {
 
         if inputs.encsw {
             if app.has_choices() || app.is_finished() {
-                app.choose_selected()?;
-                ui_state.jump_story_to_end();
+                app.handle_event(&mut ui_state, AppEvent::ChooseSelected)?;
             } else {
-                ui_state.jump_story_to_end();
+                app.handle_event(&mut ui_state, AppEvent::JumpStoryEnd)?;
             }
         }
 
         if inputs.btn1 {
             agaudio.play_ok();
-            ui_state.jump_story_to_start();
+            app.handle_event(&mut ui_state, AppEvent::JumpStoryStart)?;
         }
 
         FreeRtos::delay_ms(50u32);
