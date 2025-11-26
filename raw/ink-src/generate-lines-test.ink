@@ -36,7 +36,7 @@ Elige una opción:
 
 === generate_lines_loop ===
 Línea generada {current_line}.
-{~ current_line = current_line + 1}
+~ current_line = current_line + 1
 { current_line <= line_count:
     -> generate_lines_loop
 - else:
