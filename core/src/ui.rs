@@ -1,3 +1,5 @@
+use std::time::Instant;
+
 use crate::app::App;
 use ratatui::Frame;
 use ratatui::layout::{Constraint, Direction, Layout, Margin};
@@ -13,12 +15,20 @@ pub struct UiState {
     story_total_lines: usize,
     pub story_viewport_length: usize,
     story_entry_count: usize,
+    story_target_text: String,
+    story_target_char_count: usize,
+    story_visible_chars: usize,
+    story_animation_accumulator: f32,
+    story_last_tick: Option<Instant>,
+    story_follow_new_content: bool,
     choices_state: ListState,
     choices_content_length: usize,
     choices_viewport_length: usize,
 }
 
 impl UiState {
+    const STORY_CHARS_PER_SECOND: f32 = 60.0;
+
     pub fn clamp_story_scroll(&mut self) {
         let max_scroll = self
             .story_total_lines
@@ -60,6 +70,66 @@ impl UiState {
             .min(u16::MAX as usize);
         self.story_scroll = max_scroll as u16;
     }
+
+    fn update_story_text(&mut self, story_text: String) -> String {
+        if story_text != self.story_target_text {
+            let preserve_visible = if story_text.starts_with(&self.story_target_text) {
+                self.story_target_char_count.min(self.story_visible_chars)
+            } else {
+                0
+            };
+
+            self.story_target_text = story_text;
+            self.story_target_char_count = self.story_target_text.chars().count();
+            self.story_visible_chars = preserve_visible.min(self.story_target_char_count);
+            self.story_animation_accumulator = 0.0;
+            self.story_last_tick = None;
+        }
+
+        self.advance_story_animation();
+        self.visible_story_text()
+    }
+
+    fn advance_story_animation(&mut self) {
+        if self.story_visible_chars >= self.story_target_char_count {
+            self.story_last_tick = Some(Instant::now());
+            return;
+        }
+
+        let now = Instant::now();
+        let last_tick = self.story_last_tick.replace(now);
+        let delta_seconds = last_tick.map_or(0.0, |tick| {
+            now.saturating_duration_since(tick).as_secs_f32()
+        });
+
+        self.story_animation_accumulator += delta_seconds * Self::STORY_CHARS_PER_SECOND;
+        let increment = self.story_animation_accumulator.floor() as usize;
+        if increment == 0 {
+            return;
+        }
+
+        self.story_animation_accumulator -= increment as f32;
+        self.story_visible_chars =
+            (self.story_visible_chars + increment).min(self.story_target_char_count);
+    }
+
+    fn visible_story_text(&self) -> String {
+        let mut end = self.story_target_text.len();
+        let mut count = 0usize;
+        for (idx, _) in self.story_target_text.char_indices() {
+            if count == self.story_visible_chars {
+                end = idx;
+                break;
+            }
+            count += 1;
+        }
+
+        self.story_target_text[..end].to_owned()
+    }
+
+    fn story_is_animating(&self) -> bool {
+        self.story_visible_chars < self.story_target_char_count
+    }
 }
 
 pub fn draw(frame: &mut Frame, app: &App, ui: &mut UiState) {
@@ -74,6 +144,8 @@ pub fn draw(frame: &mut Frame, app: &App, ui: &mut UiState) {
         app.lines().join("\n\n")
     };
 
+    let story_text = ui.update_story_text(story_text);
+
     let story_block = Block::bordered().title("THE INTERCEPT");
     let paragraph = Paragraph::new(story_text)
         .wrap(Wrap { trim: true })
@@ -84,9 +156,17 @@ pub fn draw(frame: &mut Frame, app: &App, ui: &mut UiState) {
 
     let entry_count = app.lines().len();
     if entry_count > ui.story_entry_count {
+        ui.story_follow_new_content = true;
         ui.jump_story_to_end();
     }
     ui.story_entry_count = entry_count;
+    if ui.story_follow_new_content {
+        if ui.story_is_animating() {
+            ui.jump_story_to_end();
+        } else {
+            ui.story_follow_new_content = false;
+        }
+    }
     ui.clamp_story_scroll();
 
     let story = paragraph.scroll((ui.story_scroll, 0));
