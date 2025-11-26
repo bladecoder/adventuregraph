@@ -31,7 +31,7 @@ Elige una opción:
 -> menu
 
 === function generate_lines(line_count) ===
-{~ temp current_line = 1}
+~ temp current_line = 1
 -> generate_lines_loop
 
 === generate_lines_loop ===
