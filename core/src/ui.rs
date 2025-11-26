@@ -132,7 +132,7 @@ impl UiState {
     }
 }
 
-pub fn draw(frame: &mut Frame, app: &mut App, ui: &mut UiState) {
+pub fn draw(frame: &mut Frame, app: &App, ui: &mut UiState) {
     let chunks = Layout::default()
         .direction(Direction::Vertical)
         .constraints([Constraint::Percentage(75), Constraint::Percentage(25)])
