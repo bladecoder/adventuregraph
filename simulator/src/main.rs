@@ -1,9 +1,12 @@
 use std::{cell::RefCell, rc::Rc};
 
+use adventuregraph_core::{
+    app::App,
+    ui::{UiState, draw},
+};
 use anyhow::Result;
-use adventuregraph_core::{app::App, ui::{draw, UiState}};
 use embedded_graphics_simulator::{
-    sdl2::Keycode, OutputSettings, SimulatorDisplay, SimulatorEvent, Window,
+    OutputSettings, SimulatorDisplay, SimulatorEvent, Window, sdl2::Keycode,
 };
 use mousefood::embedded_graphics::geometry;
 use mousefood::prelude::*;
