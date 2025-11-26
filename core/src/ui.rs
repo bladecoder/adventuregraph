@@ -74,7 +74,7 @@ impl UiState {
     fn update_story_text(&mut self, story_text: String) -> String {
         if story_text != self.story_target_text {
             let preserve_visible = if story_text.starts_with(&self.story_target_text) {
-                self.story_target_char_count.min(self.story_visible_chars)
+                self.story_visible_chars
             } else {
                 0
             };
