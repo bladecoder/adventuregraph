@@ -29,7 +29,7 @@ A handheld, battery-powered text adventure player built around an ESP32-S2 and w
    ```
 3. Flash (one option):
    ```bash
-   web-flash --chip esp32s2 target/xtensa-esp32-espidf/debug/adventuregraph-esp
+   web-flash --chip esp32s2 target/xtensa-esp32s2-espidf/debug/adventuregraph-esp
    ```
 
 Host builds:
