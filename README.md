@@ -2,30 +2,39 @@
 
 A handheld, battery-powered text adventure player built around an ESP32-S2 and written in Rust with `esp-idf-hal`, `mipidsi`, and the `bladeink` runtime. It renders Ink stories on a SPI TFT display and is driven with a rotary encoder, optional push button, and a piezo buzzer for feedback.
 
-- Firmware: Rust 2024 edition targeting `xtensa-esp32s2-espidf`.
+- Firmware: Rust 2024 edition targeting `xtensa-esp32s2-espidf` (crate `adventuregraph-esp`).
 - Story format: Ink, compiled into `assets/story.ink.json` (source under `raw/ink-src/`).
+- Desktop builds: TUI preview (`adventuregraph-tui`) and an SDL-based simulator (`adventuregraph-simulator`).
 - Displays: ST7789 (default) or ST7735 via the `display-st7735` feature.
-- Hardware assets: PCBs and enclosure models in `docs/`, Wokwi wiring in `wokwi-esp32s2-v1*`.
+- Hardware assets: PCBs and enclosure models in `docs/`, Wokwi wiring in `esp/wokwi-esp32s2-v1*`.
 
 ## Repository Layout
 
-- `src/` – Firmware (hardware drivers, UI screens, and the Ink runtime glue).
-- `assets/story.ink.json` – Packaged story used at runtime.
+- `core/` – Shared story runtime, UI primitives, and game state used by every target.
+- `esp/` – ESP32-S2 firmware (features: `pcbv1`, `display-st7735`, `software-scroll`).
+- `tui/` – Terminal UI preview using `crossterm`/`ratatui` on the host.
+- `simulator/` – Desktop simulator using `embedded-graphics-simulator` (needs SDL2).
+- `assets/` – Compiled Ink story (`story.ink.json`) and artwork.
 - `raw/ink-src/` – Source Ink scripts.
 - `docs/` – PCB exports (1.0, 1.1, 1.2) and enclosure CAD/STL files.
-- `wokwi-esp32s2-v1*/` – Wokwi simulations matching hardware revisions.
+- `scripts/` – Helper scripts for building/flashing the ESP target.
+- `esp/wokwi-esp32s2-v1*/` – Wokwi simulations matching hardware revisions.
 
 ## Building and Flashing
 
 1. Set up the ESP-IDF toolchain and export the environment (for example `source ../export.sh`).
-2. Build for ESP32-S2:
+2. Build firmware for ESP32-S2 from the workspace root:
    ```bash
-   MCU=esp32s2 cargo build --target xtensa-esp32s2-espidf
+   cargo build -p adventuregraph-esp --target xtensa-esp32s2-espidf
    ```
 3. Flash (one option):
    ```bash
-   web-flash --chip esp32s2 target/xtensa-esp32-espidf/debug/adventuregraph
+   web-flash --chip esp32s2 target/xtensa-esp32-espidf/debug/adventuregraph-esp
    ```
+
+Host builds:
+- Terminal preview: `cargo run -p adventuregraph-tui`
+- SDL simulator (requires SDL2): `cargo run -p adventuregraph-simulator`
 
 Feature flags:
 - `pcbv1` – Routes the buzzer to GPIO18 (hardware v1.0). Without it, the buzzer uses GPIO1 (hardware v1.1+).
