@@ -156,7 +156,7 @@ pub fn draw(frame: &mut Frame, app: &App, ui: &mut UiState) {
         horizontal: 1,
     });
     ui.story_total_lines = usize::max(1, paragraph.line_count(story_area.width));
-    ui.story_viewport_length = usize::max(1, chunks[0].height.saturating_sub(2) as usize);
+    ui.story_viewport_length = usize::max(1, story_area.height as usize);
 
     let entry_count = app.lines().len();
     if entry_count > ui.story_entry_count {
