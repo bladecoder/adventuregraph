@@ -94,16 +94,17 @@ impl App {
     }
 
     pub fn handle_event(&mut self, ui: &mut crate::ui::UiState, event: AppEvent) -> Result<()> {
-        if ui.is_story_animating()
-            && matches!(
-                event,
-                AppEvent::SelectNext
-                    | AppEvent::SelectPrevious
-                    | AppEvent::SelectIndex(_)
-                    | AppEvent::ChooseSelected
-            )
-        {
-            return Ok(());
+        if ui.is_story_animating() {
+            match event {
+                AppEvent::SelectNext | AppEvent::SelectPrevious | AppEvent::SelectIndex(_) => {
+                    return Ok(());
+                }
+                AppEvent::ChooseSelected => {
+                    ui.skip_current_story_line();
+                    return Ok(());
+                }
+                _ => {}
+            }
         }
 
         match event {

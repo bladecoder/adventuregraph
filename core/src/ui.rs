@@ -130,6 +130,29 @@ impl UiState {
     pub fn is_story_animating(&self) -> bool {
         self.story_visible_chars < self.story_target_char_count
     }
+
+    pub fn skip_current_story_line(&mut self) {
+        if !self.is_story_animating() {
+            return;
+        }
+
+        let start_byte = self
+            .story_target_text
+            .char_indices()
+            .nth(self.story_visible_chars)
+            .map(|(idx, _)| idx)
+            .unwrap_or(self.story_target_text.len());
+
+        let remaining = &self.story_target_text[start_byte..];
+        let next_break = remaining
+            .find('\n')
+            .map(|idx| start_byte + idx + '\n'.len_utf8())
+            .unwrap_or(self.story_target_text.len());
+
+        self.story_visible_chars = self.story_target_text[..next_break].chars().count();
+        self.story_animation_accumulator = 0.0;
+        self.story_last_tick = Some(Instant::now());
+    }
 }
 
 pub fn draw(frame: &mut Frame, app: &App, ui: &mut UiState) {
