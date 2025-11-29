@@ -112,8 +112,14 @@ impl App {
             AppEvent::SelectPrevious => self.select_previous(),
             AppEvent::SelectIndex(index) => self.select_choice(index),
             AppEvent::ChooseSelected => {
+                let was_finished = self.finished;
                 self.choose_selected()?;
-                ui.jump_story_to_end();
+
+                if was_finished {
+                    ui.jump_story_to_start();
+                } else {
+                    ui.jump_story_to_end();
+                }
             }
             AppEvent::ScrollStory(delta) => ui.scroll_story(delta),
             AppEvent::JumpStoryStart => ui.jump_story_to_start(),
