@@ -133,11 +133,6 @@ impl UiState {
 }
 
 pub fn draw(frame: &mut Frame, app: &App, ui: &mut UiState) {
-    let chunks = Layout::default()
-        .direction(Direction::Vertical)
-        .constraints([Constraint::Percentage(75), Constraint::Percentage(25)])
-        .split(frame.area());
-
     let story_text = if app.lines().is_empty() {
         "Loading story...".to_owned()
     } else {
@@ -145,6 +140,16 @@ pub fn draw(frame: &mut Frame, app: &App, ui: &mut UiState) {
     };
 
     let story_text = ui.update_story_text(story_text);
+    let animating = ui.is_story_animating();
+
+    let chunks = Layout::default()
+        .direction(Direction::Vertical)
+        .constraints(if animating {
+            vec![Constraint::Percentage(100)]
+        } else {
+            vec![Constraint::Percentage(75), Constraint::Percentage(25)]
+        })
+        .split(frame.area());
 
     let story_block = Block::bordered().title("THE INTERCEPT");
     let paragraph = Paragraph::new(story_text)
@@ -161,11 +166,14 @@ pub fn draw(frame: &mut Frame, app: &App, ui: &mut UiState) {
     }
     ui.story_entry_count = entry_count;
     if ui.story_follow_new_content {
-        if ui.is_story_animating() {
+        if animating {
             ui.jump_story_to_end();
         } else {
             ui.story_follow_new_content = false;
         }
+    }
+    if !animating && app.has_choices() && ui.choices_content_length == 0 {
+        ui.jump_story_to_end();
     }
     ui.clamp_story_scroll();
 
@@ -190,7 +198,14 @@ pub fn draw(frame: &mut Frame, app: &App, ui: &mut UiState) {
         );
     }
 
-    if app.has_choices() && !ui.is_story_animating() {
+    if animating {
+        ui.choices_content_length = 0;
+        ui.choices_viewport_length = 0;
+        ui.choices_state.select(None);
+        return;
+    }
+
+    if app.has_choices() {
         let items: Vec<ListItem> = app
             .choices()
             .iter()
