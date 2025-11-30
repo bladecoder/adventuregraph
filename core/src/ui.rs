@@ -162,15 +162,66 @@ pub fn draw(frame: &mut Frame, app: &App, ui: &mut UiState) {
 
     let story_text = ui.update_story_text(story_text);
     let animating = ui.is_story_animating();
+    let area = frame.area();
+    let mut choices_renderable = !animating && app.has_choices();
+
+    let mut constraints = if animating {
+        vec![Constraint::Length(area.height)]
+    } else {
+        vec![Constraint::Percentage(75), Constraint::Percentage(25)]
+    };
+
+    if choices_renderable {
+        if area.height < 2 {
+            choices_renderable = false;
+        }
+
+        let selected_choice = app.selected_choice();
+        let inner_width = area.width.saturating_sub(2);
+
+        let choice_lines: usize = app
+            .choices()
+            .iter()
+            .enumerate()
+            .map(|(index, choice)| {
+                let mut text = format!("{}. {}", index + 1, choice);
+                if selected_choice == Some(index) {
+                    text = format!(">> {}", text);
+                }
+                let paragraph = Paragraph::new(text).wrap(Wrap { trim: true });
+                paragraph.line_count(inner_width).max(1)
+            })
+            .sum();
+
+        let available_height = area.height.max(1);
+        let desired_height = choice_lines.saturating_add(2).min(u16::MAX as usize);
+        let max_choice_height = (available_height as usize * 25 / 100).max(1);
+        let max_allowed = available_height.saturating_sub(1).max(1) as usize;
+        let mut choice_height = desired_height
+            .min(max_choice_height)
+            .min(max_allowed)
+            .max(1) as u16;
+        if choice_height >= available_height {
+            choice_height = available_height.saturating_sub(1).max(1);
+        }
+
+        let mut story_height = available_height.saturating_sub(choice_height).max(1);
+        if story_height + choice_height > available_height {
+            choice_height = available_height.saturating_sub(1).max(1);
+            story_height = available_height.saturating_sub(choice_height).max(1);
+        }
+
+        constraints = vec![
+            Constraint::Length(story_height),
+            Constraint::Length(choice_height),
+        ];
+    }
 
     let chunks = Layout::default()
         .direction(Direction::Vertical)
-        .constraints(if animating {
-            vec![Constraint::Percentage(100)]
-        } else {
-            vec![Constraint::Percentage(75), Constraint::Percentage(25)]
-        })
-        .split(frame.area());
+        .constraints(constraints)
+        .split(area);
+    let has_choice_area = chunks.len() > 1;
 
     let story_block = Block::bordered().title("THE INTERCEPT");
     let paragraph = Paragraph::new(story_text)
@@ -230,7 +281,7 @@ pub fn draw(frame: &mut Frame, app: &App, ui: &mut UiState) {
         return;
     }
 
-    if app.has_choices() {
+    if choices_renderable && has_choice_area {
         let choices: Vec<String> = app
             .choices()
             .iter()
@@ -297,7 +348,7 @@ pub fn draw(frame: &mut Frame, app: &App, ui: &mut UiState) {
                 &mut scrollbar_state,
             );
         }
-    } else {
+    } else if has_choice_area {
         ui.choices_content_length = 0;
         ui.choices_viewport_length = usize::max(1, chunks[1].height.saturating_sub(2) as usize);
         ui.choices_state.select(None);
@@ -313,5 +364,9 @@ pub fn draw(frame: &mut Frame, app: &App, ui: &mut UiState) {
             .block(Block::bordered());
 
         frame.render_widget(info_paragraph, chunks[1]);
+    } else {
+        ui.choices_content_length = 0;
+        ui.choices_viewport_length = 0;
+        ui.choices_state.select(None);
     }
 }
