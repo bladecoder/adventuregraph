@@ -4,6 +4,7 @@ use crate::app::App;
 use ratatui::Frame;
 use ratatui::layout::{Constraint, Direction, Layout, Margin};
 use ratatui::style::{Color, Modifier, Style};
+use ratatui::text::{Line, Text};
 use ratatui::widgets::{
     Block, List, ListItem, ListState, Paragraph, Scrollbar, ScrollbarOrientation, ScrollbarState,
     Wrap,
@@ -155,9 +156,20 @@ impl UiState {
     }
 }
 
+fn wrap_text(text: &str, width: usize) -> Vec<String> {
+    if width == 0 {
+        return vec![text.to_string()];
+    }
+
+    textwrap::wrap(text, width)
+        .into_iter()
+        .map(|line| line.to_string())
+        .collect()
+}
+
 pub fn draw(frame: &mut Frame, app: &App, ui: &mut UiState) {
     let story_text = if app.lines().is_empty() {
-        "Loading story...".to_owned()
+        "".to_owned()
     } else {
         app.lines().join("\n\n")
     };
@@ -233,11 +245,18 @@ pub fn draw(frame: &mut Frame, app: &App, ui: &mut UiState) {
     }
 
     if app.has_choices() {
+        let available_width = chunks[1].width.saturating_sub(6); // Subtract borders and highlight symbol
+
         let items: Vec<ListItem> = app
             .choices()
             .iter()
             .enumerate()
-            .map(|(index, choice)| ListItem::new(format!("{}. {}", index + 1, choice)))
+            .map(|(index, choice)| {
+                let text = format!("{}. {}", index + 1, choice);
+                let wrapped_lines = wrap_text(&text, available_width as usize);
+                let lines: Vec<Line> = wrapped_lines.into_iter().map(Line::from).collect();
+                ListItem::new(Text::from(lines))
+            })
             .collect();
 
         ui.choices_content_length = items.len();

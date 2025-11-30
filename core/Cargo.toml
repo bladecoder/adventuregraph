@@ -13,3 +13,4 @@ name = "adventuregraph_core"
 anyhow = { workspace = true }
 bladeink = { workspace = true }
 ratatui = { workspace = true, features = ["unstable-rendered-line-info"] }
+textwrap = "0.16"

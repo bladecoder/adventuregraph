@@ -1,7 +1,8 @@
 use anyhow::{Context, Result};
 use bladeink::story::Story;
 
-const STORY_JSON: &str = include_str!("../../assets/story.ink.json");
+//const STORY_JSON: &str = include_str!("../../assets/story.ink.json");
+const STORY_JSON: &str = include_str!("../../assets/generate-lines-test.ink.json");
 const RESTART_CHOICE: &str = "-- restart --";
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
