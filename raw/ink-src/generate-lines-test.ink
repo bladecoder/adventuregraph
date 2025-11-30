@@ -8,6 +8,7 @@
 + [generate 10 lines] -> generate_lines(10)->menu
 + [generate 50 lines] -> generate_lines(50)->menu
 + [generate long lines] -> menu2
++ [Esta opción no hace nada pero es muy larga (Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt)] -> menu
 + [End] -> END
 
 
