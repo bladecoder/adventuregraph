@@ -1,0 +1,28 @@
+[package]
+name = "tui-widget-list"
+version = "0.13.2"
+edition = "2021"
+authors = ["preiter <phil.reiter93@gmail.com>"]
+description = "Widget List for TUI/Ratatui"
+repository = "https://github.com/preiter93/tui-widget-list"
+keywords = ["tui", "ratatui", "widget", "list", "widgetlist"]
+readme = "README.md"
+license = "MIT"
+
+[dependencies]
+ratatui = "0.29"
+
+[dev-dependencies]
+crossterm = "0.28"
+
+[[example]]
+name = "simple"
+
+[[example]]
+name = "var_sizes"
+
+[[example]]
+name = "demo"
+
+[[example]]
+name = "variants"
