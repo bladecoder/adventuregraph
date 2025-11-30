@@ -4,10 +4,8 @@ use crate::app::App;
 use ratatui::Frame;
 use ratatui::layout::{Constraint, Direction, Layout, Margin};
 use ratatui::style::{Color, Modifier, Style};
-use ratatui::widgets::{
-    Block, List, ListItem, ListState, Paragraph, Scrollbar, ScrollbarOrientation, ScrollbarState,
-    Wrap,
-};
+use ratatui::widgets::{Block, Paragraph, Scrollbar, ScrollbarOrientation, ScrollbarState, Wrap};
+use tui_widget_list::{ListBuilder, ListState, ListView};
 
 #[derive(Default)]
 pub struct UiState {
@@ -233,37 +231,54 @@ pub fn draw(frame: &mut Frame, app: &App, ui: &mut UiState) {
     }
 
     if app.has_choices() {
-        let items: Vec<ListItem> = app
+        let choices: Vec<String> = app
             .choices()
             .iter()
             .enumerate()
-            .map(|(index, choice)| ListItem::new(format!("{}. {}", index + 1, choice)))
+            .map(|(index, choice)| format!("{}. {}", index + 1, choice))
             .collect();
 
-        ui.choices_content_length = items.len();
+        ui.choices_content_length = choices.len();
         ui.choices_viewport_length = usize::max(1, chunks[1].height.saturating_sub(2) as usize);
 
         if let Some(selected) = app.selected_choice() {
-            if ui.choices_state.selected() != Some(selected) {
-                *ui.choices_state.selected_mut() = Some(selected);
+            if ui.choices_state.selected != Some(selected) {
+                ui.choices_state.select(Some(selected));
             }
         } else {
             ui.choices_state.select(None);
         }
 
-        let list = List::new(items)
-            .block(Block::bordered())
-            .highlight_style(
-                Style::default()
-                    .fg(Color::Yellow)
-                    .add_modifier(Modifier::BOLD),
-            )
-            .highlight_symbol(">> ");
+        let builder = ListBuilder::new({
+            let choices = choices.clone();
+            move |context| {
+                let mut text = choices[context.index].clone();
+                let mut style = Style::default();
+
+                if context.is_selected {
+                    text = format!(">> {}", text);
+                    style = Style::default()
+                        .fg(Color::Yellow)
+                        .add_modifier(Modifier::BOLD);
+                }
+
+                let paragraph = Paragraph::new(text).style(style).wrap(Wrap { trim: true });
+                let main_axis_size = paragraph
+                    .line_count(context.cross_axis_size)
+                    .max(1)
+                    .min(u16::MAX as usize) as u16;
+                (paragraph, main_axis_size)
+            }
+        });
+
+        let list = ListView::new(builder, ui.choices_content_length)
+            .scroll_axis(tui_widget_list::ScrollAxis::Vertical)
+            .block(Block::bordered());
 
         frame.render_stateful_widget(list, chunks[1], &mut ui.choices_state);
 
         if ui.choices_content_length > ui.choices_viewport_length {
-            let choices_scroll_position = ui.choices_state.offset();
+            let choices_scroll_position = ui.choices_state.scroll_offset_index();
             let choices_scroll_positions = ui
                 .choices_content_length
                 .saturating_sub(ui.choices_viewport_length)
