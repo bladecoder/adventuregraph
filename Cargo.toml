@@ -19,9 +19,6 @@ tui-big-text = "=0.7.3"
 crossterm = "0.29.0"
 tui-widget-list = "0.13.3"
 
-[patch.crates-io]
-tui-widget-list = { path = "vendor/tui-widget-list" }
-
 [profile.release]
 opt-level = 3
 lto = true
