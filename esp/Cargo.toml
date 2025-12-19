@@ -11,7 +11,6 @@ default = ["bladeink/stream-json-parser"]
 
 pcbv1 = []
 display-st7735 = []
-software-scroll = []
 
 [dependencies]
 adventuregraph_core = { path = "../core", package = "core" }

@@ -26,7 +26,9 @@ pub struct App {
 
 impl App {
     pub fn new() -> Result<Self> {
+        println!("Loading Ink story...");
         let story = Story::new(STORY_JSON).context("loading Ink story")?;
+        println!("Ink story loaded");
         let mut app = Self {
             story,
             lines: Vec::new(),
@@ -135,6 +137,7 @@ impl App {
     }
 
     fn advance_story(&mut self) -> Result<()> {
+        println!("Advancing story...");
         while self.story.can_continue() {
             let next_line = self
                 .story
