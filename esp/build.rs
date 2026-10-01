@@ -1,6 +1,7 @@
 fn main() {
     linker_be_nice();
     check_xtensa_linker_available();
+    configure_board();
     // make sure linkall.x is the last linker script (otherwise might cause problems with flip-link)
     println!("cargo:rustc-link-arg=-Tlinkall.x");
     let workspace = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
@@ -136,4 +137,28 @@ fn linker_be_nice() {
         "cargo:rustc-link-arg=-Wl,--error-handling-script={}",
         std::env::current_exe().unwrap().display()
     );
+}
+
+fn configure_board() {
+    println!("cargo:rerun-if-env-changed=ADVENTUREGRAPH_BOARD");
+    let name = std::env::var("ADVENTUREGRAPH_BOARD").unwrap_or_else(|_| "v1.1".into());
+    assert!(
+        !name.is_empty()
+            && name
+                .bytes()
+                .all(|c| c.is_ascii_alphanumeric() || matches!(c, b'.' | b'-' | b'_')),
+        "ADVENTUREGRAPH_BOARD must be a profile name, not a path"
+    );
+    let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join("boards")
+        .join(format!("{name}.toml"));
+    println!("cargo:rerun-if-changed={}", path.display());
+    let source = std::fs::read_to_string(&path)
+        .unwrap_or_else(|e| panic!("Cannot read board profile {}: {e}", path.display()));
+    let board = adventuregraph_board_config::Board::parse(&source)
+        .unwrap_or_else(|e| panic!("Invalid board profile {}: {e}", path.display()));
+    let output = std::path::PathBuf::from(std::env::var_os("OUT_DIR").unwrap());
+    std::fs::write(output.join("board.rs"), board.generate()).unwrap();
+    println!("cargo:rustc-env=ADVENTUREGRAPH_BOARD={name}");
+    println!("cargo:warning=Building board profile {name}");
 }

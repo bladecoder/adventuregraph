@@ -3,6 +3,13 @@ set -euo pipefail
 
 repo_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 mode="${1:-release}"
+board="${ADVENTUREGRAPH_BOARD:-v1.1}"
+if [[ $# -gt 1 ]]; then
+    echo "usage: ADVENTUREGRAPH_BOARD=v1.1 scripts/build.sh [release|debug]" >&2
+    exit 2
+fi
+export ADVENTUREGRAPH_BOARD="$board"
+echo "Building board profile: $board"
 if [[ "$mode" != release && "$mode" != debug ]]; then
     echo "usage: scripts/build.sh [release|debug]" >&2
     exit 2

@@ -1,0 +1,9 @@
+[package]
+name = "adventuregraph-board-config"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+serde = { version = "=1.0.229", features = ["derive"] }
+toml_edit = { version = "=0.25.15", default-features = false, features = ["parse", "serde"] }

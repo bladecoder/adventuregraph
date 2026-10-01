@@ -1,0 +1,28 @@
+# ST7789 240 x 320. All GPIO numbers refer to the ESP32-S2.
+[display]
+cs = 3
+reset = 5
+dc = 7
+mosi = 9
+sck = 11
+backlight = 12
+backlight_active_high = true
+rotation = 180
+spi_mhz = 40
+
+[encoder]
+a = 38
+b = 40
+button = 36
+reverse = false
+pull = "up"
+button_active_low = true
+button_pull = "up"
+
+[buzzer]
+pin = 1
+
+[button]
+pin = 37
+active_low = true
+pull = "up"

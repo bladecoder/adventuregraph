@@ -27,6 +27,8 @@ use ratatui::Terminal;
 // and an internal allocator. No ESP-IDF runtime or HAL is linked.
 esp_bootloader_esp_idf::esp_app_desc!();
 
+include!(concat!(env!("OUT_DIR"), "/board.rs"));
+
 #[panic_handler]
 fn panic(_: &core::panic::PanicInfo) -> ! {
     loop {}
@@ -36,7 +38,7 @@ struct Inputs<'d> {
     a: Input<'d>,
     b: Input<'d>,
     encoder_button: Input<'d>,
-    user_button: Input<'d>,
+    user_button: Option<Input<'d>>,
     state: u8,
     motion: i8,
     encoder_button_state: DebouncedButton,
@@ -86,17 +88,25 @@ impl Inputs<'_> {
         } else {
             0
         };
-        let enc_press = self
-            .encoder_button_state
-            .update(self.encoder_button.is_low(), now);
-        let user_press = self
-            .user_button_state
-            .update(self.user_button.is_low(), now);
-        (step, enc_press, user_press)
+        let enc_press = self.encoder_button_state.update(
+            self.encoder_button.is_low() == ENCODER_BUTTON_ACTIVE_LOW,
+            now,
+        );
+        let user_raw = self
+            .user_button
+            .as_ref()
+            .is_some_and(|button| button.is_low() == USER_BUTTON_ACTIVE_LOW);
+        let user_press = self.user_button_state.update(user_raw, now);
+        (
+            if ENCODER_REVERSE { -step } else { step },
+            enc_press,
+            user_press,
+        )
     }
 }
 
-fn chirp(buzzer: &mut Output<'_>, delay: &Delay) {
+fn chirp(buzzer: &mut Option<Output<'_>>, delay: &Delay) {
+    let Some(buzzer) = buzzer else { return };
     for _ in 0..40 {
         buzzer.set_high();
         delay.delay_micros(250);
@@ -114,39 +124,56 @@ fn main() -> ! {
     esp_alloc::heap_allocator!(#[esp_hal::ram(reclaimed)] size: 131072);
 
     let delay = Delay::new();
+    let (
+        bl_pin,
+        dc_pin,
+        reset_pin,
+        cs_pin,
+        mut buzzer,
+        sck_pin,
+        mosi_pin,
+        a,
+        b,
+        encoder_button,
+        user_button,
+    ) = board_pins!(peripherals);
     let out = OutputConfig::default();
-    let mut backlight = Output::new(peripherals.GPIO12, Level::Low, out);
-    let dc = Output::new(peripherals.GPIO7, Level::Low, out);
-    let reset = Output::new(peripherals.GPIO5, Level::High, out);
-    let cs = Output::new(peripherals.GPIO3, Level::High, out);
-    let mut buzzer = Output::new(peripherals.GPIO1, Level::Low, out);
+    let mut backlight = Output::new(
+        bl_pin,
+        if BACKLIGHT_ON == Level::High {
+            Level::Low
+        } else {
+            Level::High
+        },
+        out,
+    );
+    let dc = Output::new(dc_pin, Level::Low, out);
+    let reset = Output::new(reset_pin, Level::High, out);
+    let cs = Output::new(cs_pin, Level::High, out);
     let spi = Spi::new(
         peripherals.SPI2,
-        SpiConfig::default().with_frequency(Rate::from_mhz(40)),
+        SpiConfig::default().with_frequency(Rate::from_mhz(SPI_MHZ)),
     )
     .unwrap()
-    .with_sck(peripherals.GPIO11)
-    .with_mosi(peripherals.GPIO9);
+    .with_sck(sck_pin)
+    .with_mosi(mosi_pin);
     let device = ExclusiveDevice::new_no_delay(spi, cs).unwrap();
     let buffer: &'static mut [u8; 4096] = Box::leak(Box::new([0; 4096]));
     let interface = SpiInterface::new(device, dc, buffer);
     let mut display = Builder::new(ST7789, interface)
         .reset_pin(reset)
         .display_size(240, 320)
-        .orientation(Orientation::new().rotate(Rotation::Deg180))
+        .orientation(Orientation::new().rotate(ROTATION))
         .init(&mut Delay::new())
         .unwrap();
-    backlight.set_high();
+    backlight.set_level(BACKLIGHT_ON);
 
-    let input_cfg = InputConfig::default().with_pull(Pull::Up);
-    let a = Input::new(peripherals.GPIO38, input_cfg);
-    let b = Input::new(peripherals.GPIO40, input_cfg);
     let state = (u8::from(a.is_high()) << 1) | u8::from(b.is_high());
     let mut inputs = Inputs {
         a,
         b,
-        encoder_button: Input::new(peripherals.GPIO36, input_cfg),
-        user_button: Input::new(peripherals.GPIO37, input_cfg),
+        encoder_button,
+        user_button,
         state,
         motion: 0,
         encoder_button_state: DebouncedButton::new(Instant::now()),

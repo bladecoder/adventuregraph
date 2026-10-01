@@ -9,6 +9,14 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "320119579fcad9c21884f5c4861d16174d0e06250625266f50fe6898340abefa"
 
 [[package]]
+name = "adventuregraph-board-config"
+version = "0.2.0"
+dependencies = [
+ "serde",
+ "toml_edit",
+]
+
+[[package]]
 name = "adventuregraph-core"
 version = "0.2.0"
 dependencies = [
@@ -21,6 +29,7 @@ dependencies = [
 name = "adventuregraph-esp"
 version = "0.2.0"
 dependencies = [
+ "adventuregraph-board-config",
  "adventuregraph-core",
  "embedded-graphics",
  "embedded-hal-bus",
@@ -2086,6 +2095,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "serde_spanned"
+version = "1.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6662b5879511e06e8999a8a235d848113e942c9124f211511b16466ee2995f26"
+dependencies = [
+ "serde_core",
+]
+
+[[package]]
 name = "serde_yaml"
 version = "0.9.34+deprecated"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2347,6 +2365,8 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1340ea94a5856333492c9064b02c778b191dd2c853778d9609debdcdfea3a614"
 dependencies = [
  "indexmap",
+ "serde_core",
+ "serde_spanned",
  "toml_datetime",
  "toml_parser",
  "winnow",
