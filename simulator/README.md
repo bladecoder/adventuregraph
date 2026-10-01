@@ -1,19 +1,3 @@
-# Simulator
+# SDL simulator
 
-Run mousefood apps on your computer inside a simulator!
-
-Uses [embedded-graphics-simulator](https://crates.io/crates/embedded-graphics-simulator).
-
-## Requirements
-
-This app requires [SDL2](https://wiki.libsdl.org/SDL2/Installation) to be installed.
-
-## Run
-
-To start this demo, simply run:
-
-```shell
-cargo run -p simulator
-```
-
-A window will open with the simulator running.
+Run `cargo run -p adventuregraph-simulator` from the repository root. The simulator draws the same Ratatui UI and binary Ink image as the firmware on a 240 × 320 pixel window. SDL2 is built from source and needs CMake and a C/C++ compiler.

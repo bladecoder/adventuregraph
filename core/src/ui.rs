@@ -1,372 +1,128 @@
-use std::time::Instant;
+use alloc::{format, string::String, vec::Vec};
+use ratatui::{
+    Frame,
+    layout::Rect,
+    style::{Color, Modifier, Style},
+    widgets::{Block, Paragraph, Wrap},
+};
 
-use crate::app::App;
-use ratatui::Frame;
-use ratatui::layout::{Constraint, Direction, Layout, Margin};
-use ratatui::style::{Color, Modifier, Style};
-use ratatui::widgets::{Block, Paragraph, Scrollbar, ScrollbarOrientation, ScrollbarState, Wrap};
-use tui_widget_list::{ListBuilder, ListState, ListView};
+use crate::App;
 
-#[derive(Default)]
-pub struct UiState {
-    story_scroll: u16,
-    story_total_lines: usize,
-    pub story_viewport_length: usize,
-    story_entry_count: usize,
-    story_target_text: String,
-    story_target_char_count: usize,
-    story_visible_chars: usize,
-    story_animation_accumulator: f32,
-    story_last_tick: Option<Instant>,
-    story_follow_new_content: bool,
-    choices_state: ListState,
-    choices_content_length: usize,
-    choices_viewport_length: usize,
-}
-
-impl UiState {
-    const STORY_CHARS_PER_SECOND: f32 = 20.0;
-
-    pub fn clamp_story_scroll(&mut self) {
-        let max_scroll = self
-            .story_total_lines
-            .saturating_sub(self.story_viewport_length)
-            .min(u16::MAX as usize);
-        if self.story_scroll as usize > max_scroll {
-            self.story_scroll = max_scroll as u16;
-        }
-    }
-
-    pub fn scroll_story(&mut self, delta: i32) {
-        if self.story_total_lines <= self.story_viewport_length {
-            self.story_scroll = 0;
-            return;
-        }
-
-        let max_scroll = self
-            .story_total_lines
-            .saturating_sub(self.story_viewport_length)
-            .min(u16::MAX as usize) as i32;
-        let current = self.story_scroll as i32;
-        let next = (current + delta).clamp(0, max_scroll);
-        self.story_scroll = next as u16;
-    }
-
-    pub fn jump_story_to_start(&mut self) {
-        self.story_scroll = 0;
-    }
-
-    pub fn jump_story_to_end(&mut self) {
-        if self.story_total_lines <= self.story_viewport_length {
-            self.story_scroll = 0;
-            return;
-        }
-
-        let max_scroll = self
-            .story_total_lines
-            .saturating_sub(self.story_viewport_length)
-            .min(u16::MAX as usize);
-        self.story_scroll = max_scroll as u16;
-    }
-
-    fn update_story_text(&mut self, story_text: String) -> String {
-        if story_text != self.story_target_text {
-            let preserve_visible = if story_text.starts_with(&self.story_target_text) {
-                self.story_visible_chars
-            } else {
-                0
-            };
-
-            self.story_target_text = story_text;
-            self.story_target_char_count = self.story_target_text.chars().count();
-            self.story_visible_chars = preserve_visible.min(self.story_target_char_count);
-            self.story_animation_accumulator = 0.0;
-            self.story_last_tick = None;
-        }
-
-        self.advance_story_animation();
-        self.visible_story_text()
-    }
-
-    fn advance_story_animation(&mut self) {
-        if self.story_visible_chars >= self.story_target_char_count {
-            self.story_last_tick = Some(Instant::now());
-            return;
-        }
-
-        let now = Instant::now();
-        let last_tick = self.story_last_tick.replace(now);
-        let delta_seconds = last_tick.map_or(0.0, |tick| {
-            now.saturating_duration_since(tick).as_secs_f32()
-        });
-
-        self.story_animation_accumulator += delta_seconds * Self::STORY_CHARS_PER_SECOND;
-        let increment = self.story_animation_accumulator.floor() as usize;
-        if increment == 0 {
-            return;
-        }
-
-        self.story_animation_accumulator -= increment as f32;
-        self.story_visible_chars =
-            (self.story_visible_chars + increment).min(self.story_target_char_count);
-    }
-
-    fn visible_story_text(&self) -> String {
-        if self.story_visible_chars >= self.story_target_char_count {
-            return self.story_target_text.clone();
-        }
-
-        let end = self
-            .story_target_text
-            .char_indices()
-            .nth(self.story_visible_chars)
-            .map(|(idx, _)| idx)
-            .unwrap_or(self.story_target_text.len());
-        self.story_target_text[..end].to_owned()
-    }
-
-    pub fn is_story_animating(&self) -> bool {
-        self.story_visible_chars < self.story_target_char_count
-    }
-
-    pub fn skip_current_story_line(&mut self) {
-        if !self.is_story_animating() {
-            return;
-        }
-
-        let start_byte = self
-            .story_target_text
-            .char_indices()
-            .nth(self.story_visible_chars)
-            .map(|(idx, _)| idx)
-            .unwrap_or(self.story_target_text.len());
-
-        let remaining = &self.story_target_text[start_byte..];
-        let next_break = remaining
-            .find('\n')
-            .map(|idx| start_byte + idx + '\n'.len_utf8())
-            .unwrap_or(self.story_target_text.len());
-
-        self.story_visible_chars = self.story_target_text[..next_break].chars().count();
-        self.story_animation_accumulator = 0.0;
-        self.story_last_tick = Some(Instant::now());
-    }
-}
-
-pub fn draw(frame: &mut Frame, app: &App, ui: &mut UiState) {
-    let story_text = if app.lines().is_empty() {
-        "Loading story...".to_owned()
-    } else {
-        app.lines().join("\n\n")
-    };
-
-    let story_text = ui.update_story_text(story_text);
-    let animating = ui.is_story_animating();
+pub(crate) fn draw(app: &mut App, frame: &mut Frame) {
     let area = frame.area();
-    let mut choices_renderable = !animating && app.has_choices();
-
-    let mut constraints = if animating {
-        vec![Constraint::Length(area.height)]
-    } else {
-        vec![Constraint::Percentage(75), Constraint::Percentage(25)]
-    };
-
-    if choices_renderable {
-        if area.height < 2 {
-            choices_renderable = false;
-        }
-
-        let selected_choice = app.selected_choice();
-        let inner_width = area.width.saturating_sub(2);
-
-        let choice_lines: usize = app
-            .choices()
-            .iter()
-            .enumerate()
-            .map(|(index, choice)| {
-                let mut text = format!("{}. {}", index + 1, choice);
-                if selected_choice == Some(index) {
-                    text = format!(">> {}", text);
-                }
-                let paragraph = Paragraph::new(text).wrap(Wrap { trim: true });
-                paragraph.line_count(inner_width).max(1)
-            })
-            .sum();
-
-        let available_height = area.height.max(1);
-        let desired_height = choice_lines.saturating_add(2).min(u16::MAX as usize);
-        let max_choice_height = (available_height as usize * 25 / 100).max(1);
-        let max_allowed = available_height.saturating_sub(1).max(1) as usize;
-        let mut choice_height = desired_height
-            .min(max_choice_height)
-            .min(max_allowed)
-            .max(1) as u16;
-        if choice_height >= available_height {
-            choice_height = available_height.saturating_sub(1).max(1);
-        }
-
-        let mut story_height = available_height.saturating_sub(choice_height).max(1);
-        if story_height + choice_height > available_height {
-            choice_height = available_height.saturating_sub(1).max(1);
-            story_height = available_height.saturating_sub(choice_height).max(1);
-        }
-
-        constraints = vec![
-            Constraint::Length(story_height),
-            Constraint::Length(choice_height),
-        ];
-    }
-
-    let chunks = Layout::default()
-        .direction(Direction::Vertical)
-        .constraints(constraints)
-        .split(area);
-    let has_choice_area = chunks.len() > 1;
-
-    let story_block = Block::bordered().title("THE INTERCEPT");
-    let paragraph = Paragraph::new(story_text)
-        .wrap(Wrap { trim: true })
-        .block(story_block);
-
-    let story_area = chunks[0].inner(Margin {
-        vertical: 1,
-        horizontal: 1,
-    });
-    ui.story_total_lines = usize::max(1, paragraph.line_count(story_area.width));
-    ui.story_viewport_length = usize::max(1, story_area.height as usize);
-
-    let entry_count = app.lines().len();
-    if entry_count > ui.story_entry_count {
-        ui.story_follow_new_content = true;
-        ui.jump_story_to_end();
-    }
-    ui.story_entry_count = entry_count;
-    if ui.story_follow_new_content {
-        if animating {
-            ui.jump_story_to_end();
-        } else {
-            ui.story_follow_new_content = false;
-        }
-    }
-    if !animating && app.has_choices() && ui.choices_content_length == 0 {
-        ui.jump_story_to_end();
-    }
-    ui.clamp_story_scroll();
-
-    let story = paragraph.scroll((ui.story_scroll, 0));
-    frame.render_widget(story, chunks[0]);
-    if ui.story_total_lines > ui.story_viewport_length {
-        let story_scroll_positions = ui
-            .story_total_lines
-            .saturating_sub(ui.story_viewport_length)
-            .saturating_add(1);
-        let mut story_scrollbar_state = ScrollbarState::new(story_scroll_positions.max(1))
-            .position(ui.story_scroll as usize)
-            .viewport_content_length(ui.story_viewport_length);
-        frame.render_stateful_widget(
-            Scrollbar::new(ScrollbarOrientation::VerticalRight)
-                .thumb_style(Style::default().fg(Color::Yellow)),
-            chunks[0].inner(Margin {
-                vertical: 1,
-                horizontal: 0,
-            }),
-            &mut story_scrollbar_state,
-        );
-    }
-
-    if animating {
-        ui.choices_content_length = 0;
-        ui.choices_viewport_length = 0;
-        ui.choices_state.select(None);
+    if area.width == 0 || area.height == 0 {
         return;
     }
 
-    if choices_renderable && has_choice_area {
-        let choices: Vec<String> = app
+    let visible = app.visible_text();
+    let animating = app.is_animating();
+    let choice_height = if animating || app.choices().is_empty() || area.height < 5 {
+        0
+    } else {
+        let width = area.width.saturating_sub(2).max(1);
+        let wanted = app
             .choices()
             .iter()
             .enumerate()
-            .map(|(index, choice)| format!("{}. {}", index + 1, choice))
-            .collect();
-
-        ui.choices_content_length = choices.len();
-        ui.choices_viewport_length = usize::max(1, chunks[1].height.saturating_sub(2) as usize);
-
-        if let Some(selected) = app.selected_choice() {
-            if ui.choices_state.selected != Some(selected) {
-                ui.choices_state.select(Some(selected));
-            }
-        } else {
-            ui.choices_state.select(None);
-        }
-
-        let builder = ListBuilder::new({
-            let choices = choices.clone();
-            move |context| {
-                let mut text = choices[context.index].clone();
-                let mut style = Style::default();
-
-                if context.is_selected {
-                    text = format!(">> {}", text);
-                    style = Style::default()
-                        .fg(Color::Yellow)
-                        .add_modifier(Modifier::BOLD);
-                }
-
-                let paragraph = Paragraph::new(text).style(style).wrap(Wrap { trim: true });
-                let main_axis_size = paragraph
-                    .line_count(context.cross_axis_size)
+            .map(|(i, c)| {
+                Paragraph::new(format!("  {}. {}", i + 1, c))
+                    .wrap(Wrap { trim: true })
+                    .line_count(width)
                     .max(1)
-                    .min(u16::MAX as usize) as u16;
-                (paragraph, main_axis_size)
-            }
-        });
+            })
+            .sum::<usize>()
+            + 2;
+        wanted
+            .min((area.height as usize / 3).max(3))
+            .min(area.height as usize - 2) as u16
+    };
+    let story_area = Rect {
+        height: area.height - choice_height,
+        ..area
+    };
+    let story = Paragraph::new(visible)
+        .wrap(Wrap { trim: true })
+        .block(Block::bordered().title("THE INTERCEPT"));
+    let width = story_area.width.saturating_sub(2).max(1);
+    let total = story.line_count(width).max(1);
+    let viewport = story_area.height.saturating_sub(2) as usize;
+    app.set_viewport(total, viewport);
+    frame.render_widget(
+        story.scroll((app.scroll().min(u16::MAX as usize) as u16, 0)),
+        story_area,
+    );
 
-        let list = ListView::new(builder, ui.choices_content_length)
-            .scroll_axis(tui_widget_list::ScrollAxis::Vertical)
-            .block(Block::bordered());
-
-        frame.render_stateful_widget(list, chunks[1], &mut ui.choices_state);
-
-        if ui.choices_content_length > ui.choices_viewport_length {
-            let choices_scroll_position = ui.choices_state.scroll_offset_index();
-            let choices_scroll_positions = ui
-                .choices_content_length
-                .saturating_sub(ui.choices_viewport_length)
-                .saturating_add(1);
-            let mut scrollbar_state = ScrollbarState::new(choices_scroll_positions.max(1))
-                .position(choices_scroll_position)
-                .viewport_content_length(ui.choices_viewport_length);
-
-            frame.render_stateful_widget(
-                Scrollbar::new(ScrollbarOrientation::VerticalRight)
-                    .thumb_style(Style::default().fg(Color::Yellow)),
-                chunks[1].inner(Margin {
-                    vertical: 1,
-                    horizontal: 0,
-                }),
-                &mut scrollbar_state,
-            );
+    if choice_height == 0 {
+        return;
+    }
+    let choice_area = Rect {
+        y: area.y + story_area.height,
+        height: choice_height,
+        ..area
+    };
+    frame.render_widget(Block::bordered(), choice_area);
+    let inner = Rect {
+        x: choice_area.x.saturating_add(1),
+        y: choice_area.y.saturating_add(1),
+        width: choice_area.width.saturating_sub(2),
+        height: choice_area.height.saturating_sub(2),
+    };
+    if inner.width == 0 || inner.height == 0 {
+        return;
+    }
+    let rendered: Vec<(String, usize)> = app
+        .choices()
+        .iter()
+        .enumerate()
+        .map(|(i, c)| {
+            let text = format!("{}. {}", i + 1, c);
+            let rows = Paragraph::new(format!("  {text}"))
+                .wrap(Wrap { trim: true })
+                .line_count(inner.width)
+                .max(1);
+            (text, rows)
+        })
+        .collect();
+    let selected = app
+        .selected_choice()
+        .unwrap_or(0)
+        .min(rendered.len().saturating_sub(1));
+    let mut first = 0;
+    let mut used = rendered
+        .iter()
+        .take(selected + 1)
+        .map(|(_, rows)| *rows)
+        .sum::<usize>();
+    while used > inner.height as usize && first < selected {
+        used -= rendered[first].1;
+        first += 1;
+    }
+    let mut y = inner.y;
+    for (index, (text, rows)) in rendered.iter().enumerate().skip(first) {
+        if y >= inner.bottom() {
+            break;
         }
-    } else if has_choice_area {
-        ui.choices_content_length = 0;
-        ui.choices_viewport_length = usize::max(1, chunks[1].height.saturating_sub(2) as usize);
-        ui.choices_state.select(None);
-
-        let info = if app.is_finished() {
-            "Story completed. Press Enter to restart, PageUp/PageDown to scroll the text."
+        let height = (*rows).min((inner.bottom() - y) as usize) as u16;
+        let style = if index == selected {
+            Style::default()
+                .fg(Color::Yellow)
+                .add_modifier(Modifier::BOLD)
         } else {
-            "Showing story..."
+            Style::default()
         };
-
-        let info_paragraph = Paragraph::new(info)
-            .wrap(Wrap { trim: true })
-            .block(Block::bordered());
-
-        frame.render_widget(info_paragraph, chunks[1]);
-    } else {
-        ui.choices_content_length = 0;
-        ui.choices_viewport_length = 0;
-        ui.choices_state.select(None);
+        let prefix = if index == selected { "> " } else { "  " };
+        let paragraph = Paragraph::new(format!("{prefix}{text}"))
+            .style(style)
+            .wrap(Wrap { trim: true });
+        frame.render_widget(
+            paragraph,
+            Rect {
+                x: inner.x,
+                y,
+                width: inner.width,
+                height,
+            },
+        );
+        y += height;
     }
 }

@@ -1,0 +1,3 @@
+[env]
+# SDL2 0.37's bundled C sources require a pre-C23 language mode with GCC 15.
+CFLAGS = "-std=gnu11"

@@ -1,36 +1,25 @@
 [workspace]
 resolver = "2"
 members = ["core", "esp", "simulator", "tui"]
+default-members = ["core", "simulator", "tui"]
 
 [workspace.package]
-version = "0.1.0"
-authors = ["Rafael García <bladecoder@gmail.com>"]
+version = "0.2.0"
 edition = "2024"
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/bladecoder/adventuregraph"
 
 [workspace.dependencies]
-anyhow = "1.0.100"
-bladeink = "1.2.1"
-log = { version = "0.4.29", default-features = false }
-mousefood = "0.2.1"
-ratatui = { version = "0.29.0", default-features = false }
-tui-big-text = "=0.7.3"
-crossterm = "0.29.0"
-tui-widget-list = "0.13.3"
+bladeink = { git = "https://github.com/bladecoder/blade-ink-rs.git", rev = "007e99cf649f34ced27744067f565bd359c7c466", default-features = false, features = ["binary-image"] }
+ratatui = { version = "=0.30.0", default-features = false, features = ["portable-atomic"] }
+mousefood = { version = "=0.5.2", default-features = false }
+ratatui-widgets = { version = "=0.3.0", default-features = false }
 
 [profile.release]
-opt-level = 3
+opt-level = "s"
 lto = true
 codegen-units = 1
 panic = "abort"
 
-[profile.release.package.adventuregraph-esp]
-opt-level = "s"
-
 [profile.dev.package.adventuregraph-esp]
-opt-level = "z"
-
-[profile.dev]
-debug = true    # Symbols are nice and they don't increase the size on Flash
 opt-level = "z"

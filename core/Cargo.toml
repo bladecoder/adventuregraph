@@ -1,16 +1,15 @@
 [package]
-name = "core"
+name = "adventuregraph-core"
 version.workspace = true
-authors.workspace = true
 edition.workspace = true
 license.workspace = true
 repository.workspace = true
-
-[lib]
-name = "adventuregraph_core"
+build = "build.rs"
 
 [dependencies]
-anyhow = { workspace = true }
-bladeink = { workspace = true }
+bladeink.workspace = true
 ratatui = { workspace = true, features = ["unstable-rendered-line-info"] }
-tui-widget-list = { workspace = true }
+ratatui-widgets.workspace = true
+
+[build-dependencies]
+bladeink = { git = "https://github.com/bladecoder/blade-ink-rs.git", rev = "007e99cf649f34ced27744067f565bd359c7c466", features = ["binary-image"] }

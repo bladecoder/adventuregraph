@@ -1,89 +1,47 @@
-# Adventuregraph
+# Adventuregraph v2
 
-A handheld, battery-powered text adventure player built around an ESP32-S2 and written in Rust with `esp-idf-hal`, `mipidsi`, and the `bladeink` runtime. It renders Ink stories on a SPI TFT display and is driven with a rotary encoder, optional push button, and a piezo buzzer for feedback.
+Adventuregraph plays *The Intercept* on an ESP32-S2 handheld, a terminal, or a 240 × 320 SDL window. All three use the same `no_std + alloc` story and Ratatui drawing code in `core/`.
 
-- Firmware: Rust 2024 edition targeting `xtensa-esp32s2-espidf` (crate `adventuregraph-esp`).
-- Story format: Ink, compiled into `assets/story.ink.json` (source under `raw/ink-src/`).
-- Desktop builds: TUI preview (`adventuregraph-tui`) and an SDL-based simulator (`adventuregraph-simulator`).
-- Displays: ST7789 (default) or ST7735 via the `display-st7735` feature.
-- Hardware assets: PCBs and enclosure models in `docs/`, Wokwi wiring in `esp/wokwi-esp32s2-v1*`.
+## Build and run
 
-## Repository Layout
+The firmware uses Espressif's `esp-hal` bare-metal stack. Install the Xtensa toolchain with `espup install -t esp32s2`, source its export file, and install `espflash`. The project skeleton was generated with `esp-generate 1.4.0 -o esp32s2 -o alloc`; dependencies are pinned in `Cargo.toml` and `Cargo.lock`.
 
-- `core/` – Shared story runtime, UI primitives, and game state used by every target.
-- `esp/` – ESP32-S2 firmware (features: `pcbv1`, `display-st7735`, `software-scroll`).
-- `tui/` – Terminal UI preview using `crossterm`/`ratatui` on the host.
-- `simulator/` – Desktop simulator using `embedded-graphics-simulator` (needs SDL2).
-- `assets/` – Compiled Ink story (`story.ink.json`) and artwork.
-- `raw/ink-src/` – Source Ink scripts.
-- `docs/` – PCB exports (1.0, 1.1, 1.2) and enclosure CAD/STL files.
-- `scripts/` – Helper scripts for building/flashing the ESP target.
-- `esp/wokwi-esp32s2-v1*/` – Wokwi simulations matching hardware revisions.
+```sh
+cargo test --workspace --exclude adventuregraph-esp
+cargo run -p adventuregraph-tui
+cargo run -p adventuregraph-simulator
+scripts/build.sh release
+scripts/flash.sh release
+```
 
-## Building and Flashing
+The simulator builds SDL2 from source and requires CMake and a C/C++ compiler. Its window is 240 × 320 pixels at 2× scale. On both host versions, arrows or `j`/`k` select, Enter confirms or skips the current line, PageUp/PageDown scroll, Home/End jump, digits 1–9 choose, and `q` quits.
 
-1. Set up the ESP-IDF toolchain and export the environment (for example `source ../export.sh`).
-2. Build firmware for ESP32-S2 from the workspace root:
-   ```bash
-   cargo build -p adventuregraph-esp --target xtensa-esp32s2-espidf
-   ```
-3. Flash (one option):
-   ```bash
-   web-flash --chip esp32s2 target/xtensa-esp32s2-espidf/debug/adventuregraph-esp
-   ```
+`scripts/build.sh` runs Cargo from `esp/`, where `.cargo/config.toml` selects `xtensa-esp32s2-none-elf`. The firmware starts with a 128 KiB internal heap. No PSRAM allocator is configured; any future large allocation should be explicit, keeping SPI transfer buffers in internal RAM. A build alone does not establish actual heap headroom or hardware behavior.
 
-Host builds:
-- Terminal preview: `cargo run -p adventuregraph-tui`
-- SDL simulator (requires SDL2): `cargo run -p adventuregraph-simulator`
+## Story assets
 
-Feature flags:
-- `pcbv1` – Routes the buzzer to GPIO18 (hardware v1.0). Without it, the buzzer uses GPIO1 (hardware v1.1+).
-- `display-st7735` – Selects the smaller ST7735 display driver; otherwise the ST7789 is used.
-- `software-scroll` – Enables software-based scrolling.
+`assets/story.ink.json` is the existing compiled *The Intercept* story. `core/build.rs` converts it into Blade Ink `.inkb` bytes at build time. All platforms call `Story::new_from_image_with_seed`; the firmware embeds the bytes as a read-only static. The Blade Ink dependency is pinned to commit `007e99cf649f34ced27744067f565bd359c7c466` on `feat/flash-story-image`, with `binary-image` and without JSON story parsers in the target dependency. `raw/ink-src/TheIntercept.ink` remains the editable source; run `scripts/compileink.sh` with `inklecate` on `PATH` to regenerate the JSON deliberately.
 
-## Hardware
+## Hardware v1.1
 
-The device uses an ESP32-S2 with 2 MB PSRAM, a SPI TFT (ST7789 by default), a KY-040–style rotary encoder with integrated switch, an optional extra push button, and a piezo buzzer. Charging/power management (TP4056, LDO, 18650 cell) and the 3D-printed enclosure live in `docs/`.
+| Function | GPIO |
+| --- | ---: |
+| ST7789 CS / RST / D/C | 3 / 5 / 7 |
+| ST7789 MOSI / SCK / backlight | 9 / 11 / 12 |
+| Encoder A / B / switch | 38 / 40 / 36 |
+| User button | 37 |
+| Buzzer | 1 |
 
-### Pinout – PCB v1.0 (feature `pcbv1`)
+The encoder moves through choices after text appears and scrolls during animation. Its switch confirms a choice, skips the current line, or restarts at the end. The user button jumps to the start of the visible story; both buttons sound a short buzzer tone. PCB and enclosure references are in `docs/`. The removed Wokwi diagrams represented a different display controller and cannot verify this ST7789 firmware.
 
-| Function                | ESP32-S2 pin |
-| ----------------------- | ------------ |
-| TFT CS                  | GPIO3        |
-| TFT RST                 | GPIO5        |
-| TFT D/C                 | GPIO7        |
-| TFT MOSI (SDA)          | GPIO9        |
-| TFT SCK (SCL)           | GPIO11       |
-| TFT backlight (LED)     | GPIO12       |
-| Rotary encoder A (CLK)  | GPIO38       |
-| Rotary encoder B (DT)   | GPIO40       |
-| Rotary encoder switch   | GPIO36       |
-| Buzzer (+)              | GPIO18       |
-| User button             | — (not fitted) |
-| Power                   | 3V3 / GND    |
+## Verification
 
-Reference wiring: `wokwi-esp32s2-v1/diagram.json`.
+```sh
+cargo fmt --all --check
+cargo clippy --workspace --exclude adventuregraph-esp --all-targets -- -D warnings
+cargo test --workspace --exclude adventuregraph-esp
+scripts/build.sh release
+cargo tree -p adventuregraph-esp -e features
+```
 
-### Pinout – PCB v1.1 (default build)
-
-| Function                | ESP32-S2 pin |
-| ----------------------- | ------------ |
-| TFT CS                  | GPIO3        |
-| TFT RST                 | GPIO5        |
-| TFT D/C                 | GPIO7        |
-| TFT MOSI (SDA)          | GPIO9        |
-| TFT SCK (SCL)           | GPIO11       |
-| TFT backlight (LED)     | GPIO12       |
-| Rotary encoder A (CLK)  | GPIO38       |
-| Rotary encoder B (DT)   | GPIO40       |
-| Rotary encoder switch   | GPIO36       |
-| Buzzer (+)              | GPIO1        |
-| User button             | GPIO37 → GND |
-| Power                   | 3V3 / GND    |
-
-Reference wiring: `wokwi-esp32s2-v1.1/diagram.json`.
-
-### Notes
-
-- Both revisions share the same display and encoder wiring; only the buzzer (GPIO18 → GPIO1) and an added user button on GPIO37 change between v1.0 and v1.1.
-- PCB/3D files for v1.0 and v1.1 are in `docs/`; v1.2 PCB artwork is also included for reference.
+After an ESP build, inspect the ELF and linker map with the Xtensa `size`, `nm`, and `objdump` tools. Confirm `BLINKIMG`/`STORY_IMAGE` are in a flash-mapped `.rodata` section. Flash and test the display, encoder direction and switch, GPIO37 button, and buzzer on the physical board before accepting hardware behavior.

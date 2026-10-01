@@ -1,11 +1,9 @@
-use std::io;
-use std::time::Duration;
-
-use adventuregraph_core::{
-    AppEvent,
-    app::App,
-    ui::{UiState, draw},
+use std::{
+    io,
+    time::{Duration, Instant},
 };
+
+use adventuregraph_core::{App, AppEvent, STORY_IMAGE};
 use anyhow::Result;
 use crossterm::{
     event::{self, Event, KeyCode, KeyEventKind, KeyModifiers},
@@ -14,84 +12,63 @@ use crossterm::{
 };
 use ratatui::{Terminal, backend::CrosstermBackend};
 
-fn numeric_choice(code: KeyCode) -> Option<usize> {
-    match code {
-        KeyCode::Char(c @ '1'..='9') => Some((c as u8 - b'1') as usize),
-        _ => None,
-    }
-}
-
 fn main() -> Result<()> {
     enable_raw_mode()?;
     let mut stdout = io::stdout();
     execute!(stdout, EnterAlternateScreen)?;
-
-    let backend = CrosstermBackend::new(stdout);
-    let mut terminal = Terminal::new(backend)?;
+    let mut terminal = Terminal::new(CrosstermBackend::new(stdout))?;
     terminal.hide_cursor()?;
-
-    let result = run_app(&mut terminal);
-
+    let result = run(&mut terminal);
     disable_raw_mode()?;
     execute!(terminal.backend_mut(), LeaveAlternateScreen)?;
     terminal.show_cursor()?;
-
     result
 }
 
-fn run_app(terminal: &mut Terminal<CrosstermBackend<io::Stdout>>) -> Result<()> {
-    let mut app = App::new()?;
-    let mut ui_state = UiState::default();
-
+fn run(terminal: &mut Terminal<CrosstermBackend<io::Stdout>>) -> Result<()> {
+    let mut app = App::new(STORY_IMAGE, 42)?;
+    let mut last = Instant::now();
     loop {
-        terminal.draw(|frame| draw(frame, &mut app, &mut ui_state))?;
-
-        if ui_state.is_story_animating() && !event::poll(Duration::from_millis(50))? {
+        let now = Instant::now();
+        app.tick(now.duration_since(last).as_millis().min(u32::MAX as u128) as u32);
+        last = now;
+        terminal.draw(|frame| app.draw(frame))?;
+        if !event::poll(Duration::from_millis(25))? {
             continue;
         }
-
-        match event::read()? {
-            Event::Key(key_event) if key_event.kind == KeyEventKind::Press => {
-                if key_event.modifiers.contains(KeyModifiers::CONTROL)
-                    && matches!(key_event.code, KeyCode::Char('c'))
-                {
-                    return Ok(());
-                }
-
-                if let Some(index) = numeric_choice(key_event.code) {
-                    app.handle_event(&mut ui_state, AppEvent::SelectIndex(index))?;
-                    app.handle_event(&mut ui_state, AppEvent::ChooseSelected)?;
-                    continue;
-                }
-
-                match key_event.code {
-                    KeyCode::Char('q') => return Ok(()),
-                    KeyCode::Down | KeyCode::Char('s') | KeyCode::Char('j') => {
-                        app.handle_event(&mut ui_state, AppEvent::SelectNext)?;
-                    }
-                    KeyCode::Up | KeyCode::Char('w') | KeyCode::Char('k') => {
-                        app.handle_event(&mut ui_state, AppEvent::SelectPrevious)?;
-                    }
-                    KeyCode::Enter | KeyCode::Char(' ') => {
-                        app.handle_event(&mut ui_state, AppEvent::ChooseSelected)?;
-                    }
-                    KeyCode::PageDown => {
-                        let delta = ui_state.story_viewport_length as i32;
-                        app.handle_event(&mut ui_state, AppEvent::ScrollStory(delta))?;
-                    }
-                    KeyCode::PageUp => {
-                        let delta = ui_state.story_viewport_length as i32;
-                        app.handle_event(&mut ui_state, AppEvent::ScrollStory(-delta))?;
-                    }
-                    KeyCode::Home => app.handle_event(&mut ui_state, AppEvent::JumpStoryStart)?,
-                    KeyCode::End => app.handle_event(&mut ui_state, AppEvent::JumpStoryEnd)?,
-                    _ => {}
-                }
+        if let Event::Key(key) = event::read()? {
+            if key.kind != KeyEventKind::Press {
+                continue;
             }
-            Event::Resize(_, _) => {
-                ui_state.clamp_story_scroll();
+            if key.code == KeyCode::Char('q')
+                || (key.modifiers.contains(KeyModifiers::CONTROL) && key.code == KeyCode::Char('c'))
+            {
+                return Ok(());
             }
-            _ => {}
+            let action = match key.code {
+                KeyCode::Char(c @ '1'..='9') => {
+                    let index = (c as u8 - b'1') as usize;
+                    if index < app.choices().len() {
+                        app.handle_event(AppEvent::SelectIndex(index))?;
+                        Some(AppEvent::ChooseSelected)
+                    } else {
+                        None
+                    }
+                }
+                KeyCode::Down | KeyCode::Char('s' | 'j') => Some(AppEvent::SelectNext),
+                KeyCode::Up | KeyCode::Char('w' | 'k') => Some(AppEvent::SelectPrevious),
+                KeyCode::Enter | KeyCode::Char(' ') => Some(AppEvent::ChooseSelected),
+                KeyCode::PageDown => Some(AppEvent::ScrollStory(app.viewport_rows().max(1) as i32)),
+                KeyCode::PageUp => {
+                    Some(AppEvent::ScrollStory(-(app.viewport_rows().max(1) as i32)))
+                }
+                KeyCode::Home => Some(AppEvent::JumpStoryStart),
+                KeyCode::End => Some(AppEvent::JumpStoryEnd),
+                _ => None,
+            };
+            if let Some(action) = action {
+                app.handle_event(action)?;
+            }
         }
     }
 }

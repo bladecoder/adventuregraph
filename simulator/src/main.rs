@@ -1,17 +1,12 @@
-use std::{cell::RefCell, rc::Rc};
+use std::{cell::RefCell, rc::Rc, time::Instant};
 
-use adventuregraph_core::{
-    AppEvent,
-    app::App,
-    ui::{UiState, draw},
-};
+use adventuregraph_core::{App, AppEvent, STORY_IMAGE};
 use anyhow::Result;
 use embedded_graphics_simulator::{
     OutputSettings, SimulatorDisplay, SimulatorEvent, Window, sdl2::Keycode,
 };
-use mousefood::embedded_graphics::geometry;
-use mousefood::prelude::*;
-use mousefood::ratatui::Terminal;
+use mousefood::{embedded_graphics::geometry, prelude::*};
+use ratatui::Terminal;
 
 fn numeric_choice(keycode: Keycode) -> Option<usize> {
     match keycode {
@@ -29,75 +24,59 @@ fn numeric_choice(keycode: Keycode) -> Option<usize> {
 }
 
 fn main() -> Result<()> {
-    let mut app = App::new()?;
-    let mut ui_state = UiState::default();
-    let output_settings = OutputSettings {
+    let mut app = App::new(STORY_IMAGE, 42)?;
+    let settings = OutputSettings {
         scale: 2,
         max_fps: 30,
         ..Default::default()
     };
-
-    let simulator_window = Rc::new(RefCell::new(Window::new(
+    let window = Rc::new(RefCell::new(Window::new(
         "Adventuregraph simulator",
-        &output_settings,
+        &settings,
     )));
-
-    // Define properties of the display which will be shown in the simulator window
-    let mut display = SimulatorDisplay::<Bgr565>::new(geometry::Size::new(240, 320));
-
-    let flush_window = Rc::clone(&simulator_window);
-    let backend_config = EmbeddedBackendConfig {
-        flush_callback: Box::new(move |display| {
-            flush_window.borrow_mut().update(display);
-        }),
+    let mut display = SimulatorDisplay::<Rgb565>::new(geometry::Size::new(240, 320));
+    let flush_window = Rc::clone(&window);
+    let config = EmbeddedBackendConfig {
+        flush_callback: Box::new(move |display| flush_window.borrow_mut().update(display)),
         ..Default::default()
     };
     let backend: EmbeddedBackend<SimulatorDisplay<_>, _> =
-        EmbeddedBackend::new(&mut display, backend_config);
-
-    // Start ratatui with our simulator backend
+        EmbeddedBackend::new(&mut display, config);
     let mut terminal = Terminal::new(backend)?;
-
-    // Run an infinite loop, where widgets will be rendered
+    let mut last = Instant::now();
     loop {
-        terminal.draw(|frame| draw(frame, &mut app, &mut ui_state))?;
-
-        let mut window = simulator_window.borrow_mut();
-        for event in window.events() {
+        let now = Instant::now();
+        app.tick(now.duration_since(last).as_millis().min(u32::MAX as u128) as u32);
+        last = now;
+        terminal.draw(|frame| app.draw(frame))?;
+        for event in window.borrow_mut().events() {
             match event {
                 SimulatorEvent::Quit => return Ok(()),
                 SimulatorEvent::KeyDown { keycode, .. } => {
                     if let Some(index) = numeric_choice(keycode) {
-                        app.handle_event(&mut ui_state, AppEvent::SelectIndex(index))?;
-                        app.handle_event(&mut ui_state, AppEvent::ChooseSelected)?;
+                        if index < app.choices().len() {
+                            app.handle_event(AppEvent::SelectIndex(index))?;
+                            app.handle_event(AppEvent::ChooseSelected)?;
+                        }
                         continue;
                     }
-
-                    match keycode {
-                        Keycode::Down | Keycode::S | Keycode::J => {
-                            app.handle_event(&mut ui_state, AppEvent::SelectNext)?;
-                        }
-                        Keycode::Up | Keycode::W | Keycode::K => {
-                            app.handle_event(&mut ui_state, AppEvent::SelectPrevious)?;
-                        }
-                        Keycode::Return | Keycode::Space => {
-                            app.handle_event(&mut ui_state, AppEvent::ChooseSelected)?;
-                        }
+                    let action = match keycode {
+                        Keycode::Escape | Keycode::Q => return Ok(()),
+                        Keycode::Down | Keycode::S | Keycode::J => Some(AppEvent::SelectNext),
+                        Keycode::Up | Keycode::W | Keycode::K => Some(AppEvent::SelectPrevious),
+                        Keycode::Return | Keycode::Space => Some(AppEvent::ChooseSelected),
                         Keycode::PageDown => {
-                            let delta = ui_state.story_viewport_length as i32;
-                            app.handle_event(&mut ui_state, AppEvent::ScrollStory(delta))?;
+                            Some(AppEvent::ScrollStory(app.viewport_rows().max(1) as i32))
                         }
                         Keycode::PageUp => {
-                            let delta = ui_state.story_viewport_length as i32;
-                            app.handle_event(&mut ui_state, AppEvent::ScrollStory(-delta))?;
+                            Some(AppEvent::ScrollStory(-(app.viewport_rows().max(1) as i32)))
                         }
-                        Keycode::Home => {
-                            app.handle_event(&mut ui_state, AppEvent::JumpStoryStart)?;
-                        }
-                        Keycode::End => {
-                            app.handle_event(&mut ui_state, AppEvent::JumpStoryEnd)?;
-                        }
-                        _ => {}
+                        Keycode::Home => Some(AppEvent::JumpStoryStart),
+                        Keycode::End => Some(AppEvent::JumpStoryEnd),
+                        _ => None,
+                    };
+                    if let Some(action) = action {
+                        app.handle_event(action)?;
                     }
                 }
                 _ => {}
