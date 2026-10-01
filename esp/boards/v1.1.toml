@@ -8,7 +8,7 @@ sck = 11
 backlight = 12
 backlight_active_high = true
 rotation = 180
-spi_mhz = 40
+spi_mhz = 20
 
 [encoder]
 a = 38

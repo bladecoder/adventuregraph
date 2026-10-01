@@ -11,6 +11,10 @@ use esp_hal::{
     delay::Delay,
     gpio::{Input, InputConfig, Level, Output, OutputConfig, Pull},
     main,
+    pcnt::{
+        Pcnt,
+        channel::{CtrlMode, EdgeMode},
+    },
     spi::master::{Config as SpiConfig, Spi},
     time::{Duration, Instant, Rate},
 };
@@ -35,12 +39,13 @@ fn panic(_: &core::panic::PanicInfo) -> ! {
 }
 
 struct Inputs<'d> {
-    a: Input<'d>,
-    b: Input<'d>,
+    _a: Input<'d>,
+    _b: Input<'d>,
+    pcnt: Pcnt<'d>,
     encoder_button: Input<'d>,
     user_button: Option<Input<'d>>,
-    state: u8,
-    motion: i8,
+    last_count: i16,
+    motion: i32,
     encoder_button_state: DebouncedButton,
     user_button_state: DebouncedButton,
 }
@@ -74,20 +79,13 @@ impl DebouncedButton {
 }
 
 impl Inputs<'_> {
-    fn poll(&mut self, now: Instant) -> (i8, bool, bool) {
-        const TRANSITIONS: [i8; 16] = [0, -1, 1, 0, 1, 0, 0, -1, -1, 0, 0, 1, 0, 1, -1, 0];
-        let next = (u8::from(self.a.is_high()) << 1) | u8::from(self.b.is_high());
-        self.motion += TRANSITIONS[((self.state << 2) | next) as usize];
-        self.state = next;
-        let step = if self.motion >= 4 {
-            self.motion = 0;
-            1
-        } else if self.motion <= -4 {
-            self.motion = 0;
-            -1
-        } else {
-            0
-        };
+    fn poll(&mut self, now: Instant) -> (i32, bool, bool) {
+        // PCNT keeps counting quadrature edges while SPI drawing blocks the CPU.
+        let count = self.pcnt.unit0.counter.get();
+        self.motion += count.wrapping_sub(self.last_count) as i32;
+        self.last_count = count;
+        let step = self.motion / 4;
+        self.motion %= 4;
         let enc_press = self.encoder_button_state.update(
             self.encoder_button.is_low() == ENCODER_BUTTON_ACTIVE_LOW,
             now,
@@ -168,13 +166,35 @@ fn main() -> ! {
         .unwrap();
     backlight.set_level(BACKLIGHT_ON);
 
-    let state = (u8::from(a.is_high()) << 1) | u8::from(b.is_high());
+    let pcnt = Pcnt::new(peripherals.PCNT);
+    pcnt.unit0.set_filter(Some(800)).unwrap();
+    let signal_a = a.peripheral_input();
+    let signal_b = b.peripheral_input();
+    pcnt.unit0.channel0.set_ctrl_signal(signal_a.clone());
+    pcnt.unit0.channel0.set_edge_signal(signal_b.clone());
+    pcnt.unit0
+        .channel0
+        .set_ctrl_mode(CtrlMode::Reverse, CtrlMode::Keep);
+    pcnt.unit0
+        .channel0
+        .set_input_mode(EdgeMode::Decrement, EdgeMode::Increment);
+    pcnt.unit0.channel1.set_ctrl_signal(signal_b);
+    pcnt.unit0.channel1.set_edge_signal(signal_a);
+    pcnt.unit0
+        .channel1
+        .set_ctrl_mode(CtrlMode::Reverse, CtrlMode::Keep);
+    pcnt.unit0
+        .channel1
+        .set_input_mode(EdgeMode::Increment, EdgeMode::Decrement);
+    pcnt.unit0.clear();
+    pcnt.unit0.resume();
     let mut inputs = Inputs {
-        a,
-        b,
+        _a: a,
+        _b: b,
+        pcnt,
         encoder_button,
         user_button,
-        state,
+        last_count: 0,
         motion: 0,
         encoder_button_state: DebouncedButton::new(Instant::now()),
         user_button_state: DebouncedButton::new(Instant::now()),
@@ -183,6 +203,7 @@ fn main() -> ! {
     let backend: EmbeddedBackend<_, _> =
         EmbeddedBackend::new(&mut display, EmbeddedBackendConfig::default());
     let mut terminal = Terminal::new(backend).unwrap();
+    terminal.clear().unwrap();
     let mut app = App::new(STORY_IMAGE, 42).unwrap();
     let mut last = Instant::now();
     let mut last_draw = last;
@@ -192,14 +213,17 @@ fn main() -> ! {
         last = now;
         let (step, select, user) = inputs.poll(now);
         if step != 0 {
-            let event = if app.is_animating() || app.choices().is_empty() {
-                AppEvent::ScrollStory(step as i32 * 2)
+            if app.is_animating() || app.choices().is_empty() {
+                app.handle_event(AppEvent::ScrollStory(step * 2)).unwrap();
             } else if step > 0 {
-                AppEvent::SelectNext
+                for _ in 0..step {
+                    app.handle_event(AppEvent::SelectNext).unwrap();
+                }
             } else {
-                AppEvent::SelectPrevious
-            };
-            app.handle_event(event).unwrap();
+                for _ in step..0 {
+                    app.handle_event(AppEvent::SelectPrevious).unwrap();
+                }
+            }
         }
         if select {
             app.handle_event(AppEvent::ChooseSelected).unwrap();

@@ -14,6 +14,11 @@ pub(crate) fn draw(app: &mut App, frame: &mut Frame) {
         return;
     }
 
+    frame.render_widget(
+        Block::default().style(Style::default().bg(Color::Black)),
+        area,
+    );
+
     let visible = app.visible_text();
     let animating = app.is_animating();
     let choice_height = if animating || app.choices().is_empty() || area.height < 5 {

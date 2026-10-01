@@ -53,6 +53,7 @@ The build rejects unknown fields, duplicate GPIOs, nonexistent pins, GPIO46 as a
 | Encoder A / B / switch | 38 / 40 / 36 | 38 / 40 / 36 |
 | User button | Not fitted | 37 |
 | Buzzer | 18 | 1 |
+| Display SPI speed | 40 MHz | 20 MHz |
 
 The encoder moves through choices after text appears and scrolls during animation. Its switch confirms a choice, skips the current line, or restarts at the end. The user button jumps to the start of the visible story; both buttons sound a short buzzer tone when fitted. PCB and enclosure references are in `docs/`. The removed Wokwi diagrams represented a different display controller and cannot verify this ST7789 firmware.
 

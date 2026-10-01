@@ -233,6 +233,7 @@ mod tests {
         assert_eq!(old.buzzer.unwrap().pin, 18);
         assert_eq!(new.button.as_ref().unwrap().pin, 37);
         assert_eq!(new.buzzer.as_ref().unwrap().pin, 1);
+        assert_eq!(new.display.spi_mhz, 20);
         assert!(new.generate().contains("$p.GPIO37"));
     }
     #[test]
@@ -258,7 +259,9 @@ mod tests {
             .join("\n");
         assert_eq!(
             Board::parse(&minimal).unwrap().generate(),
-            Board::parse(V11).unwrap().generate()
+            Board::parse(&V11.replace("spi_mhz = 20", "spi_mhz = 40"))
+                .unwrap()
+                .generate()
         );
         assert!(Board::parse(&minimal.replace("cs = 3", "")).is_err());
     }
@@ -285,8 +288,8 @@ mod tests {
         for profile in [
             V11.replace("spi_mhz", "spi_mzh"),
             V11.replace("rotation = 180", "rotation = 45"),
-            V11.replace("spi_mhz = 40", "spi_mhz = 0"),
-            V11.replace("spi_mhz = 40", "spi_mhz = 81"),
+            V11.replace("spi_mhz = 20", "spi_mhz = 0"),
+            V11.replace("spi_mhz = 20", "spi_mhz = 81"),
             V11.replace("\"up\"", "\"sideways\""),
         ] {
             assert!(Board::parse(&profile).is_err());
