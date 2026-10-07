@@ -1,0 +1,25 @@
+[package]
+name = "adventuregraph-esp"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version = "1.95"
+build = "build.rs"
+
+[[bin]]
+name = "adventuregraph-esp"
+path = "src/main.rs"
+
+[dependencies]
+adventuregraph-core = { path = "../core" }
+esp-hal = { version = "=1.2.2", features = ["esp32s2"] }
+esp-bootloader-esp-idf = { version = "=0.6.0", features = ["esp32s2"] }
+esp-alloc = { version = "=0.11.0", features = ["esp32s2"] }
+embedded-hal-bus = "=0.3.0"
+embedded-graphics = "=0.8.2"
+mipidsi = "=0.9.0"
+mousefood = { workspace = true, features = ["fonts"] }
+ratatui.workspace = true
+
+[build-dependencies]
+adventuregraph-board-config = { path = "../tools/board-config" }

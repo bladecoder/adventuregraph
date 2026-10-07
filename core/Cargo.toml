@@ -1,0 +1,15 @@
+[package]
+name = "adventuregraph-core"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+build = "build.rs"
+
+[dependencies]
+bladeink.workspace = true
+ratatui = { workspace = true, features = ["unstable-rendered-line-info"] }
+ratatui-widgets.workspace = true
+
+[build-dependencies]
+bladeink = { git = "https://github.com/bladecoder/blade-ink-rs.git", rev = "007e99cf649f34ced27744067f565bd359c7c466", features = ["binary-image"] }

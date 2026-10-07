@@ -23,10 +23,13 @@ jobs:
         action:
           - command: build
             args: --release
+            working-dir: esp
           - command: fmt
             args: --all -- --check --color always
+            working-dir: esp
           - command: clippy
             args: --all-targets --all-features --workspace -- -D warnings
+            working-dir: esp
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -39,4 +42,6 @@ jobs:
       - name: Enable caching
         uses: Swatinem/rust-cache@v2
       - name: Run command
-        run: cargo ${{ matrix.action.command }} ${{ matrix.action.args }}
+        run: |
+          cd ${{ matrix.action.working-dir || '.' }}
+          cargo ${{ matrix.action.command }} ${{ matrix.action.args }}

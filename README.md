@@ -1,80 +1,71 @@
-# Adventuregraph
+# Adventuregraph v2
 
-A handheld, battery-powered text adventure player built around an ESP32-S2 and written in Rust with `esp-idf-hal`, `mipidsi`, and the `bladeink` runtime. It renders Ink stories on a SPI TFT display and is driven with a rotary encoder, optional push button, and a piezo buzzer for feedback.
+Adventuregraph plays *The Intercept* on an ESP32-S2 handheld, a terminal, or a 240 × 320 SDL window. All three use the same `no_std + alloc` story and Ratatui drawing code in `core/`.
 
-- Firmware: Rust 2024 edition targeting `xtensa-esp32s2-espidf`.
-- Story format: Ink, compiled into `assets/story.ink.json` (source under `raw/ink-src/`).
-- Displays: ST7789 (default) or ST7735 via the `display-st7735` feature.
-- Hardware assets: PCBs and enclosure models in `docs/`, Wokwi wiring in `wokwi-esp32s2-v1*`.
+## Build and run
 
-## Repository Layout
+The firmware uses Espressif's `esp-hal` bare-metal stack. Install the Xtensa toolchain with `espup install -t esp32s2`, source its export file, and install `espflash`. The project skeleton was generated with `esp-generate 1.4.0 -o esp32s2 -o alloc`; dependencies are pinned in `Cargo.toml` and `Cargo.lock`.
 
-- `src/` – Firmware (hardware drivers, UI screens, and the Ink runtime glue).
-- `assets/story.ink.json` – Packaged story used at runtime.
-- `raw/ink-src/` – Source Ink scripts.
-- `docs/` – PCB exports (1.0, 1.1, 1.2) and enclosure CAD/STL files.
-- `wokwi-esp32s2-v1*/` – Wokwi simulations matching hardware revisions.
+```sh
+cargo test --workspace --exclude adventuregraph-esp
+cargo run -p adventuregraph-tui
+cargo run -p adventuregraph-simulator
+scripts/build.sh release
+scripts/flash.sh release
+```
 
-## Building and Flashing
+The simulator builds SDL2 from source and requires CMake and a C/C++ compiler. Its window is 240 × 320 pixels at 2× scale. On both host versions, arrows or `j`/`k` select, Enter confirms or skips the current line, PageUp/PageDown scroll, Home/End jump, digits 1–9 choose, and `q` quits.
 
-1. Set up the ESP-IDF toolchain and export the environment (for example `source ../export.sh`).
-2. Build for ESP32-S2:
-   ```bash
-   MCU=esp32s2 cargo build --target xtensa-esp32s2-espidf
-   ```
-3. Flash (one option):
-   ```bash
-   web-flash --chip esp32s2 target/xtensa-esp32-espidf/debug/adventuregraph
-   ```
+`scripts/build.sh` runs Cargo from `esp/`, where `.cargo/config.toml` selects `xtensa-esp32s2-none-elf`. The firmware starts with a 128 KiB internal heap. No PSRAM allocator is configured; any future large allocation should be explicit, keeping SPI transfer buffers in internal RAM. A build alone does not establish actual heap headroom or hardware behavior.
 
-Feature flags:
-- `pcbv1` – Routes the buzzer to GPIO18 (hardware v1.0). Without it, the buzzer uses GPIO1 (hardware v1.1+).
-- `display-st7735` – Selects the smaller ST7735 display driver; otherwise the ST7789 is used.
-- `software-scroll` – Enables software-based scrolling.
+## Story assets
 
-## Hardware
+`assets/story.ink.json` is the existing compiled *The Intercept* story. `core/build.rs` converts it into Blade Ink `.inkb` bytes at build time. All platforms call `Story::new_from_image_with_seed`; the firmware embeds the bytes as a read-only static. The Blade Ink dependency is pinned to commit `007e99cf649f34ced27744067f565bd359c7c466` on `feat/flash-story-image`, with `binary-image` and without JSON story parsers in the target dependency. `raw/ink-src/TheIntercept.ink` remains the editable source; run `scripts/compileink.sh` with `inklecate` on `PATH` to regenerate the JSON deliberately.
 
-The device uses an ESP32-S2 with 2 MB PSRAM, a SPI TFT (ST7789 by default), a KY-040–style rotary encoder with integrated switch, an optional extra push button, and a piezo buzzer. Charging/power management (TP4056, LDO, 18650 cell) and the 3D-printed enclosure live in `docs/`.
+## Board profiles
 
-### Pinout – PCB v1.0 (feature `pcbv1`)
+GPIO assignments and assembly settings live in `esp/boards/*.toml`. The default is `v1.1`; select a profile for both building and flashing with:
 
-| Function                | ESP32-S2 pin |
-| ----------------------- | ------------ |
-| TFT CS                  | GPIO3        |
-| TFT RST                 | GPIO5        |
-| TFT D/C                 | GPIO7        |
-| TFT MOSI (SDA)          | GPIO9        |
-| TFT SCK (SCL)           | GPIO11       |
-| TFT backlight (LED)     | GPIO12       |
-| Rotary encoder A (CLK)  | GPIO38       |
-| Rotary encoder B (DT)   | GPIO40       |
-| Rotary encoder switch   | GPIO36       |
-| Buzzer (+)              | GPIO18       |
-| User button             | — (not fitted) |
-| Power                   | 3V3 / GND    |
+```sh
+ADVENTUREGRAPH_BOARD=v1.0 scripts/build.sh release
+ADVENTUREGRAPH_BOARD=v1.0 scripts/flash.sh release
+```
 
-Reference wiring: `wokwi-esp32s2-v1/diagram.json`.
+Direct Cargo builds from `esp/` accept the same environment variable. `build.rs` generates typed GPIO bindings from the selected profile, rebuilding when its file or selection changes. Cargo prints the selected profile. Builds share the usual ELF path, so `flash.sh` always builds the selected profile before flashing it.
 
-### Pinout – PCB v1.1 (default build)
+To add an assembly, copy a profile to `esp/boards/my-assembly.toml`, edit the TOML, and select `ADVENTUREGRAPH_BOARD=my-assembly`. Rebuild and flash after changing a profile; there is no runtime pin configuration.
 
-| Function                | ESP32-S2 pin |
-| ----------------------- | ------------ |
-| TFT CS                  | GPIO3        |
-| TFT RST                 | GPIO5        |
-| TFT D/C                 | GPIO7        |
-| TFT MOSI (SDA)          | GPIO9        |
-| TFT SCK (SCL)           | GPIO11       |
-| TFT backlight (LED)     | GPIO12       |
-| Rotary encoder A (CLK)  | GPIO38       |
-| Rotary encoder B (DT)   | GPIO40       |
-| Rotary encoder switch   | GPIO36       |
-| Buzzer (+)              | GPIO1        |
-| User button             | GPIO37 → GND |
-| Power                   | 3V3 / GND    |
+- `[display]`: required `cs`, `reset`, `dc`, `mosi`, `sck`, `backlight`; optional `spi_mhz` (1–80, default 40), `rotation` (0/90/180/270, default 180), and `backlight_active_high` (default true). These profiles use the ST7789 240 × 320 driver.
+- `[encoder]`: required `a`, `b`, `button`; optional `reverse` (default false), `pull`, `button_pull` (both default `"up"`), and `button_active_low` (default true).
+- `[button]`: optional additional button; when present, `pin` is required, with optional `active_low` (default true) and `pull` (default `"up"`). Omit the entire section when absent.
+- `[buzzer]`: optional piezo buzzer with required `pin`. Omit the entire section to disable feedback.
 
-Reference wiring: `wokwi-esp32s2-v1.1/diagram.json`.
+Pull values are `"up"`, `"down"`, or `"none"`. Active-high buttons generally need `"down"`; `"none"` requires appropriate external resistors. All pin numbers are ESP32-S2 GPIO numbers, not connector positions.
 
-### Notes
+The build rejects unknown fields, duplicate GPIOs, nonexistent pins, GPIO46 as an output, and invalid settings. Boot strapping (0/45/46), USB (19/20), and module memory (26–32) pins require an explicit top-level `allow_reserved_pins = true` before any section. Only opt in after checking the module schematic and boot/USB requirements; validation cannot determine which pins your module actually exposes. The SPI setting must also suit the display and wiring.
 
-- Both revisions share the same display and encoder wiring; only the buzzer (GPIO18 → GPIO1) and an added user button on GPIO37 change between v1.0 and v1.1.
-- PCB/3D files for v1.0 and v1.1 are in `docs/`; v1.2 PCB artwork is also included for reference.
+## Hardware v1.0 and v1.1
+
+| Function | v1.0 GPIO | v1.1 GPIO |
+| --- | ---: | ---: |
+| ST7789 CS / RST / D/C | 3 / 5 / 7 | 3 / 5 / 7 |
+| ST7789 MOSI / SCK / backlight | 9 / 11 / 12 | 9 / 11 / 12 |
+| Encoder A / B / switch | 38 / 40 / 36 | 38 / 40 / 36 |
+| User button | Not fitted | 37 |
+| Buzzer | 18 | 1 |
+| Display SPI speed | 40 MHz | 20 MHz |
+
+The encoder moves through choices after text appears and scrolls during animation. Its switch confirms a choice, skips the current line, or restarts at the end. The user button jumps to the start of the visible story; both buttons sound a short buzzer tone when fitted. PCB and enclosure references are in `docs/`. The removed Wokwi diagrams represented a different display controller and cannot verify this ST7789 firmware.
+
+## Verification
+
+```sh
+cargo fmt --all --check
+cargo clippy --workspace --exclude adventuregraph-esp --all-targets -- -D warnings
+cargo test --workspace --exclude adventuregraph-esp
+ADVENTUREGRAPH_BOARD=v1.0 scripts/build.sh release
+ADVENTUREGRAPH_BOARD=v1.1 scripts/build.sh release
+cargo tree -p adventuregraph-esp -e features
+```
+
+After an ESP build, inspect the ELF and linker map with the Xtensa `size`, `nm`, and `objdump` tools. Confirm `BLINKIMG`/`STORY_IMAGE` are in a flash-mapped `.rodata` section. Flash and test the display, encoder direction and switch, GPIO37 button, and buzzer on the physical board before accepting hardware behavior.

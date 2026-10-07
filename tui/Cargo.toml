@@ -1,0 +1,11 @@
+[package]
+name = "adventuregraph-tui"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+adventuregraph-core = { path = "../core" }
+anyhow = "=1.0.104"
+crossterm = "=0.29.0"
+ratatui = { workspace = true, features = ["crossterm"] }

@@ -1,31 +1,25 @@
-[package]
-name = "adventuregraph"
-version = "0.1.0"
-authors = ["Rafael García <bladecoder@gmail.com>"]
+[workspace]
+resolver = "2"
+members = ["core", "esp", "simulator", "tui", "tools/board-config"]
+default-members = ["core", "simulator", "tui", "tools/board-config"]
+
+[workspace.package]
+version = "0.2.0"
 edition = "2024"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/bladecoder/adventuregraph"
+
+[workspace.dependencies]
+bladeink = { git = "https://github.com/bladecoder/blade-ink-rs.git", rev = "007e99cf649f34ced27744067f565bd359c7c466", default-features = false, features = ["binary-image"] }
+ratatui = { version = "=0.30.0", default-features = false, features = ["portable-atomic"] }
+mousefood = { version = "=0.5.2", default-features = false }
+ratatui-widgets = { version = "=0.3.0", default-features = false }
 
 [profile.release]
 opt-level = "s"
+lto = true
+codegen-units = 1
+panic = "abort"
 
-[profile.dev]
-debug = true    # Symbols are nice and they don't increase the size on Flash
+[profile.dev.package.adventuregraph-esp]
 opt-level = "z"
-
-[features]
-default = ["bladeink/stream-json-parser"]
-
-pcbv1 = []
-display-st7735 = []
-software-scroll = []
-
-[dependencies]
-log = { version = "0.4", default-features = false }
-esp-idf-svc = { version = "0.51" }
-bladeink = "1.2.1"
-esp-idf-hal = { version = "0.45.2", default-features = false }
-anyhow = "1"
-embedded-graphics = "0.8.1"
-mipidsi = "0.9.0"
-
-[build-dependencies]
-embuild = "0.33"

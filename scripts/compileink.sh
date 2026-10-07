@@ -1,8 +1,6 @@
-#!/bin/sh
+#!/usr/bin/env bash
+set -euo pipefail
 
-INKLECATE=$HOME/programs/inklecate/inklecate
-
-$INKLECATE -o assets/story.ink.json raw/ink-src/TheIntercept.ink
-
-echo Done.
-
+repo_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+: "${INKLECATE:=inklecate}"
+"$INKLECATE" -o "$repo_dir/assets/story.ink.json" "$repo_dir/raw/ink-src/TheIntercept.ink"

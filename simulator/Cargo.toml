@@ -1,0 +1,13 @@
+[package]
+name = "adventuregraph-simulator"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+adventuregraph-core = { path = "../core" }
+anyhow = "=1.0.104"
+embedded-graphics-simulator = "=0.7.0"
+mousefood = { workspace = true, features = ["fonts"] }
+sdl2 = { version = "=0.37.0", features = ["bundled"] }
+ratatui.workspace = true
