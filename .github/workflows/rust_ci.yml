@@ -33,7 +33,7 @@ jobs:
             args: --all-features -p adventuregraph-esp -- -D warnings
             working-dir: esp
             toolchain: esp
-          - command: +stable clippy
+          - command: +stable --config build.target=x86_64-unknown-linux-gnu --config build.rustflags=[] --config unstable.build-std=[] clippy
             args: --all-targets --all-features --workspace --exclude adventuregraph-esp -- -D warnings
             working-dir: esp
             toolchain: stable
