@@ -24,24 +24,34 @@ jobs:
           - command: build
             args: --release
             working-dir: esp
+            toolchain: esp
           - command: fmt
             args: --all -- --check --color always
             working-dir: esp
+            toolchain: esp
           - command: clippy
             args: --all-features -p adventuregraph-esp -- -D warnings
             working-dir: esp
+            toolchain: esp
           - command: +stable clippy
             args: --all-targets --all-features --workspace --exclude adventuregraph-esp -- -D warnings
             working-dir: esp
+            toolchain: stable
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Setup Rust
+      - name: Setup Rust ESP
+        if: matrix.action.toolchain == 'esp'
         uses: esp-rs/xtensa-toolchain@v1.6
         with:
           default: true
           buildtargets: esp32s2
           ldproxy: true
+      - name: Setup Rust stable
+        if: matrix.action.toolchain == 'stable'
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy
       - name: Enable caching
         uses: Swatinem/rust-cache@v2
       - name: Run command
