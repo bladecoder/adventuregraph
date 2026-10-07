@@ -28,7 +28,10 @@ jobs:
             args: --all -- --check --color always
             working-dir: esp
           - command: clippy
-            args: --all-targets --all-features --workspace -- -D warnings
+            args: --all-features -p adventuregraph-esp -- -D warnings
+            working-dir: esp
+          - command: clippy
+            args: --all-targets --all-features --workspace --exclude adventuregraph-esp --target x86_64-unknown-linux-gnu -- -D warnings
             working-dir: esp
     steps:
       - name: Checkout repository
