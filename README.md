@@ -1,6 +1,6 @@
 # Adventuregraph v2
 
-Adventuregraph plays *The Intercept* on an ESP32-S2 handheld, a terminal, or a 240 × 320 SDL window. All three use the same `no_std + alloc` story and Ratatui drawing code in `core/`.
+Adventuregraph plays Ink stories on an ESP32-S2 handheld, a terminal, or a 240 × 320 SDL window. All three use the same `no_std + alloc` story and Ratatui drawing code in `core/`.
 
 ## Build and run
 
@@ -20,7 +20,17 @@ The simulator builds SDL2 from source and requires CMake and a C/C++ compiler. I
 
 ## Story assets
 
-`assets/story.ink.json` is the existing compiled *The Intercept* story. `core/build.rs` converts it into Blade Ink `.inkb` bytes at build time. All platforms call `Story::new_from_image_with_seed`; the firmware embeds the bytes as a read-only static. The Blade Ink dependency is pinned to commit `007e99cf649f34ced27744067f565bd359c7c466` on `feat/flash-story-image`, with `binary-image` and without JSON story parsers in the target dependency. `raw/ink-src/TheIntercept.ink` remains the editable source; run `scripts/compileink.sh` with `inklecate` on `PATH` to regenerate the JSON deliberately.
+`ink/story.ink` is the editable command and color example, with `->start` as its entry point. Run `scripts/compileink.sh` with `rinklecate` on `PATH` to regenerate `assets/story.ink.json` (override the compiler with `INKLECATE` if needed). `core/build.rs` converts the JSON into Blade Ink `.inkb` bytes. All platforms open the same flash-compatible image, using the pinned Blade Ink runtime without target-side JSON parsers.
+
+The shared core captures tags immediately after each Ink continuation and validates the whole block before presentation. Results beginning with `>` are commands, with lowercase names. Attributes use `name=value`, separated by spaces (no spaces inside an attribute). `>cls` takes no attributes. Clear runs at its place in the animation without consuming time, resets the visible history and scroll, and preserves pending output and Ink state. Enter completes the current Ink result, executes following commands, and starts the next line; that keypress never selects a choice. Choices appear after all pending text finishes.
+
+Use `#color:red` or `#color: ff0000` to set a line's foreground. Ratatui color names and exactly six hexadecimal digits without a prefix are supported; palette indices are not. Use `#bgcolor: red` to set a line's background with the same color formats. Each line inherits the current defaults; tags override only that line, with the last valid tag for each color winning. Unknown tags are ignored. Invalid color tags and unknown commands return `StoryError::InvalidStoryState`, including the offending content. Command color tags are validated but do not render.
+
+`>set defaultcolor=red` changes the default foreground; `>set defaultbgcolor=green` changes the default background. Set both with `>set defaultcolor=red defaultbgcolor=green`. Changes execute at their position in the animation and affect subsequent lines without changing earlier text. Defaults persist through clear and choices; restart restores the initial style. `reset` restores the terminal default for either color. Repeated attributes use the last valid value. Missing, malformed, unknown attributes and invalid values return `StoryError::InvalidStoryState` before presenting the block. `App::lines()` exposes presented `StoryLine { text, style, alignment }` values, including the current animated line. Restart clears the history, styles, and pending events.
+
+`#align:center`, `#align:right`, and `#align:left` align only the tagged line, including wrapped rows and partially revealed Unicode text. Untagged lines are left-aligned; the last alignment tag on a line wins. Alignment combines with foreground and background tags. Invalid alignment values return `StoryError::InvalidStoryState` during block preparation; command tags are also validated.
+
+The fixtures in `core/tests/fixtures/` have their compiled JSON checked in. Regenerate a fixture after editing, for example `(cd core/tests/fixtures && rinklecate -o defaults.ink.json defaults.ink)`.
 
 ## Board profiles
 

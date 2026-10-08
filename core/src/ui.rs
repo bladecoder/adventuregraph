@@ -47,7 +47,7 @@ pub(crate) fn draw(app: &mut App, frame: &mut Frame) {
     };
     let story = Paragraph::new(visible)
         .wrap(Wrap { trim: true })
-        .block(Block::bordered().title("THE INTERCEPT"));
+        .block(Block::bordered().title("ADVENTUREGRAPH"));
     let width = story_area.width.saturating_sub(2).max(1);
     let total = story.line_count(width).max(1);
     let viewport = story_area.height.saturating_sub(2) as usize;
