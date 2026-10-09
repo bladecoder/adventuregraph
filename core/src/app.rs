@@ -35,10 +35,18 @@ pub struct StoryLine {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
+struct Settings {
+    style: Style,
+    text_animation: Option<bool>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
 enum OutputEvent {
     Text(StoryLine),
+    TextAnimation(StoryLine, bool),
     Clear,
-    SetDefaults(Style),
+    Set(Settings),
+    Wait(u64),
 }
 
 fn parse_color(value: &str, content: &str) -> Result<Color, StoryError> {
@@ -62,6 +70,7 @@ fn parse_command(command: &str, content: &str) -> Result<OutputEvent, StoryError
         "cls" if tokens.next().is_none() => Ok(OutputEvent::Clear),
         "set" => {
             let mut style = Style::default();
+            let mut text_animation = None;
             let mut has_attributes = false;
             for attribute in tokens {
                 let (name, value) = attribute
@@ -75,6 +84,17 @@ fn parse_command(command: &str, content: &str) -> Result<OutputEvent, StoryError
                 match name {
                     "defaultcolor" => style = style.fg(parse_color(value, attribute)?),
                     "defaultbgcolor" => style = style.bg(parse_color(value, attribute)?),
+                    "text-animation" => {
+                        text_animation = Some(match value {
+                            "true" => true,
+                            "false" => false,
+                            _ => {
+                                return Err(StoryError::InvalidStoryState(format!(
+                                    "Invalid boolean: {attribute}"
+                                )));
+                            }
+                        });
+                    }
                     _ => {
                         return Err(StoryError::InvalidStoryState(format!(
                             "Unknown attribute '{attribute}' in {content}"
@@ -88,7 +108,30 @@ fn parse_command(command: &str, content: &str) -> Result<OutputEvent, StoryError
                     "Missing attributes: {content}"
                 )));
             }
-            Ok(OutputEvent::SetDefaults(style))
+            Ok(OutputEvent::Set(Settings {
+                style,
+                text_animation,
+            }))
+        }
+        "wait" => {
+            let mut duration = None;
+            for attribute in tokens {
+                let value = attribute
+                    .strip_prefix("time=")
+                    .filter(|value| !value.is_empty() && value.bytes().all(|b| b.is_ascii_digit()));
+                let milliseconds = value
+                    .and_then(|value| value.parse::<u64>().ok())
+                    .and_then(|seconds| seconds.checked_mul(1000))
+                    .ok_or_else(|| {
+                        StoryError::InvalidStoryState(format!(
+                            "Invalid wait attribute '{attribute}' in {content}"
+                        ))
+                    })?;
+                duration = Some(milliseconds);
+            }
+            duration.map(OutputEvent::Wait).ok_or_else(|| {
+                StoryError::InvalidStoryState(format!("Missing wait time: {content}"))
+            })
         }
         _ => Err(StoryError::InvalidStoryState(format!(
             "Unknown command or unsupported attributes: {content}"
@@ -99,6 +142,7 @@ fn parse_command(command: &str, content: &str) -> Result<OutputEvent, StoryError
 fn parse_output(text: &str, tags: &[String]) -> Result<Option<OutputEvent>, StoryError> {
     let mut style = Style::default();
     let mut alignment = Alignment::Left;
+    let mut text_animation = None;
     for tag in tags {
         let tag = tag.trim();
         let (name, value) = tag.split_once(':').unwrap_or((tag, ""));
@@ -117,6 +161,17 @@ fn parse_output(text: &str, tags: &[String]) -> Result<Option<OutputEvent>, Stor
                     }
                 };
             }
+            "text-animation" => {
+                text_animation = Some(match value.trim() {
+                    "true" => true,
+                    "false" => false,
+                    _ => {
+                        return Err(StoryError::InvalidStoryState(format!(
+                            "Invalid text animation tag: {tag}"
+                        )));
+                    }
+                });
+            }
             _ => {}
         }
     }
@@ -125,17 +180,23 @@ fn parse_output(text: &str, tags: &[String]) -> Result<Option<OutputEvent>, Stor
         return parse_command(command, text).map(Some);
     }
     Ok((!text.is_empty()).then(|| {
-        OutputEvent::Text(StoryLine {
+        let line = StoryLine {
             text: text.to_string(),
             style,
             alignment,
-        })
+        };
+        match text_animation {
+            Some(animated) => OutputEvent::TextAnimation(line, animated),
+            None => OutputEvent::Text(line),
+        }
     }))
 }
 
 pub struct App {
     story: Story,
     default_style: Style,
+    text_animation: bool,
+    wait_ms: u64,
     lines: Vec<StoryLine>,
     pending: VecDeque<OutputEvent>,
     pending_choices: Vec<String>,
@@ -157,6 +218,8 @@ impl App {
         let mut app = Self {
             story,
             default_style: Style::default(),
+            text_animation: true,
+            wait_ms: 0,
             lines: Vec::new(),
             pending: VecDeque::new(),
             pending_choices: Vec::new(),
@@ -190,6 +253,10 @@ impl App {
     pub fn is_animating(&self) -> bool {
         self.visible_chars < self.text_chars()
     }
+    /// Whether an Ink wait is delaying pending output and choices.
+    pub fn is_waiting(&self) -> bool {
+        self.wait_ms > 0
+    }
     pub fn viewport_rows(&self) -> usize {
         self.viewport_rows
     }
@@ -197,29 +264,37 @@ impl App {
         self.scroll
     }
 
-    /// Advance animation using elapsed milliseconds supplied by the platform.
+    /// Advance text revelation and waits using platform-supplied elapsed milliseconds.
     pub fn tick(&mut self, elapsed_ms: u32) {
-        if !self.is_animating() {
-            return;
-        }
-        self.animation_ms = self.animation_ms.saturating_add(elapsed_ms as u64);
-        while self.is_animating() {
-            let remaining = self.text_chars() - self.visible_chars;
-            let chars = (self.animation_ms / (1000 / CHARS_PER_SECOND)).min(remaining as u64);
-            self.visible_chars += chars as usize;
-            self.animation_ms -= chars * (1000 / CHARS_PER_SECOND);
-            if self.visible_chars < self.text_chars() {
-                break;
+        let mut available_ms = u64::from(elapsed_ms);
+        loop {
+            if self.is_waiting() {
+                let consumed = available_ms.min(self.wait_ms);
+                self.wait_ms -= consumed;
+                available_ms -= consumed;
+                if self.is_waiting() {
+                    return;
+                }
+                self.present_next();
+            } else if self.is_animating() {
+                self.animation_ms += available_ms;
+                let remaining = self.text_chars() - self.visible_chars;
+                let chars = (self.animation_ms / (1000 / CHARS_PER_SECOND)).min(remaining as u64);
+                self.visible_chars += chars as usize;
+                self.animation_ms -= chars * (1000 / CHARS_PER_SECOND);
+                if self.is_animating() {
+                    return;
+                }
+                available_ms = core::mem::take(&mut self.animation_ms);
+                self.present_next();
+            } else {
+                return;
             }
-            self.present_next();
-        }
-        if !self.is_animating() {
-            self.animation_ms = 0;
         }
     }
 
     pub fn handle_event(&mut self, event: AppEvent) -> Result<(), StoryError> {
-        if self.is_animating() {
+        if self.is_animating() || self.is_waiting() {
             match event {
                 AppEvent::ChooseSelected => {
                     self.skip_line();
@@ -248,6 +323,8 @@ impl App {
             AppEvent::ChooseSelected if self.finished => {
                 self.story.reset_state()?;
                 self.default_style = Style::default();
+                self.text_animation = true;
+                self.wait_ms = 0;
                 self.lines.clear();
                 self.pending.clear();
                 self.pending_choices.clear();
@@ -338,10 +415,11 @@ impl App {
     fn skip_line(&mut self) {
         self.visible_chars = self.text_chars();
         self.animation_ms = 0;
+        self.wait_ms = 0;
         self.present_next();
     }
 
-    /// Execute instantaneous events, then start exactly one text result.
+    /// Execute immediate output until an animated line or timed wait needs a tick.
     fn present_next(&mut self) {
         while let Some(event) = self.pending.pop_front() {
             match event {
@@ -352,19 +430,44 @@ impl App {
                     self.total_rows = 0;
                     self.follow = true;
                 }
-                OutputEvent::SetDefaults(style) => {
-                    self.default_style = self.default_style.patch(style);
+                OutputEvent::Set(settings) => {
+                    self.default_style = self.default_style.patch(settings.style);
+                    if let Some(enabled) = settings.text_animation {
+                        self.text_animation = enabled;
+                    }
                 }
-                OutputEvent::Text(mut line) => {
-                    line.style = self.default_style.patch(line.style);
-                    self.lines.push(line);
-                    self.visible_chars = 0;
-                    return;
+                OutputEvent::Wait(milliseconds) => {
+                    self.wait_ms = milliseconds;
+                    if self.is_waiting() {
+                        return;
+                    }
+                }
+                OutputEvent::Text(line) => {
+                    if self.present_text(line, None) {
+                        return;
+                    }
+                }
+                OutputEvent::TextAnimation(line, animated) => {
+                    if self.present_text(line, Some(animated)) {
+                        return;
+                    }
                 }
             }
         }
         self.choices = core::mem::take(&mut self.pending_choices);
         self.finished = self.pending_finished;
+    }
+
+    fn present_text(&mut self, mut line: StoryLine, animation_override: Option<bool>) -> bool {
+        line.style = self.default_style.patch(line.style);
+        self.lines.push(line);
+        let animated = animation_override.unwrap_or(self.text_animation);
+        if animated {
+            self.visible_chars = 0;
+        } else {
+            self.visible_chars = self.text_chars();
+        }
+        animated
     }
 
     fn advance(&mut self) -> Result<(), StoryError> {
@@ -388,9 +491,11 @@ impl App {
             let last_text = pending.iter().fold(
                 self.lines.last().map(|line| line.text.as_str()),
                 |last, event| match event {
-                    OutputEvent::Text(line) => Some(line.text.as_str()),
+                    OutputEvent::Text(line) | OutputEvent::TextAnimation(line, _) => {
+                        Some(line.text.as_str())
+                    }
                     OutputEvent::Clear => None,
-                    OutputEvent::SetDefaults(_) => last,
+                    OutputEvent::Set(_) | OutputEvent::Wait(_) => last,
                 },
             );
             if !last_text.is_some_and(|text| text.trim().eq_ignore_ascii_case("the end")) {
@@ -662,15 +767,17 @@ mod tests {
     fn set_attributes_and_background_validation() {
         assert_eq!(
             parse_output(">set defaultcolor=red defaultbgcolor=green", &[]).unwrap(),
-            Some(OutputEvent::SetDefaults(
-                Style::default().fg(Color::Red).bg(Color::Green)
-            ))
+            Some(OutputEvent::Set(Settings {
+                style: Style::default().fg(Color::Red).bg(Color::Green),
+                text_animation: None
+            }))
         );
         assert_eq!(
             parse_output("> set  defaultcolor=red\tdefaultcolor=FF0000  ", &[]).unwrap(),
-            Some(OutputEvent::SetDefaults(
-                Style::default().fg(Color::Rgb(255, 0, 0))
-            ))
+            Some(OutputEvent::Set(Settings {
+                style: Style::default().fg(Color::Rgb(255, 0, 0)),
+                text_animation: None
+            }))
         );
         for command in [
             ">set",
@@ -884,5 +991,238 @@ mod tests {
         let error = app.handle_event(AppEvent::ChooseSelected).unwrap_err();
         assert!(error.to_string().contains("align:justify"));
         assert_eq!(app.lines(), before);
+    }
+    fn timing_fixture() -> App {
+        App::new(include_bytes!(concat!(env!("OUT_DIR"), "/timing.inkb")), 42).unwrap()
+    }
+
+    #[test]
+    fn timing_commands_validate_attributes() {
+        assert_eq!(
+            parse_output(">set text-animation=false defaultcolor=red", &[]).unwrap(),
+            Some(OutputEvent::Set(Settings {
+                style: Style::default().fg(Color::Red),
+                text_animation: Some(false)
+            }))
+        );
+        assert_eq!(
+            parse_output(">set text-animation=false text-animation=true", &[]).unwrap(),
+            Some(OutputEvent::Set(Settings {
+                style: Style::default(),
+                text_animation: Some(true)
+            }))
+        );
+        for (command, milliseconds) in [
+            (">wait time=0", 0),
+            ("> wait time=2  ", 2000),
+            (">wait time=1 time=3", 3000),
+            (">wait time=18446744073709551", 18_446_744_073_709_551_000),
+        ] {
+            assert_eq!(
+                parse_output(command, &[]).unwrap(),
+                Some(OutputEvent::Wait(milliseconds))
+            );
+        }
+        for command in [
+            ">set text-animation",
+            ">set text-animation=",
+            ">set text-animation=True",
+            ">set text-animation=1",
+            ">set text-animation=no",
+            ">wait",
+            ">wait time",
+            ">wait time=",
+            ">wait time=-1",
+            ">wait time=+1",
+            ">wait time=0.5",
+            ">wait time=nan",
+            ">wait time=18446744073709552",
+            ">wait time=18446744073709551616",
+            ">wait duration=1",
+            ">wait time=1 other=2",
+        ] {
+            assert!(
+                matches!(
+                    parse_output(command, &[]),
+                    Err(StoryError::InvalidStoryState(_))
+                ),
+                "{command}"
+            );
+        }
+        assert!(parse_output(">wait time=1", &tag("color:bad")).is_err());
+    }
+
+    #[test]
+    fn waits_and_animation_switches_execute_in_order_and_reset() {
+        let mut app = timing_fixture();
+        assert!(app.is_waiting());
+        assert!(!app.is_animating());
+        assert!(app.lines().is_empty());
+        app.tick(999);
+        assert_eq!(app.wait_ms, 1);
+        assert!(app.lines().is_empty());
+        app.tick(1);
+        assert!(!app.is_waiting());
+        assert!(app.is_animating());
+        assert_eq!(app.visible_chars, 0);
+        app.tick(50);
+        assert_eq!(app.visible_text().lines[0].spans[0].content, "á");
+        assert!(app.text_animation);
+        app.tick(50);
+        assert!(!app.text_animation);
+        assert!(app.is_waiting());
+        assert!(!app.is_animating());
+        assert_eq!(app.lines()[1].text, "instant");
+        assert_eq!(app.visible_chars, 7);
+        assert_eq!(app.lines()[1].alignment, Alignment::Center);
+        assert_eq!(app.lines()[1].style.fg, Some(Color::Red));
+        let mut terminal = Terminal::new(TestBackend::new(30, 16)).unwrap();
+        terminal.draw(|frame| app.draw(frame)).unwrap();
+        for (i, ch) in "instant".chars().enumerate() {
+            let cell = &terminal.backend().buffer()[(12 + i as u16, 3)];
+            assert_eq!(cell.symbol(), ch.to_string());
+            assert_eq!(cell.fg, Color::Red);
+        }
+        assert!(app.choices().is_empty());
+        app.handle_event(AppEvent::SelectNext).unwrap();
+        assert_eq!(app.selected_choice(), None);
+        app.tick(1999);
+        assert_eq!(app.wait_ms, 1);
+        assert_eq!(app.lines().len(), 2);
+        app.tick(1);
+        assert!(app.text_animation);
+        assert_eq!(app.lines()[0].text, "after");
+        assert_eq!(app.lines()[1].text, "slow");
+        assert_eq!(app.visible_chars, 0);
+        assert_eq!(app.lines()[1].style.bg, Some(Color::Green));
+        app.tick(200);
+        assert_eq!(app.lines()[2].text, "last");
+        assert!(!app.text_animation);
+        assert!(app.is_waiting());
+        assert_eq!(app.visible_chars, 4);
+        app.tick(999);
+        assert!(app.choices().is_empty());
+        app.tick(1);
+        assert_eq!(app.choices().len(), 3);
+        app.handle_event(AppEvent::ChooseSelected).unwrap();
+        assert!(app.is_waiting());
+        assert!(!app.text_animation);
+        app.tick(1000);
+        assert!(app.is_finished());
+        assert!(app.lines().iter().any(|line| line.text == "continued"));
+        assert!(!app.is_animating());
+        app.handle_event(AppEvent::ChooseSelected).unwrap();
+        assert!(app.is_waiting());
+        assert!(app.text_animation);
+        assert!(app.lines().is_empty());
+        assert_eq!(app.default_style, Style::default());
+        assert_eq!(app.animation_ms, 0);
+    }
+
+    #[test]
+    fn enter_skips_one_wait_or_animated_line_without_selecting_choices() {
+        let mut app = timing_fixture();
+        app.handle_event(AppEvent::ChooseSelected).unwrap();
+        assert!(!app.is_waiting());
+        assert!(app.is_animating());
+        app.tick(25);
+        app.handle_event(AppEvent::ChooseSelected).unwrap();
+        assert!(app.is_waiting());
+        assert_eq!(app.wait_ms, 2000);
+        assert_eq!(app.animation_ms, 0);
+        app.handle_event(AppEvent::ChooseSelected).unwrap();
+        assert!(app.is_animating());
+        assert_eq!(app.lines()[0].text, "after");
+        app.handle_event(AppEvent::ChooseSelected).unwrap();
+        assert!(app.is_waiting());
+        app.handle_event(AppEvent::ChooseSelected).unwrap();
+        assert_eq!(app.choices().len(), 3);
+        assert!(!app.is_waiting());
+        assert!(!app.is_finished());
+        assert_eq!(app.lines().last().unwrap().text, "last");
+    }
+
+    #[test]
+    fn timing_ticks_preserve_all_remaining_time() {
+        for elapsed in [
+            0, 999, 1000, 1001, 1049, 1050, 1099, 1100, 1101, 3099, 3100, 3101, 3299, 3300, 3301,
+            4299, 4300, 6000,
+        ] {
+            let mut large = timing_fixture();
+            let mut small = timing_fixture();
+            large.tick(elapsed);
+            for _ in 0..elapsed {
+                small.tick(1);
+            }
+            assert_eq!(large.lines(), small.lines(), "elapsed {elapsed}");
+            assert_eq!(large.pending, small.pending);
+            assert_eq!(large.visible_chars, small.visible_chars);
+            assert_eq!(large.wait_ms, small.wait_ms);
+            assert_eq!(large.animation_ms, small.animation_ms);
+            assert_eq!(large.text_animation, small.text_animation);
+            assert_eq!(large.choices(), small.choices());
+        }
+        let mut app = timing_fixture();
+        // Consecutive waits also retain elapsed time, even without any text.
+        app.pending.push_front(OutputEvent::Wait(2000));
+        app.tick(2999);
+        assert_eq!(app.wait_ms, 1);
+        assert!(app.lines().is_empty());
+        app.tick(51);
+        assert_eq!(app.visible_chars, 1);
+    }
+
+    #[test]
+    fn invalid_timing_blocks_do_not_change_presentation_or_settings() {
+        for (index, invalid) in [(1, "text-animation=maybe"), (2, "time=-1")] {
+            let mut app = timing_fixture();
+            app.tick(10_000);
+            let before = app.lines().to_vec();
+            app.handle_event(AppEvent::SelectIndex(index)).unwrap();
+            let error = app.handle_event(AppEvent::ChooseSelected).unwrap_err();
+            assert!(error.to_string().contains(invalid));
+            assert_eq!(app.lines(), before);
+            assert!(!app.text_animation);
+            assert!(!app.is_waiting());
+        }
+    }
+    #[test]
+    fn real_example_disables_centered_text_then_waits_and_animates_left_text() {
+        let mut app = App::new(crate::STORY_IMAGE, 42).unwrap();
+        for _ in 0..100 {
+            if app.is_waiting() {
+                break;
+            }
+            assert!(app.is_animating());
+            app.handle_event(AppEvent::ChooseSelected).unwrap();
+        }
+        assert!(app.is_waiting());
+        assert!(!app.text_animation);
+        assert_eq!(app.wait_ms, 2000);
+        let centered = app
+            .lines()
+            .iter()
+            .find(|line| line.text.contains("centered and appears immediately"))
+            .unwrap();
+        assert_eq!(centered.alignment, Alignment::Center);
+        assert_eq!(app.lines().last().unwrap().alignment, Alignment::Right);
+        assert_eq!(app.visible_chars, app.text_chars());
+        let before = app.lines().len();
+        app.tick(1999);
+        assert_eq!(app.lines().len(), before);
+        app.tick(1);
+        assert!(app.text_animation);
+        assert!(app.is_animating());
+        assert_eq!(app.visible_chars, 0);
+        assert_eq!(app.lines().last().unwrap().alignment, Alignment::Left);
+        assert!(
+            app.lines()
+                .last()
+                .unwrap()
+                .text
+                .contains("animated after a two-second wait")
+        );
+        app.tick(50);
+        assert_eq!(app.visible_chars, 1);
     }
 }

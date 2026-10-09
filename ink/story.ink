@@ -4,6 +4,8 @@
 This line has no modifier and should use the default color.
 This line uses the named color red. #color:red
 This line uses a hexadecimal color with a space after the colon. #color: ff0000
+This line appears immediately because the tag overrides animation for this line only. #text-animation:false
+This untagged line uses the default animation again.
 >cls
 After the clear, this line should be the only story text still on screen.
 This line switches to blue. #color:blue
@@ -25,9 +27,14 @@ Clear preserves the default yellow text and blue background.
 >set defaultcolor=reset defaultbgcolor=reset
 This line restores the terminal's default text and background colors.
 
-This line is centered. #align:center
+>set text-animation=false
+This line is centered and appears immediately. #align:center
+This line animates because its tag overrides the disabled default for this line only. #text-animation:true
+This following line appears immediately again.
 This line is right-aligned. #align: right
-This line is explicitly left-aligned. #align:left
+>wait time=2
+>set text-animation=true
+This line is explicitly left-aligned and animated after a two-second wait. #align:left
 This untagged line uses left alignment again.
 Centered text can also have colors. #align:center #color:yellow #bgcolor:blue
 
