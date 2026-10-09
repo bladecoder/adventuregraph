@@ -200,8 +200,13 @@ fn main() -> ! {
         user_button_state: DebouncedButton::new(Instant::now()),
     };
 
-    let backend: EmbeddedBackend<_, _> =
-        EmbeddedBackend::new(&mut display, EmbeddedBackendConfig::default());
+    let backend: EmbeddedBackend<_, _> = EmbeddedBackend::new(
+        &mut display,
+        EmbeddedBackendConfig {
+            font_regular: adventuregraph_core::embedded_font::FONT,
+            ..Default::default()
+        },
+    );
     let mut terminal = Terminal::new(backend).unwrap();
     terminal.clear().unwrap();
     let mut app = App::new(STORY_IMAGE, 42).unwrap();

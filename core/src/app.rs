@@ -9,10 +9,12 @@ use ratatui::{
     Frame,
     layout::Alignment,
     style::{Color, Style},
-    text::{Line, Span, Text},
 };
 
 use crate::ui;
+#[cfg(test)]
+use ratatui::text::{Line, Span, Text};
+use tui_big_text::PixelSize;
 
 const CHARS_PER_SECOND: u64 = 20;
 
@@ -32,6 +34,7 @@ pub struct StoryLine {
     pub text: String,
     pub style: Style,
     pub alignment: Alignment,
+    pub banner: Option<PixelSize>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -142,6 +145,7 @@ fn parse_command(command: &str, content: &str) -> Result<OutputEvent, StoryError
 fn parse_output(text: &str, tags: &[String]) -> Result<Option<OutputEvent>, StoryError> {
     let mut style = Style::default();
     let mut alignment = Alignment::Left;
+    let mut banner = None;
     let mut text_animation = None;
     for tag in tags {
         let tag = tag.trim();
@@ -149,6 +153,23 @@ fn parse_output(text: &str, tags: &[String]) -> Result<Option<OutputEvent>, Stor
         match name.trim() {
             "color" => style = style.fg(parse_color(value, tag)?),
             "bgcolor" => style = style.bg(parse_color(value, tag)?),
+            "banner" => {
+                banner = Some(match value.trim() {
+                    "full" => PixelSize::Full,
+                    "half-height" => PixelSize::HalfHeight,
+                    "half-width" => PixelSize::HalfWidth,
+                    "quadrant" => PixelSize::Quadrant,
+                    "third-height" => PixelSize::ThirdHeight,
+                    "sextant" => PixelSize::Sextant,
+                    "quarter-height" => PixelSize::QuarterHeight,
+                    "octant" => PixelSize::Octant,
+                    _ => {
+                        return Err(StoryError::InvalidStoryState(format!(
+                            "Invalid banner tag: {tag}"
+                        )));
+                    }
+                });
+            }
             "align" => {
                 alignment = match value.trim() {
                     "center" => Alignment::Center,
@@ -184,6 +205,7 @@ fn parse_output(text: &str, tags: &[String]) -> Result<Option<OutputEvent>, Stor
             text: text.to_string(),
             style,
             alignment,
+            banner,
         };
         match text_animation {
             Some(animated) => OutputEvent::TextAnimation(line, animated),
@@ -367,6 +389,7 @@ impl App {
         ui::draw(self, frame);
     }
 
+    #[cfg(test)]
     pub(crate) fn visible_text(&self) -> Text<'static> {
         let mut lines = Vec::new();
         for (index, line) in self.lines.iter().enumerate() {
@@ -391,6 +414,25 @@ impl App {
             }
         }
         Text::from(lines)
+    }
+
+    pub(crate) fn visible_lines(&self) -> Vec<StoryLine> {
+        self.lines
+            .iter()
+            .enumerate()
+            .map(|(index, line)| {
+                let mut line = line.clone();
+                if index + 1 == self.lines.len() {
+                    let end = line
+                        .text
+                        .char_indices()
+                        .nth(self.visible_chars)
+                        .map_or(line.text.len(), |(i, _)| i);
+                    line.text.truncate(end);
+                }
+                line
+            })
+            .collect()
     }
 
     pub(crate) fn set_viewport(&mut self, total_rows: usize, viewport_rows: usize) {
@@ -503,6 +545,7 @@ impl App {
                     text: "The End".to_string(),
                     style: Style::default(),
                     alignment: Alignment::Left,
+                    banner: None,
                 }));
             }
         }
@@ -741,6 +784,9 @@ mod tests {
         assert_eq!(buffer[(1, 3)].fg, Color::Red);
         assert_eq!(buffer[(1, 1)].fg, Color::Reset);
         app.handle_event(AppEvent::ChooseSelected).unwrap();
+        while !app.lines()[0].text.starts_with("After the clear") {
+            app.handle_event(AppEvent::ChooseSelected).unwrap();
+        }
         assert_eq!(app.lines().len(), 1);
         assert!(app.lines()[0].text.starts_with("After the clear"));
         assert_eq!(app.lines()[0].style, Style::default());
@@ -755,6 +801,75 @@ mod tests {
         );
         assert_eq!(app.lines()[0].style, Style::default());
     }
+    #[test]
+    fn banner_tags_validate_preserve_text_and_last_tag_wins() {
+        let event = parse_output("Abá\nñ", &["banner: full".into(), "banner: octant ".into()])
+            .unwrap()
+            .unwrap();
+        let OutputEvent::Text(line) = event else {
+            panic!()
+        };
+        assert_eq!(line.text, "Abá\nñ");
+        assert_eq!(line.banner, Some(PixelSize::Octant));
+        for tag in ["banner", "banner:", "banner: unknown", "banner:FULL"] {
+            assert!(matches!(
+                parse_output("text", &[tag.into()]),
+                Err(StoryError::InvalidStoryState(_))
+            ));
+        }
+    }
+
+    #[test]
+    fn banner_revelation_uses_original_unicode_characters_and_enter_skips_one_line() {
+        let mut app = timing_fixture();
+        app.pending.clear();
+        app.wait_ms = 0;
+        app.lines.clear();
+        let OutputEvent::Text(line) = parse_output("áBñ", &["banner:octant".into()])
+            .unwrap()
+            .unwrap()
+        else {
+            panic!()
+        };
+        app.pending.push_back(OutputEvent::Wait(1000));
+        assert!(app.present_text(line, Some(true)));
+        assert_eq!(app.visible_lines()[0].text, "");
+        app.tick(50);
+        assert_eq!(app.visible_lines()[0].text, "á");
+        assert_eq!(app.visible_lines()[0].banner, Some(PixelSize::Octant));
+        app.handle_event(AppEvent::ChooseSelected).unwrap();
+        assert_eq!(app.visible_lines()[0].text, "áBñ");
+        assert_eq!(app.wait_ms, 1000);
+    }
+
+    #[test]
+    fn banners_preserve_animation_waits_enter_restart_and_tick_time() {
+        let mut large = App::new(crate::STORY_IMAGE, 42).unwrap();
+        let mut small = App::new(crate::STORY_IMAGE, 42).unwrap();
+        large.tick(100_000);
+        for _ in 0..1000 {
+            small.tick(100);
+        }
+        assert_eq!(large.lines(), small.lines());
+        assert_eq!(large.pending, small.pending);
+        assert_eq!(large.visible_chars, small.visible_chars);
+        assert_eq!(large.wait_ms, small.wait_ms);
+        assert_eq!(large.choices(), small.choices());
+        assert!(
+            large
+                .lines()
+                .iter()
+                .any(|line| line.banner == Some(PixelSize::Octant))
+        );
+        large.handle_event(AppEvent::SelectIndex(1)).unwrap();
+        large.handle_event(AppEvent::ChooseSelected).unwrap();
+        assert!(large.is_finished());
+        large.handle_event(AppEvent::ChooseSelected).unwrap();
+        assert!(large.is_animating());
+        assert_eq!(large.lines()[0].banner, None);
+        assert_eq!(large.visible_chars, 0);
+    }
+
     fn defaults_fixture() -> App {
         App::new(
             include_bytes!(concat!(env!("OUT_DIR"), "/defaults.inkb")),

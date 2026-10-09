@@ -6,7 +6,12 @@ license.workspace = true
 repository.workspace = true
 build = "build.rs"
 
+[features]
+embedded-fonts = ["dep:embedded-graphics"]
+
 [dependencies]
+tui-big-text = { version = "=0.8.10", default-features = false }
+embedded-graphics = { version = "=0.8.2", optional = true }
 bladeink.workspace = true
 ratatui = { workspace = true, features = ["unstable-rendered-line-info"] }
 ratatui-widgets.workspace = true

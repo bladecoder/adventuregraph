@@ -37,6 +37,7 @@ fn main() -> Result<()> {
     let mut display = SimulatorDisplay::<Rgb565>::new(geometry::Size::new(240, 320));
     let flush_window = Rc::clone(&window);
     let config = EmbeddedBackendConfig {
+        font_regular: adventuregraph_core::embedded_font::FONT,
         flush_callback: Box::new(move |display| flush_window.borrow_mut().update(display)),
         ..Default::default()
     };

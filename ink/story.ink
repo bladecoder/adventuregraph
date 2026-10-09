@@ -38,5 +38,40 @@ This line is explicitly left-aligned and animated after a two-second wait. #alig
 This untagged line uses left alignment again.
 Centered text can also have colors. #align:center #color:yellow #bgcolor:blue
 
+
+>set text-animation=false
+>cls
+full banner:
+Abá #banner:full #color:yellow #bgcolor:blue #align:left
+>wait time=2
+>cls
+half-height banner:
+Abá #banner:half-height #color:yellow #bgcolor:blue #align:center #text-animation:true
+>wait time=2
+>cls
+half-width banner:
+Abá #banner:half-width #color:yellow #bgcolor:blue #align:right
+>wait time=2
+>cls
+quadrant banner:
+Abá #banner:quadrant #color:yellow #bgcolor:blue #align:left #text-animation:true
+>wait time=2
+>cls
+third-height banner:
+Abá #banner:third-height #color:yellow #bgcolor:blue #align:center
+>wait time=2
+>cls
+sextant banner:
+Abá #banner:sextant #color:yellow #bgcolor:blue #align:right #text-animation:true
+>wait time=2
+>cls
+quarter-height banner:
+Abá #banner:quarter-height #color:yellow #bgcolor:blue #align:left
+>wait time=2
+>cls
+octant banner:
+Abá #banner:octant #color:yellow #bgcolor:blue #align:center #text-animation:true
+>wait time=2
+
 * [Replay the example] -> start
 * [Finish] -> END

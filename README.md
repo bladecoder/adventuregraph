@@ -26,7 +26,7 @@ The shared core captures tags immediately after each Ink continuation and valida
 
 Use `#color:red` or `#color: ff0000` to set a line's foreground. Ratatui color names and exactly six hexadecimal digits without a prefix are supported; palette indices are not. Use `#bgcolor: red` to set a line's background with the same color formats. Each line inherits the current defaults; tags override only that line, with the last valid tag for each color winning. Unknown tags are ignored. Invalid color tags and unknown commands return `StoryError::InvalidStoryState`, including the offending content. Command color tags are validated but do not render.
 
-`>set defaultcolor=red` changes the default foreground; `>set defaultbgcolor=green` changes the default background. Set both with `>set defaultcolor=red defaultbgcolor=green`. Changes execute at their position in the animation and affect subsequent lines without changing earlier text. Defaults persist through clear and choices; restart restores the initial style. `reset` restores the terminal default for either color. Repeated attributes use the last valid value. Missing, malformed, unknown attributes and invalid values return `StoryError::InvalidStoryState` before presenting the block. `App::lines()` exposes presented `StoryLine { text, style, alignment }` values, including the current animated line. Restart clears the history, styles, and pending events.
+`>set defaultcolor=red` changes the default foreground; `>set defaultbgcolor=green` changes the default background. Set both with `>set defaultcolor=red defaultbgcolor=green`. Changes execute at their position in the animation and affect subsequent lines without changing earlier text. Defaults persist through clear and choices; restart restores the initial style. `reset` restores the terminal default for either color. Repeated attributes use the last valid value. Missing, malformed, unknown attributes and invalid values return `StoryError::InvalidStoryState` before presenting the block. `App::lines()` exposes presented `StoryLine { text, style, alignment, banner }` values, including the current animated line. Restart clears the history, styles, and pending events.
 
 `>set text-animation=false` makes subsequent text appear immediately; `>set text-animation=true` restores the 20-character-per-second animation. The attribute can be combined with default color attributes. The setting persists through clear and choices, and restart enables animation again. Only lowercase `true` and `false` are valid.
 
@@ -85,3 +85,19 @@ cargo tree -p adventuregraph-esp -e features
 ```
 
 After an ESP build, inspect the ELF and linker map with the Xtensa `size`, `nm`, and `objdump` tools. Confirm `BLINKIMG`/`STORY_IMAGE` are in a flash-mapped `.rodata` section. Flash and test the display, encoder direction and switch, GPIO37 button, and buzzer on the physical board before accepting hardware behavior.
+
+Use `#banner:MODE` to render a line directly with `tui-big-text = "=0.8.10"`.
+Modes: `full`, `half-height`, `half-width`, `quadrant`, `third-height`, `sextant`,
+`quarter-height`, and `octant`. Values are trimmed and the last valid tag wins;
+empty or unknown values fail block preparation. Original case and accents are
+preserved; glyph support follows BigText. Banners use native multiline rendering,
+horizontal clipping, colors, and alignment, without word wrapping or extra scaling.
+Animation reveals the original characters; `#text-animation:false` shows the whole
+banner immediately. History scrolls by terminal rows, including inside a glyph.
+Only visible banner lines are rasterized into one reusable viewport-width buffer
+of eight rows. Normal text retains wrapping and blank separators.
+
+ESP and simulator enable the core's `embedded-fonts` feature and share a static
+6×10 Unicode font with block shapes for every mode. Existing Unicode glyphs are
+preserved except block symbols, whose bitmaps use exact Unicode subdivisions.
+Physical display verification still requires the board.
