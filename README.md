@@ -1,6 +1,6 @@
 # Adventuregraph v2
 
-Adventuregraph plays *The Intercept* on an ESP32-S2 handheld, a terminal, or a 240 × 320 SDL window. All three use the same `no_std + alloc` story and Ratatui drawing code in `core/`.
+Adventuregraph plays Ink stories on an ESP32-S2 handheld, a terminal, or a 240 × 320 SDL window. All three use the same `no_std + alloc` story and Ratatui drawing code in `core/`.
 
 ## Build and run
 
@@ -20,7 +20,23 @@ The simulator builds SDL2 from source and requires CMake and a C/C++ compiler. I
 
 ## Story assets
 
-`assets/story.ink.json` is the existing compiled *The Intercept* story. `core/build.rs` converts it into Blade Ink `.inkb` bytes at build time. All platforms call `Story::new_from_image_with_seed`; the firmware embeds the bytes as a read-only static. The Blade Ink dependency is pinned to commit `007e99cf649f34ced27744067f565bd359c7c466` on `feat/flash-story-image`, with `binary-image` and without JSON story parsers in the target dependency. `raw/ink-src/TheIntercept.ink` remains the editable source; run `scripts/compileink.sh` with `inklecate` on `PATH` to regenerate the JSON deliberately.
+`ink/story.ink` is the editable command and color example, with `->start` as its entry point. Run `scripts/compileink.sh` with `rinklecate` on `PATH` to regenerate `assets/story.ink.json` (override the compiler with `INKLECATE` if needed). `core/build.rs` converts the JSON into Blade Ink `.inkb` bytes. All platforms open the same flash-compatible image, using the pinned Blade Ink runtime without target-side JSON parsers.
+
+The shared core captures tags immediately after each Ink continuation and validates the whole block before presentation. Results beginning with `>` are commands, with lowercase names. Attributes use `name=value`, separated by spaces (no spaces inside an attribute). `>cls` takes no attributes. Clear runs at its place in the animation without consuming time, resets the visible history and scroll, and preserves pending output and Ink state. Enter completes the current animated Ink result or skips the current wait, executes following commands, and starts the next output; that keypress never selects a choice. Choices appear after all pending text and waits finish.
+
+Use `#color:red` or `#color: ff0000` to set a line's foreground. Ratatui color names and exactly six hexadecimal digits without a prefix are supported; palette indices are not. Use `#bgcolor: red` to set a line's background with the same color formats. Each line inherits the current defaults; tags override only that line, with the last valid tag for each color winning. Unknown tags are ignored. Invalid color tags and unknown commands return `StoryError::InvalidStoryState`, including the offending content. Command color tags are validated but do not render.
+
+`>set defaultcolor=red` changes the default foreground; `>set defaultbgcolor=green` changes the default background. Set both with `>set defaultcolor=red defaultbgcolor=green`. Changes execute at their position in the animation and affect subsequent lines without changing earlier text. Defaults persist through clear and choices; restart restores the initial style. `reset` restores the terminal default for either color. Repeated attributes use the last valid value. Missing, malformed, unknown attributes and invalid values return `StoryError::InvalidStoryState` before presenting the block. `App::lines()` exposes presented `StoryLine { text, style, alignment, banner }` values, including the current animated line. Restart clears the history, styles, and pending events.
+
+`>set text-animation=false` makes subsequent text appear immediately; `>set text-animation=true` restores the 20-character-per-second animation. The attribute can be combined with default color attributes. The setting persists through clear and choices, and restart enables animation again. Only lowercase `true` and `false` are valid.
+
+Use `#text-animation:false` or `#text-animation:true` to override animation for only the tagged line. This can disable animation while the default is enabled or animate one line while the default is disabled; following lines continue to use the current setting. Only lowercase `true` and `false` are valid, and invalid values return `StoryError::InvalidStoryState`.
+
+`>wait time=N` pauses pending output for N whole seconds, including when text animation is disabled. N must be a nonnegative integer that fits in milliseconds as a `u64`; zero adds no delay. Waits execute in order, preserve the text already displayed, and delay choices at the end of a block. Platforms keep drawing and handling input; Enter skips the current wait without selecting a choice. `App::is_waiting()` reports a wait separately from `is_animating()`. Ticks carry unused elapsed time across waits, text and immediate commands. Missing or invalid wait attributes return `StoryError::InvalidStoryState` during block preparation.
+
+`#align:center`, `#align:right`, and `#align:left` align only the tagged line, including wrapped rows and partially revealed Unicode text. Untagged lines are left-aligned; the last alignment tag on a line wins. Alignment combines with foreground and background tags. Invalid alignment values return `StoryError::InvalidStoryState` during block preparation; command tags are also validated.
+
+The fixtures in `core/tests/fixtures/` have their compiled JSON checked in. Regenerate a fixture after editing, for example `(cd core/tests/fixtures && rinklecate -o defaults.ink.json defaults.ink)`.
 
 ## Board profiles
 
@@ -69,3 +85,19 @@ cargo tree -p adventuregraph-esp -e features
 ```
 
 After an ESP build, inspect the ELF and linker map with the Xtensa `size`, `nm`, and `objdump` tools. Confirm `BLINKIMG`/`STORY_IMAGE` are in a flash-mapped `.rodata` section. Flash and test the display, encoder direction and switch, GPIO37 button, and buzzer on the physical board before accepting hardware behavior.
+
+Use `#banner:MODE` to render a line directly with `tui-big-text = "=0.8.10"`.
+Modes: `full`, `half-height`, `half-width`, `quadrant`, `third-height`, `sextant`,
+`quarter-height`, and `octant`. Values are trimmed and the last valid tag wins;
+empty or unknown values fail block preparation. Original case and accents are
+preserved; glyph support follows BigText. Banners use native multiline rendering,
+horizontal clipping, colors, and alignment, without word wrapping or extra scaling.
+Animation reveals the original characters; `#text-animation:false` shows the whole
+banner immediately. History scrolls by terminal rows, including inside a glyph.
+Only visible banner lines are rasterized into one reusable viewport-width buffer
+of eight rows. Normal text retains wrapping and blank separators.
+
+ESP and simulator enable the core's `embedded-fonts` feature and share a static
+6×10 Unicode font with block shapes for every mode. Existing Unicode glyphs are
+preserved except block symbols, whose bitmaps use exact Unicode subdivisions.
+Physical display verification still requires the board.

@@ -11,7 +11,7 @@ name = "adventuregraph-esp"
 path = "src/main.rs"
 
 [dependencies]
-adventuregraph-core = { path = "../core" }
+adventuregraph-core = { path = "../core", features = ["embedded-fonts"] }
 esp-hal = { version = "=1.2.2", features = ["esp32s2"] }
 esp-bootloader-esp-idf = { version = "=0.6.0", features = ["esp32s2"] }
 esp-alloc = { version = "=0.11.0", features = ["esp32s2"] }
