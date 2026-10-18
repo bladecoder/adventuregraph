@@ -1,0 +1,9 @@
+[package]
+name = "adventuregraph-desktop-audio"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+adventuregraph-core = { path = "../core" }
+sdl2 = { version = "=0.37.0", features = ["bundled"] }

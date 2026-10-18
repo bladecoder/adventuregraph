@@ -2,6 +2,7 @@
 #![no_main]
 
 extern crate alloc;
+mod buzzer;
 
 use adventuregraph_core::{App, AppEvent, STORY_IMAGE};
 use alloc::boxed::Box;
@@ -9,7 +10,12 @@ use embedded_hal_bus::spi::ExclusiveDevice;
 use esp_hal::{
     clock::CpuClock,
     delay::Delay,
-    gpio::{Input, InputConfig, Level, Output, OutputConfig, Pull},
+    gpio::{DriveMode, Input, InputConfig, Level, Output, OutputConfig, Pull},
+    ledc::{
+        LSGlobalClkSource, Ledc, LowSpeed,
+        channel::{self, ChannelIFace},
+        timer,
+    },
     main,
     pcnt::{
         Pcnt,
@@ -103,16 +109,6 @@ impl Inputs<'_> {
     }
 }
 
-fn chirp(buzzer: &mut Option<Output<'_>>, delay: &Delay) {
-    let Some(buzzer) = buzzer else { return };
-    for _ in 0..40 {
-        buzzer.set_high();
-        delay.delay_micros(250);
-        buzzer.set_low();
-        delay.delay_micros(250);
-    }
-}
-
 #[main]
 fn main() -> ! {
     // The ESP32-S2 has 128 KiB of internal reclaimed RAM available to this
@@ -127,7 +123,7 @@ fn main() -> ! {
         dc_pin,
         reset_pin,
         cs_pin,
-        mut buzzer,
+        buzzer,
         sck_pin,
         mosi_pin,
         a,
@@ -209,13 +205,31 @@ fn main() -> ! {
     );
     let mut terminal = Terminal::new(backend).unwrap();
     terminal.clear().unwrap();
+    let mut ledc = Ledc::new(peripherals.LEDC);
+    ledc.set_global_slow_clock(LSGlobalClkSource::APBClk);
+    let buzzer_timer = buzzer::BuzzerTimer::new(ledc.timer::<LowSpeed>(timer::Number::Timer0));
+    buzzer_timer.set_frequency(2000);
+    let buzzer_channel = buzzer.map(|pin| {
+        let mut channel =
+            ledc.channel::<LowSpeed>(channel::Number::Channel0, pin.into_peripheral_output());
+        channel
+            .configure(channel::config::Config {
+                timer: &buzzer_timer,
+                duty_pct: 0,
+                drive_mode: DriveMode::PushPull,
+            })
+            .unwrap();
+        channel
+    });
+    let mut buzzer_frequency = None;
     let mut app = App::new(STORY_IMAGE, 42).unwrap();
     let mut last = Instant::now();
     let mut last_draw = last;
     loop {
         let now = Instant::now();
-        app.tick((now - last).as_millis().min(u32::MAX as u64) as u32);
-        last = now;
+        let elapsed_ms = (now - last).as_millis().min(u32::MAX as u64) as u32;
+        app.tick(elapsed_ms);
+        last += Duration::from_millis(u64::from(elapsed_ms));
         let (step, select, user) = inputs.poll(now);
         if step != 0 {
             if app.is_animating() || app.choices().is_empty() {
@@ -232,11 +246,22 @@ fn main() -> ! {
         }
         if select {
             app.handle_event(AppEvent::ChooseSelected).unwrap();
-            chirp(&mut buzzer, &delay);
+            app.buzzer_feedback();
         }
         if user {
             app.handle_event(AppEvent::JumpStoryStart).unwrap();
-            chirp(&mut buzzer, &delay);
+            app.buzzer_feedback();
+        }
+        let frequency = app.buzzer().frequency();
+        if frequency != buzzer_frequency {
+            if let Some(channel) = &buzzer_channel {
+                channel.set_duty(0).unwrap();
+                if let Some(frequency) = frequency {
+                    buzzer_timer.set_frequency(frequency);
+                    channel.set_duty(50).unwrap();
+                }
+            }
+            buzzer_frequency = frequency;
         }
         if now - last_draw >= Duration::from_millis(50) {
             terminal.draw(|frame| app.draw(frame)).unwrap();

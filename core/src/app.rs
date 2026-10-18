@@ -11,7 +11,7 @@ use ratatui::{
     style::{Color, Style},
 };
 
-use crate::ui;
+use crate::{Buzzer, BuzzerCommand, ui};
 #[cfg(test)]
 use ratatui::text::{Line, Span, Text};
 use tui_big_text::PixelSize;
@@ -50,6 +50,7 @@ enum OutputEvent {
     Clear,
     Set(Settings),
     Wait(u64),
+    Buzzer(BuzzerCommand),
 }
 
 fn parse_color(value: &str, content: &str) -> Result<Color, StoryError> {
@@ -71,6 +72,7 @@ fn parse_command(command: &str, content: &str) -> Result<OutputEvent, StoryError
     let name = tokens.next().unwrap_or("");
     match name {
         "cls" if tokens.next().is_none() => Ok(OutputEvent::Clear),
+        "buzzer" => BuzzerCommand::parse(command).map(OutputEvent::Buzzer),
         "set" => {
             let mut style = Style::default();
             let mut text_animation = None;
@@ -215,6 +217,9 @@ fn parse_output(text: &str, tags: &[String]) -> Result<Option<OutputEvent>, Stor
 }
 
 pub struct App {
+    buzzer: Buzzer,
+    buzzer_changed: bool,
+    buzzer_muted: bool,
     story: Story,
     default_style: Style,
     text_animation: bool,
@@ -238,6 +243,9 @@ impl App {
     pub fn new(image: &'static [u8], seed: i32) -> Result<Self, StoryError> {
         let story = Story::new_from_image_with_seed(image, seed)?;
         let mut app = Self {
+            buzzer: Buzzer::default(),
+            buzzer_changed: false,
+            buzzer_muted: false,
             story,
             default_style: Style::default(),
             text_animation: true,
@@ -286,12 +294,51 @@ impl App {
         self.scroll
     }
 
-    /// Advance text revelation and waits using platform-supplied elapsed milliseconds.
+    /// Local mute persists across story restarts. Muting cancels current playback.
+    pub fn set_buzzer_muted(&mut self, muted: bool) {
+        self.buzzer_muted = muted;
+        if muted {
+            self.play_buzzer(BuzzerCommand::Stop);
+        }
+    }
+    pub fn buzzer_muted(&self) -> bool {
+        self.buzzer_muted
+    }
+    pub fn buzzer(&self) -> &Buzzer {
+        &self.buzzer
+    }
+    /// Desktop audio consumes a snapshot only when a command changes playback.
+    pub fn take_buzzer_update(&mut self) -> Option<Buzzer> {
+        core::mem::take(&mut self.buzzer_changed).then_some(self.buzzer)
+    }
+    /// Button feedback cannot interrupt a narrative sound, including its silences.
+    pub fn buzzer_feedback(&mut self) {
+        if !self.buzzer.is_active() {
+            self.play_buzzer(BuzzerCommand::Tone {
+                frequency: 2000,
+                duration_ms: 20,
+            });
+        }
+    }
+    fn play_buzzer(&mut self, command: BuzzerCommand) {
+        self.buzzer.play(if self.buzzer_muted {
+            BuzzerCommand::Stop
+        } else {
+            command
+        });
+        self.buzzer_changed = true;
+    }
+    fn elapse_buzzer(&mut self, milliseconds: u64) {
+        self.buzzer.tick_us(milliseconds * 1000);
+    }
+
+    /// Advance sound alongside each consumed part of the text/wait timeline.
     pub fn tick(&mut self, elapsed_ms: u32) {
         let mut available_ms = u64::from(elapsed_ms);
         loop {
             if self.is_waiting() {
                 let consumed = available_ms.min(self.wait_ms);
+                self.elapse_buzzer(consumed);
                 self.wait_ms -= consumed;
                 available_ms -= consumed;
                 if self.is_waiting() {
@@ -299,17 +346,21 @@ impl App {
                 }
                 self.present_next();
             } else if self.is_animating() {
-                self.animation_ms += available_ms;
-                let remaining = self.text_chars() - self.visible_chars;
-                let chars = (self.animation_ms / (1000 / CHARS_PER_SECOND)).min(remaining as u64);
+                let remaining = (self.text_chars() - self.visible_chars) as u64;
+                let needed = remaining * (1000 / CHARS_PER_SECOND) - self.animation_ms;
+                let consumed = available_ms.min(needed);
+                self.elapse_buzzer(consumed);
+                self.animation_ms += consumed;
+                available_ms -= consumed;
+                let chars = self.animation_ms / (1000 / CHARS_PER_SECOND);
                 self.visible_chars += chars as usize;
-                self.animation_ms -= chars * (1000 / CHARS_PER_SECOND);
+                self.animation_ms %= 1000 / CHARS_PER_SECOND;
                 if self.is_animating() {
                     return;
                 }
-                available_ms = core::mem::take(&mut self.animation_ms);
                 self.present_next();
             } else {
+                self.elapse_buzzer(available_ms);
                 return;
             }
         }
@@ -344,6 +395,7 @@ impl App {
             }
             AppEvent::ChooseSelected if self.finished => {
                 self.story.reset_state()?;
+                self.play_buzzer(BuzzerCommand::Stop);
                 self.default_style = Style::default();
                 self.text_animation = true;
                 self.wait_ms = 0;
@@ -465,6 +517,7 @@ impl App {
     fn present_next(&mut self) {
         while let Some(event) = self.pending.pop_front() {
             match event {
+                OutputEvent::Buzzer(command) => self.play_buzzer(command),
                 OutputEvent::Clear => {
                     self.lines.clear();
                     self.visible_chars = 0;
@@ -537,7 +590,7 @@ impl App {
                         Some(line.text.as_str())
                     }
                     OutputEvent::Clear => None,
-                    OutputEvent::Set(_) | OutputEvent::Wait(_) => last,
+                    OutputEvent::Set(_) | OutputEvent::Wait(_) | OutputEvent::Buzzer(_) => last,
                 },
             );
             if !last_text.is_some_and(|text| text.trim().eq_ignore_ascii_case("the end")) {
@@ -563,6 +616,85 @@ impl App {
 mod tests {
     use super::*;
     use ratatui::{Terminal, backend::TestBackend};
+
+    #[test]
+    fn compiled_ink_buzzer_commands_and_atomic_validation() {
+        let image = include_bytes!(concat!(env!("OUT_DIR"), "/buzzer.inkb"));
+        let mut app = App::new(image, 42).unwrap();
+        assert_eq!(app.buzzer().frequency(), Some(1200));
+        assert_eq!(app.lines()[0].text, "The terminal accepts the card.");
+        assert!(app.choices().is_empty());
+        app.tick(1000);
+        assert_eq!(app.buzzer().frequency(), Some(1800));
+        assert_eq!(app.choices().len(), 2);
+        app.handle_event(AppEvent::SelectIndex(1)).unwrap();
+        assert!(app.handle_event(AppEvent::ChooseSelected).is_err());
+        // The valid stop before the invalid command must not have executed.
+        assert_eq!(app.buzzer().frequency(), Some(1800));
+        assert!(parse_output(">buzzer stop", &tag("color:bad")).is_err());
+        let mut app = App::new(image, 42).unwrap();
+        app.tick(1000);
+        app.handle_event(AppEvent::ChooseSelected).unwrap();
+        assert!(!app.buzzer().is_active());
+        app.handle_event(AppEvent::ChooseSelected).unwrap();
+        assert_eq!(app.buzzer().frequency(), Some(1200));
+    }
+
+    #[test]
+    fn buzzer_tracks_ordered_output_and_unused_tick_time() {
+        let mut app = fixture();
+        app.lines.clear();
+        app.visible_chars = 0;
+        app.wait_ms = 0;
+        app.pending.clear();
+        for source in [
+            ">wait time=1",
+            ">buzzer frequency=1200 duration=100",
+            "ab",
+            ">buzzer pattern=phone",
+            ">wait time=1",
+        ] {
+            app.pending
+                .push_back(parse_output(source, &[]).unwrap().unwrap());
+        }
+        app.present_next();
+        assert_eq!(app.take_buzzer_update(), None);
+        app.tick(1050);
+        assert_eq!(app.buzzer().frequency(), Some(1200));
+        let mut snapshot = app.take_buzzer_update().unwrap();
+        snapshot.tick_us(50_000);
+        assert!(!snapshot.is_active());
+        app.tick(200); // Finish text at 1100ms; phone is now in its first silence.
+        assert!(app.buzzer().is_active());
+        assert_eq!(app.buzzer().frequency(), None);
+        app.buzzer_feedback();
+        assert_eq!(app.buzzer().frequency(), None);
+        app.tick(100);
+        assert_eq!(app.buzzer().frequency(), Some(1800));
+        app.set_buzzer_muted(true);
+        assert!(!app.take_buzzer_update().unwrap().is_active());
+        app.play_buzzer(BuzzerCommand::Pattern(crate::BuzzerPattern::Alarm));
+        assert!(!app.buzzer().is_active());
+        app.set_buzzer_muted(false);
+        assert!(!app.buzzer().is_active());
+        app.buzzer_feedback();
+        assert_eq!(app.buzzer().frequency(), Some(2000));
+    }
+
+    #[test]
+    fn restart_stops_sound_and_preserves_local_mute() {
+        let mut app = fixture();
+        app.tick(1_000_000);
+        app.finished = true;
+        app.play_buzzer(BuzzerCommand::Pattern(crate::BuzzerPattern::Alarm));
+        app.handle_event(AppEvent::ChooseSelected).unwrap();
+        assert!(!app.take_buzzer_update().unwrap().is_active());
+        app.tick(1_000_000);
+        app.finished = true;
+        app.set_buzzer_muted(true);
+        app.handle_event(AppEvent::ChooseSelected).unwrap();
+        assert!(app.buzzer_muted());
+    }
 
     fn render(app: &mut App, width: u16, height: u16) {
         let mut terminal = Terminal::new(TestBackend::new(width, height)).unwrap();

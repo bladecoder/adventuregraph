@@ -11,3 +11,4 @@ embedded-graphics-simulator = "=0.7.0"
 mousefood = { workspace = true, features = ["fonts"] }
 sdl2 = { version = "=0.37.0", features = ["bundled"] }
 ratatui.workspace = true
+adventuregraph-desktop-audio = { path = "../desktop-audio" }
