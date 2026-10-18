@@ -9,3 +9,4 @@ adventuregraph-core = { path = "../core" }
 anyhow = "=1.0.104"
 crossterm = "=0.29.0"
 ratatui = { workspace = true, features = ["crossterm"] }
+adventuregraph-desktop-audio = { path = "../desktop-audio" }

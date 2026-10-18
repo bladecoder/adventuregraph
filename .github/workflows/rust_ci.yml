@@ -33,6 +33,10 @@ jobs:
             args: --all-features -p adventuregraph-esp -- -D warnings
             working-dir: esp
             toolchain: esp
+          - command: test
+            args: --locked --workspace --exclude adventuregraph-esp
+            working-dir: .
+            toolchain: stable
           - command: clippy
             args: --all-targets --all-features --workspace --exclude adventuregraph-esp -- -D warnings
             working-dir: .
@@ -52,6 +56,9 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
         with:
           components: clippy
+      - name: Install desktop audio dependencies
+        if: matrix.action.toolchain == 'stable'
+        run: sudo apt-get update && sudo apt-get install -y cmake libasound2-dev libpulse-dev
       - name: Enable caching
         uses: Swatinem/rust-cache@v2
       - name: Run command

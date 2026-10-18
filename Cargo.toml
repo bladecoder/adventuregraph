@@ -1,7 +1,7 @@
 [workspace]
 resolver = "2"
-members = ["core", "esp", "simulator", "tui", "tools/board-config"]
-default-members = ["core", "simulator", "tui", "tools/board-config"]
+members = ["core", "esp", "simulator", "tui", "tools/board-config", "desktop-audio"]
+default-members = ["core", "simulator", "tui", "tools/board-config", "desktop-audio"]
 
 [workspace.package]
 version = "0.2.0"

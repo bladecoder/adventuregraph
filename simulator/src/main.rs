@@ -24,6 +24,7 @@ fn numeric_choice(keycode: Keycode) -> Option<usize> {
 }
 
 fn main() -> Result<()> {
+    let audio = adventuregraph_desktop_audio::Audio::new();
     let mut app = App::new(STORY_IMAGE, 42)?;
     let settings = OutputSettings {
         scale: 2,
@@ -44,11 +45,15 @@ fn main() -> Result<()> {
     let backend: EmbeddedBackend<SimulatorDisplay<_>, _> =
         EmbeddedBackend::new(&mut display, config);
     let mut terminal = Terminal::new(backend)?;
+    app.set_buzzer_muted(std::env::var("ADVENTUREGRAPH_MUTE").is_ok_and(|value| value == "1"));
     let mut last = Instant::now();
     loop {
+        audio.sync(&mut app);
         let now = Instant::now();
-        app.tick(now.duration_since(last).as_millis().min(u32::MAX as u128) as u32);
-        last = now;
+        let elapsed_ms = now.duration_since(last).as_millis().min(u32::MAX as u128) as u32;
+        app.tick(elapsed_ms);
+        last += std::time::Duration::from_millis(u64::from(elapsed_ms));
+        audio.sync(&mut app);
         terminal.draw(|frame| app.draw(frame))?;
         for event in window.borrow_mut().events() {
             match event {
@@ -63,6 +68,10 @@ fn main() -> Result<()> {
                     }
                     let action = match keycode {
                         Keycode::Escape | Keycode::Q => return Ok(()),
+                        Keycode::M => {
+                            app.set_buzzer_muted(!app.buzzer_muted());
+                            None
+                        }
                         Keycode::Down | Keycode::S | Keycode::J => Some(AppEvent::SelectNext),
                         Keycode::Up | Keycode::W | Keycode::K => Some(AppEvent::SelectPrevious),
                         Keycode::Return | Keycode::Space => Some(AppEvent::ChooseSelected),

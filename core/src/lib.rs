@@ -3,6 +3,8 @@
 extern crate alloc;
 
 mod app;
+mod buzzer;
+pub use buzzer::{Buzzer, BuzzerCommand, BuzzerPattern};
 mod ui;
 
 pub use app::{App, AppEvent, StoryLine};

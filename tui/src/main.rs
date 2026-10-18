@@ -13,25 +13,33 @@ use crossterm::{
 use ratatui::{Terminal, backend::CrosstermBackend};
 
 fn main() -> Result<()> {
+    let audio = adventuregraph_desktop_audio::Audio::new();
     enable_raw_mode()?;
     let mut stdout = io::stdout();
     execute!(stdout, EnterAlternateScreen)?;
     let mut terminal = Terminal::new(CrosstermBackend::new(stdout))?;
     terminal.hide_cursor()?;
-    let result = run(&mut terminal);
+    let result = run(&mut terminal, &audio);
     disable_raw_mode()?;
     execute!(terminal.backend_mut(), LeaveAlternateScreen)?;
     terminal.show_cursor()?;
     result
 }
 
-fn run(terminal: &mut Terminal<CrosstermBackend<io::Stdout>>) -> Result<()> {
+fn run(
+    terminal: &mut Terminal<CrosstermBackend<io::Stdout>>,
+    audio: &adventuregraph_desktop_audio::Audio,
+) -> Result<()> {
     let mut app = App::new(STORY_IMAGE, 42)?;
+    app.set_buzzer_muted(std::env::var("ADVENTUREGRAPH_MUTE").is_ok_and(|value| value == "1"));
     let mut last = Instant::now();
     loop {
+        audio.sync(&mut app);
         let now = Instant::now();
-        app.tick(now.duration_since(last).as_millis().min(u32::MAX as u128) as u32);
-        last = now;
+        let elapsed_ms = now.duration_since(last).as_millis().min(u32::MAX as u128) as u32;
+        app.tick(elapsed_ms);
+        last += std::time::Duration::from_millis(u64::from(elapsed_ms));
+        audio.sync(&mut app);
         terminal.draw(|frame| app.draw(frame))?;
         if !event::poll(Duration::from_millis(25))? {
             continue;
@@ -54,6 +62,10 @@ fn run(terminal: &mut Terminal<CrosstermBackend<io::Stdout>>) -> Result<()> {
                     } else {
                         None
                     }
+                }
+                KeyCode::Char('m') => {
+                    app.set_buzzer_muted(!app.buzzer_muted());
+                    None
                 }
                 KeyCode::Down | KeyCode::Char('s' | 'j') => Some(AppEvent::SelectNext),
                 KeyCode::Up | KeyCode::Char('w' | 'k') => Some(AppEvent::SelectPrevious),
