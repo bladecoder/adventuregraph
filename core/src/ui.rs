@@ -18,7 +18,7 @@ pub(crate) fn draw(app: &mut App, frame: &mut Frame) {
     }
 
     frame.render_widget(
-        Block::default().style(Style::default().bg(Color::Black)),
+        Block::default().style(Style::default().bg(Color::Reset)),
         area,
     );
 

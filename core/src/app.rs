@@ -952,6 +952,48 @@ mod tests {
     }
 
     #[test]
+    fn banners_use_theme_background_unless_overridden() {
+        for mode in [
+            "full",
+            "half-height",
+            "half-width",
+            "quadrant",
+            "third-height",
+            "sextant",
+            "quarter-height",
+            "octant",
+        ] {
+            for (defaults, override_bg, expected) in [
+                (None, None, Color::Reset),
+                (Some(Color::Green), None, Color::Green),
+                (Some(Color::Green), Some("blue"), Color::Blue),
+                (Some(Color::Green), Some("reset"), Color::Reset),
+            ] {
+                let mut app = fixture();
+                app.lines.clear();
+                app.pending.clear();
+                app.default_style = Style::default();
+                app.default_style.bg = defaults;
+                let mut tags = alloc::vec![format!("banner:{mode}"), "align:center".into()];
+                if let Some(bg) = override_bg {
+                    tags.push(format!("bgcolor:{bg}"));
+                }
+                let Some(OutputEvent::Text(line)) = parse_output("A", &tags).unwrap() else {
+                    panic!()
+                };
+                app.present_text(line, Some(false));
+                let mut terminal = Terminal::new(TestBackend::new(40, 20)).unwrap();
+                terminal.draw(|frame| app.draw(frame)).unwrap();
+                let buffer = terminal.backend().buffer();
+                assert_eq!(buffer[(0, 0)].bg, Color::Reset);
+                assert_eq!(buffer[(20, 1)].bg, expected, "{mode}");
+                assert_eq!(buffer[(1, 1)].bg, Color::Reset);
+                assert_eq!(buffer[(1, 18)].bg, Color::Reset);
+            }
+        }
+    }
+
+    #[test]
     fn banner_revelation_uses_original_unicode_characters_and_enter_skips_one_line() {
         let mut app = timing_fixture();
         app.pending.clear();
