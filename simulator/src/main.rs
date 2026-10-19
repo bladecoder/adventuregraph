@@ -45,6 +45,8 @@ fn main() -> Result<()> {
     let backend: EmbeddedBackend<SimulatorDisplay<_>, _> =
         EmbeddedBackend::new(&mut display, config);
     let mut terminal = Terminal::new(backend)?;
+    // Blank Reset cells are omitted by Ratatui's first diff; initialize their pixels too.
+    terminal.clear()?;
     app.set_buzzer_muted(std::env::var("ADVENTUREGRAPH_MUTE").is_ok_and(|value| value == "1"));
     let mut last = Instant::now();
     loop {

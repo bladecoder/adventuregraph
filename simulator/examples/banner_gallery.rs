@@ -24,6 +24,7 @@ fn main() -> anyhow::Result<()> {
                 };
                 let backend: EmbeddedBackend<_, _> = EmbeddedBackend::new(&mut display, config);
                 let mut terminal = Terminal::new(backend)?;
+                terminal.clear()?;
                 terminal.draw(|frame| app.draw(frame))?;
             }
             display
